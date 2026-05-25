@@ -3,312 +3,222 @@ type Agent = {
   name: string;
   scope: string;
   href: string;
-  controls: { label: string; value: string }[];
 };
 
 const agents: Agent[] = [
   {
     name: "Insight",
-    scope: "Trend, loss modeling, market research.",
-    href: "#insight",
-    controls: [
-      { label: "Standards", value: "Aligned" },
-      { label: "Guardrails", value: "Strict" },
-      { label: "Data", value: "Tenant-scoped" },
-    ],
+    scope: "Trending, on-leveling, GLMs, severity fits.",
+    href: "/agents/insight",
   },
   {
     name: "Rating",
     scope: "Raters, factor tables, callable API.",
-    href: "#rating",
-    controls: [
-      { label: "Standards", value: "Aligned" },
-      { label: "Reviewer", value: "Required" },
-      { label: "Env", value: "Dev → Prod" },
-    ],
+    href: "/agents/rating",
   },
   {
     name: "Audit",
-    scope: "Regrades analyses before they reach the actuary.",
+    scope: "Regrades every analysis before the actuary sees it.",
     href: "#audit",
-    controls: [
-      { label: "Mode", value: "Pre-review" },
-      { label: "Tests", value: "Proprietary" },
-      { label: "Block", value: "On fail" },
-    ],
   },
   {
     name: "Reserving",
-    scope: "Chain-ladder, BF, IBNR.",
-    href: "#insight",
-    controls: [
-      { label: "Methods", value: "Selectable" },
-      { label: "Standards", value: "Aligned" },
-      { label: "Sign-off", value: "Actuary" },
-    ],
+    scope: "Chain ladder, BF, Cape Cod on one triangle.",
+    href: "/agents/reserving",
   },
 ];
 ---
 
-<figure class="hd" aria-label="Diagram of the Tesora Workbench and Harness">
-  <div class="hd-workbench" aria-label="Workbench surface">
-    <span class="hd-tag">Workbench</span>
-    <ul class="hd-surface">
-      <li><span class="hd-dot" aria-hidden="true"></span>Excel</li>
-      <li><span class="hd-dot" aria-hidden="true"></span>Chat</li>
-      <li><span class="hd-dot" aria-hidden="true"></span>Sign-off</li>
-    </ul>
-  </div>
+<figure class="hd" aria-label="Diagram of the actuary orchestrating the Tesora Harness">
+  <div class="hd-grid">
+    {/* Actuary node on top */}
+    <div class="hd-node hd-node--actuary">
+      <span class="hd-node__tag">Actuary</span>
+      <p class="hd-node__title">You</p>
+      <p class="hd-node__sub">Sets the question. Signs the memo.</p>
+    </div>
 
-  <div class="hd-bridge" aria-hidden="true">
-    <span class="hd-bridge-line"></span>
-    <span class="hd-bridge-arrow">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="m6 13 6 6 6-6" />
-      </svg>
-    </span>
-  </div>
+    {/* Connector spokes */}
+    <svg class="hd-spokes" viewBox="0 0 600 220" aria-hidden="true" preserveAspectRatio="none">
+      <path class="hd-spoke" d="M 300 18 C 300 80, 96 80, 96 178" />
+      <path class="hd-spoke" d="M 300 18 C 300 80, 232 80, 232 178" />
+      <path class="hd-spoke" d="M 300 18 C 300 80, 368 80, 368 178" />
+      <path class="hd-spoke" d="M 300 18 C 300 80, 504 80, 504 178" />
+    </svg>
 
-  <div class="hd-harness">
-    <span class="hd-tag hd-tag--harness">Harness</span>
-    <div class="hd-rail" aria-hidden="true"></div>
-    <div class="hd-agents">
-      {agents.map((a) => (
-        <a class="hd-agent" href={a.href} aria-label={`${a.name} agent details`}>
-          <span class="hd-strap" aria-hidden="true"></span>
-          <header class="hd-agent-head">
-            <span class="hd-agent-name">{a.name}</span>
-            <span class="hd-agent-kind">agent</span>
-          </header>
-          <p class="hd-agent-scope">{a.scope}</p>
-          <ul class="hd-controls">
-            {a.controls.map((c) => (
-              <li>
-                <span class="hd-ctrl-key">{c.label}</span>
-                <span class="hd-ctrl-val">{c.value}</span>
-              </li>
-            ))}
-          </ul>
-          <span class="hd-agent-arrow" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-              <path d="M5 12h14" />
-              <path d="m13 6 6 6-6 6" />
-            </svg>
-          </span>
-        </a>
-      ))}
+    {/* Harness frame holding the agents */}
+    <div class="hd-frame">
+      <span class="hd-frame__tag">The Harness</span>
+      <p class="hd-frame__rule">Citations, audit log, separation of duties — enforced.</p>
+      <div class="hd-agents">
+        {agents.map((a) => (
+          <a class="hd-agent" href={a.href} aria-label={`${a.name} agent`}>
+            <span class="hd-agent__name">{a.name}</span>
+            <span class="hd-agent__kind">Agent</span>
+            <p class="hd-agent__scope">{a.scope}</p>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 
   <figcaption class="hd-caption">
-    The Workbench is what the actuary sees. The Harness holds the agents that work underneath. Each agent has its own scope, controls, and audit trail.
+    You orchestrate. The Harness keeps every agent on the same standards, the same data, the same audit log.
   </figcaption>
 </figure>
 
 <style>
   .hd {
     margin: 0;
-    padding: 28px;
+    padding: 20px;
     border: 1px solid var(--rule);
-    border-radius: 14px;
+    border-radius: 5px;
     background: var(--bg-panel, #fbfaf6);
   }
 
-  .hd-tag {
-    display: inline-block;
-    font-size: 0.6875rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--color-oxblood, #B400FE);
-    padding: 3px 8px;
-    border: 1px solid color-mix(in oklab, #B400FE 25%, transparent);
-    border-radius: 4px;
-    background: color-mix(in oklab, #B400FE 6%, transparent);
-  }
-  .hd-tag--harness {
-    color: var(--fg, #1a1a1a);
-    border-color: var(--rule);
-    background: transparent;
-  }
-
-  /* Workbench */
-  .hd-workbench {
-    border: 1px solid var(--rule);
-    border-radius: 10px;
-    padding: 14px 18px;
-    background: var(--bg, #ffffff);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .hd-surface {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 18px;
-    flex: 1 1 auto;
-    color: var(--fg, #1a1a1a);
-    font-size: 0.875rem;
-  }
-  .hd-surface li {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .hd-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
-    background: var(--color-oxblood, #B400FE);
-    display: inline-block;
-  }
-
-  /* Bridge between Workbench and Harness */
-  .hd-bridge {
-    height: 36px;
+  .hd-grid {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--fg-muted, #555);
-  }
-  .hd-bridge-line {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: var(--rule);
-  }
-  .hd-bridge-arrow {
-    position: relative;
-    background: var(--bg-panel, #fbfaf6);
-    padding: 2px 4px;
-    line-height: 0;
-  }
-
-  /* Harness */
-  .hd-harness {
-    position: relative;
-    padding-top: 12px;
-  }
-  .hd-rail {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 56px;
-    height: 2px;
-    background: linear-gradient(
-      to right,
-      transparent 0,
-      color-mix(in oklab, #B400FE 35%, transparent) 8%,
-      color-mix(in oklab, #B400FE 35%, transparent) 92%,
-      transparent 100%
-    );
-  }
-  .hd-agents {
-    margin-top: 36px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    position: relative;
+    grid-template-rows: auto auto;
+    gap: 0;
   }
-  .hd-agent {
+
+  /* Actuary node */
+  .hd-node {
     position: relative;
-    display: block;
-    border: 1px solid var(--rule);
-    border-radius: 10px;
-    padding: 14px;
+    z-index: 2;
+    justify-self: center;
+    text-align: center;
+    width: min(280px, 60%);
+    padding: 12px 16px 10px;
+    border: 1px solid color-mix(in oklab, #B400FE 40%, var(--rule));
+    border-radius: 5px;
     background: var(--bg, #ffffff);
-    color: inherit;
-    text-decoration: none;
-    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
   }
-  .hd-agent:hover {
-    border-color: color-mix(in oklab, #B400FE 35%, var(--rule));
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px -10px color-mix(in oklab, #B400FE 35%, transparent);
-  }
-  .hd-agent:hover .hd-agent-arrow {
+  .hd-node__tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--color-oxblood, #B400FE);
-    transform: translateX(2px);
+    padding: 2px 6px;
+    border: 1px solid color-mix(in oklab, #B400FE 28%, transparent);
+    border-radius: 5px;
+    background: color-mix(in oklab, #B400FE 8%, transparent);
+    margin-bottom: 6px;
   }
-  .hd-agent-arrow {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    color: var(--fg-muted, #888);
-    transition: color 200ms ease, transform 200ms ease;
-    line-height: 0;
-  }
-  .hd-strap {
-    position: absolute;
-    top: -22px;
-    left: 50%;
-    width: 2px;
-    height: 22px;
-    background: color-mix(in oklab, #B400FE 35%, transparent);
-    transform: translateX(-50%);
-  }
-  .hd-agent-head {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-  .hd-agent-name {
+  .hd-node__title {
+    margin: 0;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.005em;
-  }
-  .hd-agent-kind {
-    font-size: 0.625rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--fg-muted, #666);
-  }
-  .hd-agent-scope {
-    margin: 0 0 12px;
-    font-size: 0.8125rem;
-    line-height: 1.45;
-    color: var(--fg-muted, #555);
-  }
-  .hd-controls {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top: 1px dashed var(--rule);
-    padding-top: 10px;
-    display: grid;
-    gap: 4px;
-  }
-  .hd-controls li {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 0.75rem;
-    gap: 8px;
-    overflow-wrap: anywhere;
-  }
-  .hd-ctrl-key {
-    color: var(--fg-muted, #666);
-    letter-spacing: 0.02em;
-  }
-  .hd-ctrl-val {
-    font-variant-numeric: tabular-nums;
     color: var(--fg, #1a1a1a);
-    font-weight: 500;
+  }
+  .hd-node__sub {
+    margin: 2px 0 0;
+    font-size: 0.78125rem;
+    color: var(--fg-muted, #6b6760);
+    line-height: 1.4;
+  }
+
+  /* Spokes connecting actuary to agents */
+  .hd-spokes {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 120px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hd-spoke {
+    fill: none;
+    stroke: color-mix(in oklab, #B400FE 38%, transparent);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  /* Harness frame */
+  .hd-frame {
+    position: relative;
+    z-index: 2;
+    margin-top: 96px;
+    padding: 16px 14px 14px;
+    border: 1.5px solid color-mix(in oklab, #B400FE 28%, var(--rule));
+    border-radius: 5px;
+    background: var(--bg, #ffffff);
+  }
+  .hd-frame__tag {
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-oxblood, #B400FE);
+    background: var(--bg-panel, #fbfaf6);
+    padding: 1px 8px;
+    border: 1px solid color-mix(in oklab, #B400FE 28%, transparent);
+    border-radius: 5px;
+  }
+  .hd-frame__rule {
+    margin: 0 0 10px;
+    font-size: 0.78125rem;
+    color: var(--fg-muted, #6b6760);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .hd-agents {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .hd-agent {
+    display: block;
+    border: 1px solid var(--rule);
+    border-radius: 5px;
+    padding: 10px 11px;
+    background: var(--bg, #ffffff);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 180ms ease, transform 180ms ease;
+  }
+  .hd-agent:hover {
+    border-color: color-mix(in oklab, #B400FE 38%, var(--rule));
+    transform: translateY(-1px);
+  }
+  .hd-agent__name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--fg, #1a1a1a);
+  }
+  .hd-agent__kind {
+    margin-left: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-muted, #888);
+  }
+  .hd-agent__scope {
+    margin: 4px 0 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--fg-muted, #6b6760);
   }
 
   .hd-caption {
-    margin-top: 22px;
-    font-size: 0.8125rem;
-    line-height: 1.5;
-    color: var(--fg-muted, #666);
+    margin-top: 14px;
+    font-size: 0.78125rem;
+    line-height: 1.45;
+    color: var(--fg-muted, #6b6760);
     text-align: center;
   }
 
@@ -316,16 +226,12 @@ const agents: Agent[] = [
     .hd-agents {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .hd-rail {
-      display: none;
-    }
-    .hd-strap {
-      display: none;
-    }
+    .hd-spokes { display: none; }
+    .hd-frame { margin-top: 14px; }
   }
   @media (max-width: 520px) {
     .hd {
-      padding: 18px;
+      padding: 14px;
     }
     .hd-agents {
       grid-template-columns: 1fr;

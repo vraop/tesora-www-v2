@@ -88,17 +88,17 @@ const { report } = Astro.props as { report: ReportData };
     color: #111827;
     font-family: var(--font-sans, ui-sans-serif, system-ui);
     background: #ffffff;
-    max-height: 640px;
+    max-height: 520px;
     overflow-y: auto;
     overflow-x: hidden;
     overflow-wrap: anywhere;
   }
   .lc-report__head {
-    padding: 22px 24px 16px;
+    padding: 16px 20px 12px;
     border-bottom: 1px solid color-mix(in oklab, #B400FE 8%, rgba(17, 24, 39, 0.08));
   }
   .lc-report__heading {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1.25;
     margin: 0;
@@ -107,9 +107,9 @@ const { report } = Astro.props as { report: ReportData };
     overflow-wrap: anywhere;
   }
   .lc-report__intro {
-    margin: 6px 0 0;
-    font-size: 13.5px;
-    line-height: 1.55;
+    margin: 5px 0 0;
+    font-size: 12.5px;
+    line-height: 1.5;
     color: #4b5563;
   }
 
@@ -122,79 +122,79 @@ const { report } = Astro.props as { report: ReportData };
   }
   .lc-metric {
     background: #fff;
-    padding: 14px 16px;
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
   }
   .lc-metric__label {
     font-family: var(--font-mono, ui-monospace);
-    font-size: 9.5px;
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     color: color-mix(in oklab, #B400FE 75%, #6b7280);
     text-transform: uppercase;
   }
   .lc-metric__value {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
     color: #0e0e0c;
     letter-spacing: -0.01em;
   }
 
   .lc-report__section {
-    padding: 18px 24px 4px;
+    padding: 12px 20px 2px;
   }
   .lc-report__sub {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    margin: 0 0 6px;
+    margin: 0 0 5px;
     color: #0e0e0c;
   }
   .lc-report__prose {
-    font-size: 13.5px;
-    line-height: 1.6;
+    font-size: 12.5px;
+    line-height: 1.55;
     color: #4b5563;
     margin: 0;
   }
 
   .lc-chart {
-    padding: 18px 24px;
+    padding: 12px 20px;
     margin: 0;
   }
   .lc-chart__title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: #0e0e0c;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .lc-chart__bars {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
   .lc-bar {
     display: grid;
-    grid-template-columns: minmax(0, 110px) minmax(0, 1fr) minmax(0, 64px);
-    gap: 12px;
+    grid-template-columns: minmax(0, 100px) minmax(0, 1fr) minmax(0, 60px);
+    gap: 10px;
     align-items: center;
   }
   .lc-bar__label {
-    font-size: 12px;
+    font-size: 11.5px;
     color: #4b5563;
     overflow-wrap: anywhere;
     line-height: 1.3;
   }
   .lc-bar__track {
-    height: 11px;
+    height: 9px;
     background: rgba(17, 24, 39, 0.06);
-    border-radius: 3px;
+    border-radius: 5px;
     overflow: hidden;
   }
   .lc-bar__fill {
     height: 100%;
-    background: linear-gradient(90deg, #B400FE, #6366f1);
-    border-radius: 3px;
+    background: #B400FE;
+    border-radius: 5px;
   }
   .lc-bar__value {
     font-family: var(--font-mono, ui-monospace);
@@ -204,15 +204,15 @@ const { report } = Astro.props as { report: ReportData };
   }
   .lc-chart__caption {
     font-family: var(--font-mono, ui-monospace);
-    font-size: 10px;
+    font-size: 9.5px;
     letter-spacing: 0.14em;
     color: color-mix(in oklab, #B400FE 60%, #6b7280);
-    margin: 12px 0 0;
+    margin: 8px 0 0;
     text-transform: uppercase;
   }
 
   .lc-table-wrap {
-    padding: 0 24px 22px;
+    padding: 0 20px 14px;
   }
   .lc-table__caption {
     font-family: var(--font-mono, ui-monospace);
@@ -225,12 +225,12 @@ const { report } = Astro.props as { report: ReportData };
   .lc-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12.5px;
+    font-size: 11.5px;
     table-layout: fixed;
   }
   .lc-table th {
     text-align: left;
-    padding: 8px 10px;
+    padding: 6px 8px;
     background: color-mix(in oklab, #B400FE 5%, rgba(17, 24, 39, 0.04));
     color: #0e0e0c;
     font-weight: 600;
@@ -238,7 +238,7 @@ const { report } = Astro.props as { report: ReportData };
     overflow-wrap: anywhere;
   }
   .lc-table td {
-    padding: 8px 10px;
+    padding: 6px 8px;
     border-bottom: 1px solid rgba(17, 24, 39, 0.06);
     color: #1f2937;
     overflow-wrap: anywhere;
@@ -248,9 +248,9 @@ const { report } = Astro.props as { report: ReportData };
   }
 
   .lc-callout {
-    margin: 8px 24px 14px;
-    padding: 12px 14px;
-    border-radius: 6px;
+    margin: 6px 20px 10px;
+    padding: 10px 12px;
+    border-radius: 5px;
     border-left: 3px solid #B400FE;
     background: color-mix(in oklab, #B400FE 6%, #ffffff);
   }

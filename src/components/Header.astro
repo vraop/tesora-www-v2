@@ -107,13 +107,13 @@ const panelTextClass =
           </svg>
         </button>
         <div
-          class={`absolute left-0 top-full mt-3 w-[560px] p-3 ${panelBgClass} ${panelTextClass} shadow-xl rounded-sm hidden`}
+          class={`absolute left-0 top-full mt-3 w-[560px] p-3 ${panelBgClass} ${panelTextClass} shadow-xl rounded-[5px] hidden`}
           data-menu-panel
         >
           <div class="absolute inset-x-0 -top-3 h-3" aria-hidden="true"></div>
           <a
             href={agentsHref}
-            class="block px-4 py-3 rounded-sm bg-[var(--color-oxblood)]/8 hover:bg-[var(--color-oxblood)]/14 group transition-colors mb-2"
+            class="block px-4 py-3 rounded-[5px] bg-[var(--color-oxblood)]/8 hover:bg-[var(--color-oxblood)]/14 group transition-colors mb-2"
           >
             <div class="flex items-center justify-between gap-3">
               <div>
@@ -133,7 +133,7 @@ const panelTextClass =
               {agentsMenu.map((item) => (
                 <a
                   href={item.href}
-                  class="block px-3 py-2.5 rounded-sm hover:bg-[var(--color-oxblood)]/8 group transition-colors"
+                  class="block px-3 py-2.5 rounded-[5px] hover:bg-[var(--color-oxblood)]/8 group transition-colors"
                 >
                   <p class="font-semibold text-[0.9375rem] leading-tight group-hover:text-[var(--color-oxblood)] transition-colors">
                     {item.label}
@@ -149,7 +149,7 @@ const panelTextClass =
               {lifecycleMenu.map((item) => (
                 <a
                   href={item.href}
-                  class="block px-3 py-1.5 rounded-sm hover:bg-[var(--color-oxblood)]/8 group transition-colors"
+                  class="block px-3 py-1.5 rounded-[5px] hover:bg-[var(--color-oxblood)]/8 group transition-colors"
                 >
                   <p class="font-semibold text-[0.875rem] leading-tight group-hover:text-[var(--color-oxblood)] transition-colors">
                     {item.label}
@@ -175,14 +175,14 @@ const panelTextClass =
           </svg>
         </button>
         <div
-          class={`absolute left-0 top-full mt-3 w-[320px] p-2 ${panelBgClass} ${panelTextClass} shadow-xl rounded-sm hidden`}
+          class={`absolute left-0 top-full mt-3 w-[320px] p-2 ${panelBgClass} ${panelTextClass} shadow-xl rounded-[5px] hidden`}
           data-menu-panel
         >
           <div class="absolute inset-x-0 -top-3 h-3" aria-hidden="true"></div>
           {customersMenu.map((item) => (
             <a
               href={item.href}
-              class="block px-3 py-2.5 rounded-sm hover:bg-[var(--color-oxblood)]/8 group transition-colors"
+              class="block px-3 py-2.5 rounded-[5px] hover:bg-[var(--color-oxblood)]/8 group transition-colors"
             >
               <p class="font-semibold text-[0.9375rem] leading-tight group-hover:text-[var(--color-oxblood)] transition-colors">
                 {item.label}
@@ -209,14 +209,14 @@ const panelTextClass =
           </svg>
         </button>
         <div
-          class={`absolute left-0 top-full mt-3 w-[320px] p-2 ${panelBgClass} ${panelTextClass} shadow-xl rounded-sm hidden`}
+          class={`absolute left-0 top-full mt-3 w-[320px] p-2 ${panelBgClass} ${panelTextClass} shadow-xl rounded-[5px] hidden`}
           data-menu-panel
         >
           <div class="absolute inset-x-0 -top-3 h-3" aria-hidden="true"></div>
           {companyMenu.map((item) => (
             <a
               href={item.href}
-              class="block px-3 py-2.5 rounded-sm hover:bg-[var(--color-oxblood)]/8 group transition-colors"
+              class="block px-3 py-2.5 rounded-[5px] hover:bg-[var(--color-oxblood)]/8 group transition-colors"
             >
               <p class="font-semibold text-[0.9375rem] leading-tight group-hover:text-[var(--color-oxblood)] transition-colors">
                 {item.label}
@@ -277,7 +277,7 @@ const panelTextClass =
 
   <div
     id="mobile-nav-panel"
-    class="md:hidden hidden mt-2 mx-4 sm:mx-6 rounded-2xl border border-[var(--rule)] bg-[var(--bg)]/95 backdrop-blur-xl shadow-lg shadow-black/10"
+    class="md:hidden hidden mt-2 mx-4 sm:mx-6 rounded-[5px] border border-[var(--rule)] bg-[var(--bg)]/95 backdrop-blur-xl shadow-lg shadow-black/10"
   >
     <nav class="px-5 py-4 flex flex-col gap-1 text-base">
       <p class="text-xs uppercase tracking-[0.18em] text-[var(--fg-muted)]">Agents</p>

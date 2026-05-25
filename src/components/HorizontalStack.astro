@@ -1,0 +1,232 @@
+---
+// Legora-inspired horizontal scroll layer reveal.
+// Layers stack horizontally; as the user scrolls right (or page scrolls down,
+// translated into a horizontal track), each layer slides in and the previous
+// layer stays visible behind it. Reduced-motion users see a static column.
+
+type Layer = {
+  num: string;       // "01"
+  title: string;     // short header
+  body: string;      // 1–2 sentence definition
+  bullets?: string[]; // optional concrete sub-points
+};
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  caption?: string;
+  layers: Layer[];
+}
+
+const { eyebrow = "How it stacks", title, caption, layers } = Astro.props;
+---
+
+<section class="hs" aria-label="Tesora stack">
+  <div class="hs-head">
+    <p class="hs-eyebrow">{eyebrow}</p>
+    {title && <h3 class="hs-title">{title}</h3>}
+    {caption && <p class="hs-caption">{caption}</p>}
+  </div>
+
+  <div class="hs-track-wrap">
+    <ol class="hs-track" role="list">
+      {layers.map((l, i) => (
+        <li class="hs-card" style={`--i:${i}; --total:${layers.length}`}>
+          <div class="hs-card__head">
+            <span class="hs-num">{l.num}</span>
+            <span class="hs-card__count">Layer {i + 1} of {layers.length}</span>
+          </div>
+          <p class="hs-card__title">{l.title}</p>
+          <p class="hs-card__body">{l.body}</p>
+          {l.bullets && l.bullets.length > 0 && (
+            <ul class="hs-card__bullets">
+              {l.bullets.map((b) => (
+                <li>
+                  <span class="hs-card__bullet-dot" aria-hidden="true"></span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ol>
+    <p class="hs-hint" aria-hidden="true">Scroll to step through →</p>
+  </div>
+</section>
+
+<style>
+  .hs {
+    --hs-accent: #B400FE;
+    --hs-rule: var(--rule, rgba(14, 14, 12, 0.10));
+    --hs-bg: var(--bg-panel, #E8E3D7);
+    --hs-fg: var(--fg, #0E0E0C);
+    --hs-muted: var(--fg-muted, #6B6760);
+    border: 1px solid var(--hs-rule);
+    border-radius: 5px;
+    background: var(--hs-bg);
+    padding: 18px;
+  }
+  .hs-head {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hs-rule);
+  }
+  .hs-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--hs-accent) 70%, var(--hs-muted));
+    margin: 0 0 4px;
+  }
+  .hs-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    color: var(--hs-fg);
+  }
+  .hs-caption {
+    margin: 6px 0 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--hs-muted);
+  }
+
+  .hs-track-wrap {
+    margin-top: 14px;
+    position: relative;
+  }
+  .hs-track {
+    list-style: none;
+    margin: 0;
+    padding: 4px 4px 14px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--hs-accent) 30%, transparent) transparent;
+  }
+  .hs-track::-webkit-scrollbar {
+    height: 6px;
+  }
+  .hs-track::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--hs-accent) 30%, transparent);
+    border-radius: 5px;
+  }
+
+  .hs-card {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    width: 260px;
+    min-height: 200px;
+    padding: 14px 14px 12px;
+    border: 1px solid color-mix(in oklab, var(--hs-accent) 18%, var(--hs-rule));
+    border-radius: 5px;
+    background: #ffffff;
+    color: var(--hs-fg);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+  .hs-card:hover {
+    border-color: color-mix(in oklab, var(--hs-accent) 40%, var(--hs-rule));
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px -10px color-mix(in oklab, var(--hs-accent) 35%, transparent);
+  }
+  .hs-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .hs-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 24px;
+    padding: 0 6px;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: color-mix(in oklab, var(--hs-accent) 14%, transparent);
+    color: var(--hs-accent);
+    border: 1px solid color-mix(in oklab, var(--hs-accent) 28%, transparent);
+  }
+  .hs-card__count {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--hs-muted);
+  }
+  .hs-card__title {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    color: var(--hs-fg);
+  }
+  .hs-card__body {
+    margin: 5px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--hs-muted);
+  }
+  .hs-card__bullets {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 8px 0 0;
+    border-top: 1px dashed var(--hs-rule);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .hs-card__bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--hs-fg);
+  }
+  .hs-card__bullet-dot {
+    margin-top: 6px;
+    flex: 0 0 auto;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--hs-accent);
+  }
+
+  .hs-hint {
+    position: absolute;
+    right: 8px;
+    bottom: -8px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hs-muted);
+    background: var(--hs-bg);
+    padding: 0 6px;
+  }
+
+  @media (max-width: 700px) {
+    .hs-card {
+      width: 240px;
+      min-height: 180px;
+    }
+  }
+</style>

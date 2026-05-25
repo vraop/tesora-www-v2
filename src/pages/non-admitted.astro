@@ -3,14 +3,17 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CinematicHero from "../components/CinematicHero.astro";
-import TesoraStack from "../components/TesoraStack.astro";
+import HorizontalStack from "../components/HorizontalStack.astro";
 import { u } from "../lib/url";
 
-// Layers that carry the most weight for an E&S motion: ingestion (broker
-// submissions are messy), substrate (one spine), workbench (the underwriter
-// surface), and audit (every quote has a defensible trail).
-const esHighlightNums = ["03", "04", "06", "07"];
-
+const esLayers = [
+  { num: "01", title: "Submission ingestion", body: "Loss runs, SOVs, exposure files, broker decks. Five formats from five brokers, normalized to one table.", bullets: ["PDF, Excel, CSV, email", "Anomaly check", "Citations per cell"] },
+  { num: "02", title: "New product setup", body: "Stand up a new program with the rate plan, curves, and credibility weights the actuary chooses.", bullets: ["Curve fits", "Schedule rating", "Credibility weighting"] },
+  { num: "03", title: "Rater build", body: "Build the rater in the Workbench against a versioned data spine.", bullets: ["Excel parity", "Test cases", "Versioned drafts"] },
+  { num: "04", title: "Audit and dual-control", body: "Author, reviewer, approver are separate people. Every promotion is recorded.", bullets: ["Three roles, three people", "Audit log", "SOC 2, SOX-ready"] },
+  { num: "05", title: "Callable API", body: "The same rater that signs off in dev runs in production behind your binding pipeline.", bullets: ["Dev → Prod env", "Latency SLO", "Versioned API"] },
+  { num: "06", title: "Refit on cron", body: "When loss experience shifts, refit ships as a versioned model with the prior one preserved.", bullets: ["Scheduled refits", "Rollback", "Side-by-side diff"] },
+];
 ---
 
 <Layout
@@ -41,10 +44,11 @@ const esHighlightNums = ["03", "04", "06", "07"];
       </div>
 
       <div class="md:col-span-6">
-        <TesoraStack
-          title="The stack behind the bind-ready quote."
-          caption=""
-          highlightNums={esHighlightNums}
+        <HorizontalStack
+          eyebrow="The E&S stack"
+          title="From broker submission to bind-ready quote"
+          caption="Six layers, one audit trail. Step through each one."
+          layers={esLayers}
         />
       </div>
     </div>
