@@ -4,6 +4,23 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CinematicHero from "../components/CinematicHero.astro";
 import { u } from "../lib/url";
+
+const roles = [
+  {
+    slug: "forward-deployed-actuarial-engineer",
+    title: "Forward-Deployed Actuarial Engineer",
+    team: "Engineering",
+    location: "Remote-US",
+    body: "Sit alongside customer actuaries during pilots. Reconstruct raters in days. Build the customer-specific glue between the carrier's data and Tesora's substrate. Credentialed actuary preferred but not required if the depth is real.",
+  },
+  {
+    slug: "gtm-account-executive-insurance",
+    title: "GTM Account Executive · Insurance",
+    team: "GTM",
+    location: "Remote-US",
+    body: "Sell to chief actuaries at specialty P&C carriers and MGAs. You should have closed into the rating, pricing, or actuarial function before, or come from a carrier seat with the relationships to open doors. Carrier procurement is hard; this role is for someone who has walked through it before.",
+  },
+];
 ---
 
 <Layout
@@ -24,19 +41,35 @@ import { u } from "../lib/url";
 
   <section id="roles" class="mx-auto max-w-[1180px] px-6 md:px-10 pt-24 pb-24">
     <p class="eyebrow mb-6">Open roles</p>
-    <div class="careers-gate" data-careers-gate>
-      <button type="button" class="careers-gate__btn" data-careers-trigger>
-        <span class="careers-gate__label">View open roles</span>
-        <span class="careers-gate__hint">Double-click to load the Y Combinator job board</span>
-      </button>
-      <div class="careers-gate__panel" data-careers-panel hidden>
-        <div class="waas-wrap">
-          <waas-job-board company="tesora"></waas-job-board>
-        </div>
-        <p class="mt-8 text-sm text-[var(--fg-muted)]">
-          Apply directly above, or write to <a href="mailto:founders@tesora.ai" class="link">founders@tesora.ai</a>. Also live at <a href="https://www.ycombinator.com/companies/tesora/jobs" class="link" target="_blank" rel="noopener">ycombinator.com/companies/tesora/jobs</a>.
-        </p>
+
+    <div class="careers-roles" data-careers-roles>
+      {roles.map((r) => (
+        <article class="careers-role" data-role-slug={r.slug}>
+          <div class="careers-role__head">
+            <h3 class="careers-role__title">{r.title}</h3>
+            <p class="careers-role__meta">{r.team} · {r.location}</p>
+          </div>
+          <div class="careers-role__body">
+            <p class="careers-role__copy">{r.body}</p>
+            <p class="careers-role__cta">
+              <button type="button" class="link careers-role__apply" data-apply data-role-title={r.title}>
+                Apply →
+              </button>
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="careers-board" data-careers-board hidden>
+      <p class="eyebrow careers-board__eyebrow">Apply on Y Combinator Work at a Startup</p>
+      <p class="careers-board__hint" data-careers-board-target>Open the role you want to apply to below.</p>
+      <div class="waas-wrap">
+        <waas-job-board company="tesora"></waas-job-board>
       </div>
+      <p class="mt-8 text-sm text-[var(--fg-muted)]">
+        Trouble loading? View the full board on <a href="https://www.ycombinator.com/companies/tesora/jobs" class="link" target="_blank" rel="noopener">ycombinator.com/companies/tesora/jobs</a>, or email <a href="mailto:founders@tesora.ai" class="link">founders@tesora.ai</a>.
+      </p>
     </div>
   </section>
 
@@ -56,49 +89,87 @@ import { u } from "../lib/url";
 </Layout>
 
 <style is:global>
+  .careers-roles {
+    display: flex;
+    flex-direction: column;
+  }
+  .careers-role {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 24px 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .careers-role:first-child {
+    border-top: none;
+    padding-top: 8px;
+  }
+  .careers-role__title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.011em;
+    margin: 0;
+  }
+  .careers-role__meta {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+  .careers-role__copy {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--fg);
+    margin: 0;
+  }
+  .careers-role__cta {
+    margin-top: 20px;
+  }
+  .careers-role__apply {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    color: var(--color-oxblood);
+  }
+  .careers-role__apply:hover {
+    border-bottom: 1px solid var(--color-oxblood);
+  }
+  @media (max-width: 760px) {
+    .careers-role {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .careers-board {
+    margin-top: 48px;
+    padding: 32px;
+    background: #ffffff;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    scroll-margin-top: 96px;
+  }
+  [data-theme="dark"] .careers-board {
+    background: rgba(250, 247, 240, 0.04);
+  }
+  .careers-board__eyebrow {
+    margin: 0;
+  }
+  .careers-board__hint {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: var(--fg-muted);
+  }
+  .careers-board .waas-wrap {
+    margin-top: 24px;
+  }
   .waas-wrap waas-job-board {
     display: block;
     font-family: inherit;
     color: var(--fg);
-  }
-  .careers-gate__btn {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
-    width: 100%;
-    padding: 28px 24px;
-    background: #ffffff;
-    color: var(--fg);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: inherit;
-    text-align: left;
-    transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
-    user-select: none;
-  }
-  [data-theme="dark"] .careers-gate__btn {
-    background: rgba(250, 247, 240, 0.04);
-  }
-  .careers-gate__btn:hover {
-    border-color: color-mix(in oklab, var(--color-oxblood) 40%, var(--rule));
-    box-shadow: 0 14px 30px -22px color-mix(in oklab, var(--color-oxblood) 50%, transparent);
-  }
-  .careers-gate__label {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-  }
-  .careers-gate__hint {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-  }
-  .careers-gate.is-open .careers-gate__btn {
-    display: none;
   }
 </style>
 
@@ -106,21 +177,22 @@ import { u } from "../lib/url";
 
 <script>
   (() => {
-    const gates = document.querySelectorAll<HTMLElement>("[data-careers-gate]");
-    gates.forEach((gate) => {
-      const trigger = gate.querySelector<HTMLButtonElement>("[data-careers-trigger]");
-      const panel = gate.querySelector<HTMLElement>("[data-careers-panel]");
-      if (!trigger || !panel) return;
-      const reveal = () => {
-        gate.classList.add("is-open");
-        panel.hidden = false;
-      };
-      trigger.addEventListener("dblclick", reveal);
-      trigger.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          reveal();
-        }
+    const board = document.querySelector<HTMLElement>("[data-careers-board]");
+    const hint = document.querySelector<HTMLElement>("[data-careers-board-target]");
+    if (!board) return;
+
+    const reveal = (title: string) => {
+      board.hidden = false;
+      if (hint) {
+        hint.textContent = `Find "${title}" in the board below and click through to apply on Y Combinator Work at a Startup.`;
+      }
+      board.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    document.querySelectorAll<HTMLButtonElement>("[data-apply]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const title = btn.getAttribute("data-role-title") ?? "your role";
+        reveal(title);
       });
     });
   })();

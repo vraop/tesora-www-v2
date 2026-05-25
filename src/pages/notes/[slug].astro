@@ -1,0 +1,223 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { fetchSubstackPosts } from "../../lib/substack";
+import { u } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const posts = await fetchSubstackPosts(24);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, all: posts },
+  }));
+}
+
+const { post, all } = Astro.props;
+const others = all.filter((p) => p.slug !== post.slug).slice(0, 3);
+---
+
+<Layout
+  title={`${post.title} · Tesora`}
+  description={post.excerpt}
+  canonical={`/notes/${post.slug}`}
+  schemaType="Article"
+>
+  <Header />
+
+  <article class="mx-auto max-w-[760px] px-6 md:px-10 pt-32 pb-16">
+    <p class="eyebrow mb-5">
+      <a href={u("/media#blog")} class="hover:underline">Notes and announcements</a>
+    </p>
+    <h1 class="font-semibold text-[2.75rem] leading-[1.1] tracking-[-0.018em]" style="text-wrap: balance;">
+      {post.title}
+    </h1>
+    <p class="mt-5 text-sm text-[var(--fg-muted)] flex flex-wrap items-center gap-x-3 gap-y-1">
+      {post.prettyDate && <time datetime={post.iso}>{post.prettyDate}</time>}
+      {post.author && <span aria-hidden="true">·</span>}
+      {post.author && <span>{post.author}</span>}
+      <span aria-hidden="true">·</span>
+      <a href={post.link} target="_blank" rel="noopener" class="link">View on Substack</a>
+    </p>
+  </article>
+
+  <article class="mx-auto max-w-[760px] px-6 md:px-10 pb-24 substack-prose" set:html={post.contentHtml} />
+
+  <section class="mx-auto max-w-[760px] px-6 md:px-10 pb-24">
+    <hr class="border-t border-[var(--rule)] mb-10" />
+    <p class="text-base text-[var(--fg-muted)]">
+      Subscribe on the <a href="https://tesoraai.substack.com" target="_blank" rel="noopener" class="link">Tesora Substack</a> to get new posts in your inbox, or write to <a href="mailto:founders@tesora.ai" class="link">founders@tesora.ai</a>.
+    </p>
+  </section>
+
+  {others.length > 0 && (
+    <section class="mx-auto max-w-[1180px] px-6 md:px-10 pb-32">
+      <p class="eyebrow mb-6">More notes</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {others.map((o) => (
+          <a href={u(`/notes/${o.slug}`)} class="notes-card">
+            {o.pubDate && <p class="notes-card__date tabular">{o.pubDate}</p>}
+            <h3 class="notes-card__title">{o.title}</h3>
+            <p class="notes-card__excerpt">{o.excerpt}</p>
+            <span class="notes-card__cta">Read →</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  .substack-prose {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--fg);
+  }
+  .substack-prose p {
+    margin: 1.1em 0;
+  }
+  .substack-prose h2 {
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.011em;
+    text-wrap: balance;
+  }
+  .substack-prose h3 {
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .substack-prose h4 {
+    margin-top: 1.4em;
+    margin-bottom: 0.4em;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  .substack-prose ul,
+  .substack-prose ol {
+    margin: 1.1em 0;
+    padding-left: 1.4em;
+  }
+  .substack-prose ul li {
+    list-style: disc;
+    margin: 0.4em 0;
+  }
+  .substack-prose ol li {
+    list-style: decimal;
+    margin: 0.4em 0;
+  }
+  .substack-prose a {
+    color: var(--color-oxblood);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-oxblood) 30%, transparent);
+    transition: border-color 180ms ease;
+  }
+  .substack-prose a:hover {
+    border-bottom-color: var(--color-oxblood);
+  }
+  .substack-prose blockquote {
+    margin: 1.5em 0;
+    padding: 0.2em 1.2em;
+    border-left: 3px solid var(--color-oxblood);
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+  .substack-prose img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.6em auto;
+    border-radius: 6px;
+  }
+  .substack-prose figure {
+    margin: 1.6em 0;
+  }
+  .substack-prose figcaption {
+    margin-top: 0.5em;
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    text-align: center;
+  }
+  .substack-prose hr {
+    margin: 2em 0;
+    border: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .substack-prose code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: color-mix(in oklab, var(--color-oxblood) 6%, transparent);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+  }
+  .substack-prose pre {
+    margin: 1.4em 0;
+    padding: 1em 1.2em;
+    background: var(--bg-panel);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+  .substack-prose pre code {
+    background: transparent;
+    padding: 0;
+  }
+  .notes-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 22px 22px;
+    background: #ffffff;
+    color: var(--fg);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+  [data-theme="dark"] .notes-card {
+    background: rgba(250, 247, 240, 0.04);
+  }
+  .notes-card:hover {
+    border-color: color-mix(in oklab, var(--color-oxblood) 40%, var(--rule));
+    box-shadow: 0 14px 30px -22px color-mix(in oklab, var(--color-oxblood) 50%, transparent);
+    transform: translateY(-2px);
+  }
+  .notes-card__date {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-oxblood);
+    margin: 0;
+  }
+  .notes-card__title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .notes-card__excerpt {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--fg-muted);
+    margin: 0;
+    flex: 1;
+  }
+  .notes-card__cta {
+    font-size: 0.8125rem;
+    color: var(--color-oxblood);
+    font-weight: 500;
+  }
+</style>

@@ -10,20 +10,28 @@ const posts = await fetchSubstackPosts(12);
 
 const fallback = [
   {
+    slug: "can-ai-ever-be-useful-for-actuaries",
     title: "Can AI ever be useful for actuaries?",
     link: "https://tesoraai.substack.com/p/can-ai-ever-be-useful-for-actuaries",
     pubDate: "",
     iso: "",
+    prettyDate: "",
     description: "On why generic chat tools fall short for regulated pricing work, and what an actuarial-native agent stack does instead.",
     excerpt: "On why generic chat tools fall short for regulated pricing work, and what an actuarial-native agent stack does instead.",
+    contentHtml: "",
+    author: "",
   },
   {
+    slug: "actuaries-logical-aversion-to-ai",
     title: "Actuaries' Logical Aversion to AI",
     link: "https://tesoraai.substack.com/p/actuaries-logical-aversion-to-ai",
     pubDate: "",
     iso: "",
+    prettyDate: "",
     description: "Fear of agentic AI is well-founded, but can be mitigated.",
     excerpt: "Fear of agentic AI is well-founded, but can be mitigated.",
+    contentHtml: "",
+    author: "",
   },
 ];
 const notes = posts.length > 0 ? posts : fallback;
@@ -133,20 +141,24 @@ const priorResearch = [
     </div>
 
     <div class="notes-rail" role="list">
-      {notes.map((p) => (
-        <a
-          role="listitem"
-          href={p.link}
-          target="_blank"
-          rel="noopener"
-          class="notes-card"
-        >
-          {p.pubDate && <p class="notes-card__date tabular">{p.pubDate}</p>}
-          <h3 class="notes-card__title">{p.title}</h3>
-          <p class="notes-card__excerpt">{p.excerpt}</p>
-          <span class="notes-card__cta">Read on Substack →</span>
-        </a>
-      ))}
+      {notes.map((p) => {
+        const onSite = p.contentHtml && p.contentHtml.length > 0;
+        const href = onSite ? u(`/notes/${p.slug}`) : p.link;
+        return (
+          <a
+            role="listitem"
+            href={href}
+            target={onSite ? undefined : "_blank"}
+            rel={onSite ? undefined : "noopener"}
+            class="notes-card"
+          >
+            {p.pubDate && <p class="notes-card__date tabular">{p.pubDate}</p>}
+            <h3 class="notes-card__title">{p.title}</h3>
+            <p class="notes-card__excerpt">{p.excerpt}</p>
+            <span class="notes-card__cta">{onSite ? "Read →" : "Read on Substack →"}</span>
+          </a>
+        );
+      })}
     </div>
 
     <p class="mt-6 text-sm text-[var(--fg-muted)] md:hidden">
