@@ -1,18 +1,58 @@
 ---
-const ycJobs = "https://www.ycombinator.com/companies/tesora/jobs";
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CinematicHero from "../components/CinematicHero.astro";
+import { u } from "../lib/url";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Careers · Tesora</title>
-    <meta name="description" content="Open roles at Tesora. Frontier AI for Actuaries." />
-    <link rel="canonical" href={ycJobs} />
-    <meta http-equiv="refresh" content={`0; url=${ycJobs}`} />
-    <script set:html={`window.location.replace(${JSON.stringify(ycJobs)});`}></script>
-  </head>
-  <body>
-    <p>Redirecting to <a href={ycJobs}>{ycJobs}</a>...</p>
-  </body>
-</html>
+<Layout
+  title="Careers · Tesora"
+  description="Open roles at Tesora. Frontier AI for Actuaries, hiring AI-native engineers and operators who do the work of armies."
+  canonical="/careers"
+  schemaType="WebPage"
+>
+  <Header variant="transparent" />
+
+  <CinematicHero
+    videoSrc={u("/video/careers-loop.mp4")}
+    headline="Build the future of actuarial work."
+    deck="Hiring AI-native engineers and operators who do the work of armies. You'll be in the room with chief actuaries while we ship regulated AI."
+    primaryCta={{ label: "See open roles", href: "#roles" }}
+    secondaryCta={{ label: "founders@tesora.ai", href: "mailto:founders@tesora.ai" }}
+  />
+
+  <section id="roles" class="mx-auto max-w-[1180px] px-6 md:px-10 pt-24 pb-24">
+    <p class="eyebrow mb-6">Open roles</p>
+    <div class="waas-wrap">
+      <waas-job-board company="tesora"></waas-job-board>
+    </div>
+    <p class="mt-8 text-sm text-[var(--fg-muted)]">
+      Apply directly above, or write to <a href="mailto:founders@tesora.ai" class="link">founders@tesora.ai</a>. Also live at <a href="https://www.ycombinator.com/companies/tesora/jobs" class="link" target="_blank" rel="noopener">ycombinator.com/companies/tesora/jobs</a>.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-[1180px] px-6 md:px-10 py-24 text-center border-t border-[var(--rule)]">
+    <h2 class="font-semibold text-[2.125rem] leading-[1.1] tracking-[-0.013em] max-w-[680px] mx-auto">
+      Don't see your role?
+    </h2>
+    <p class="text-[1.1875rem] leading-[1.6] text-[var(--fg-muted)] mt-5 max-w-[520px] mx-auto">
+      If you've priced specialty lines, run an actuarial team, or built infrastructure for regulated AI, write to us. We hire ahead of the role.
+    </p>
+    <div class="mt-8">
+      <a href="mailto:founders@tesora.ai" class="btn">founders@tesora.ai</a>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  .waas-wrap waas-job-board {
+    display: block;
+    font-family: inherit;
+    color: var(--fg);
+  }
+</style>
+
+<script src="https://www.workatastartup.com/embed/script.js" is:inline defer></script>
