@@ -29,99 +29,97 @@ const agents: Agent[] = [
 ];
 ---
 
-<figure class="hd" aria-label="Diagram of the actuary orchestrating the Tesora Harness" data-hd>
-  <span class="hd-tag" aria-hidden="true">The Harness</span>
+<figure class="hd" aria-label="Diagram of the Tesora Workbench wrapping the Harness" data-hd>
+  <span class="hd-tag hd-tag--workbench" aria-hidden="true">Tesora Workbench</span>
 
-  <div class="hd-actuary">
-    <span class="hd-actuary__tag">Actuary</span>
-    <p class="hd-actuary__title">You</p>
-    <p class="hd-actuary__sub">Sets the question. Signs the memo.</p>
+  <div class="hd-inner">
+    <span class="hd-tag hd-tag--harness" aria-hidden="true">The Harness</span>
+
+    <svg class="hd-wires" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <path id="hd-path-leg-0" d="M 300 0 L 300 35 L 75 35 L 75 140" />
+        <path id="hd-path-leg-1" d="M 300 0 L 300 35 L 225 35 L 225 140" />
+        <path id="hd-path-leg-2" d="M 300 0 L 300 35 L 375 35 L 375 140" />
+        <path id="hd-path-leg-3" d="M 300 0 L 300 35 L 525 35 L 525 140" />
+      </defs>
+
+      <use class="hd-wire" href="#hd-path-leg-0" />
+      <use class="hd-wire" href="#hd-path-leg-1" />
+      <use class="hd-wire" href="#hd-path-leg-2" />
+      <use class="hd-wire" href="#hd-path-leg-3" />
+
+      <circle class="hd-node hd-node--top" cx="300" cy="0" r="4" />
+      <circle class="hd-node" cx="75" cy="140" r="3.5" />
+      <circle class="hd-node" cx="225" cy="140" r="3.5" />
+      <circle class="hd-node" cx="375" cy="140" r="3.5" />
+      <circle class="hd-node" cx="525" cy="140" r="3.5" />
+
+      <g class="hd-pulses">
+        <circle class="hd-pulse" r="3.2">
+          <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#hd-path-leg-0" />
+          </animateMotion>
+        </circle>
+        <circle class="hd-pulse hd-pulse--return" r="2.4">
+          <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+            <mpath href="#hd-path-leg-0" />
+          </animateMotion>
+        </circle>
+
+        <circle class="hd-pulse" r="3.2">
+          <animateMotion dur="3.6s" begin="0.9s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#hd-path-leg-1" />
+          </animateMotion>
+        </circle>
+        <circle class="hd-pulse hd-pulse--return" r="2.4">
+          <animateMotion dur="3.6s" begin="2.7s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+            <mpath href="#hd-path-leg-1" />
+          </animateMotion>
+        </circle>
+
+        <circle class="hd-pulse" r="3.2">
+          <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#hd-path-leg-2" />
+          </animateMotion>
+        </circle>
+        <circle class="hd-pulse hd-pulse--return" r="2.4">
+          <animateMotion dur="3.6s" begin="3.6s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+            <mpath href="#hd-path-leg-2" />
+          </animateMotion>
+        </circle>
+
+        <circle class="hd-pulse" r="3.2">
+          <animateMotion dur="3.6s" begin="2.7s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#hd-path-leg-3" />
+          </animateMotion>
+        </circle>
+        <circle class="hd-pulse hd-pulse--return" r="2.4">
+          <animateMotion dur="3.6s" begin="4.5s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+            <mpath href="#hd-path-leg-3" />
+          </animateMotion>
+        </circle>
+      </g>
+    </svg>
+
+    <ul class="hd-agents" role="list">
+      {agents.map((a, i) => (
+        <li class="hd-agent" style={`--i: ${i}`}>
+          <a class="hd-agent__link" href={a.href} aria-label={`${a.name} agent`}>
+            <span class="hd-agent__row">
+              <span class="hd-agent__name">{a.name}</span>
+              <span class="hd-agent__kind">Agent</span>
+            </span>
+            <p class="hd-agent__scope">{a.scope}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="hd-rule">Citations. Audit log. Separation of duties. Enforced.</p>
   </div>
 
-  <svg class="hd-wires" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <path id="hd-path-leg-0" d="M 300 0 L 300 35 L 75 35 L 75 140" />
-      <path id="hd-path-leg-1" d="M 300 0 L 300 35 L 225 35 L 225 140" />
-      <path id="hd-path-leg-2" d="M 300 0 L 300 35 L 375 35 L 375 140" />
-      <path id="hd-path-leg-3" d="M 300 0 L 300 35 L 525 35 L 525 140" />
-    </defs>
-
-    <use class="hd-wire" href="#hd-path-leg-0" />
-    <use class="hd-wire" href="#hd-path-leg-1" />
-    <use class="hd-wire" href="#hd-path-leg-2" />
-    <use class="hd-wire" href="#hd-path-leg-3" />
-
-    <circle class="hd-node hd-node--top" cx="300" cy="0" r="4" />
-    <circle class="hd-node" cx="75" cy="140" r="3.5" />
-    <circle class="hd-node" cx="225" cy="140" r="3.5" />
-    <circle class="hd-node" cx="375" cy="140" r="3.5" />
-    <circle class="hd-node" cx="525" cy="140" r="3.5" />
-
-    <g class="hd-pulses">
-      <circle class="hd-pulse" r="3.2">
-        <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" rotate="auto">
-          <mpath href="#hd-path-leg-0" />
-        </animateMotion>
-      </circle>
-      <circle class="hd-pulse hd-pulse--return" r="2.4">
-        <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
-          <mpath href="#hd-path-leg-0" />
-        </animateMotion>
-      </circle>
-
-      <circle class="hd-pulse" r="3.2">
-        <animateMotion dur="3.6s" begin="0.9s" repeatCount="indefinite" rotate="auto">
-          <mpath href="#hd-path-leg-1" />
-        </animateMotion>
-      </circle>
-      <circle class="hd-pulse hd-pulse--return" r="2.4">
-        <animateMotion dur="3.6s" begin="2.7s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
-          <mpath href="#hd-path-leg-1" />
-        </animateMotion>
-      </circle>
-
-      <circle class="hd-pulse" r="3.2">
-        <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto">
-          <mpath href="#hd-path-leg-2" />
-        </animateMotion>
-      </circle>
-      <circle class="hd-pulse hd-pulse--return" r="2.4">
-        <animateMotion dur="3.6s" begin="3.6s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
-          <mpath href="#hd-path-leg-2" />
-        </animateMotion>
-      </circle>
-
-      <circle class="hd-pulse" r="3.2">
-        <animateMotion dur="3.6s" begin="2.7s" repeatCount="indefinite" rotate="auto">
-          <mpath href="#hd-path-leg-3" />
-        </animateMotion>
-      </circle>
-      <circle class="hd-pulse hd-pulse--return" r="2.4">
-        <animateMotion dur="3.6s" begin="4.5s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
-          <mpath href="#hd-path-leg-3" />
-        </animateMotion>
-      </circle>
-    </g>
-  </svg>
-
-  <ul class="hd-agents" role="list">
-    {agents.map((a, i) => (
-      <li class="hd-agent" style={`--i: ${i}`}>
-        <a class="hd-agent__link" href={a.href} aria-label={`${a.name} agent`}>
-          <span class="hd-agent__row">
-            <span class="hd-agent__name">{a.name}</span>
-            <span class="hd-agent__kind">Agent</span>
-          </span>
-          <p class="hd-agent__scope">{a.scope}</p>
-        </a>
-      </li>
-    ))}
-  </ul>
-
-  <p class="hd-rule">Citations. Audit log. Separation of duties. Enforced.</p>
-
   <figcaption class="hd-caption">
-    You orchestrate. The Harness keeps every agent on the same standards, the same data, the same audit log.
+    The Workbench is the surface you work in. The Harness keeps every agent on the same standards, the same data, the same audit log.
   </figcaption>
 </figure>
 
@@ -130,83 +128,61 @@ const agents: Agent[] = [
     --hd-accent: var(--color-oxblood, #B400FE);
     --hd-rule: var(--rule, rgba(14, 14, 12, 0.10));
     --hd-bg: var(--bg-panel, #E8E3D7);
-    --hd-card: var(--bg, #FFFFFF);
+    --hd-card: #FFFFFF;
     --hd-fg: var(--fg, #0E0E0C);
     --hd-muted: var(--fg-muted, #6B6760);
     position: relative;
     margin: 0;
-    padding: 28px 22px 18px;
+    padding: 30px 22px 18px;
     border: 1.5px solid color-mix(in oklab, var(--hd-accent) 30%, var(--hd-rule));
     border-radius: 5px;
-    background: var(--hd-bg);
-    box-shadow: 0 12px 36px -28px color-mix(in oklab, var(--hd-accent) 50%, transparent);
+    background: var(--hd-card);
+    box-shadow: 0 16px 40px -28px color-mix(in oklab, var(--hd-accent) 50%, transparent);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
   }
 
   .hd-tag {
     position: absolute;
-    top: -10px;
-    left: 24px;
     font-family: var(--font-mono);
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--hd-accent);
-    background: var(--hd-bg);
-    padding: 2px 10px;
-    border: 1px solid color-mix(in oklab, var(--hd-accent) 30%, transparent);
+    padding: 3px 10px;
     border-radius: 5px;
     z-index: 2;
   }
-
-  .hd-actuary {
-    align-self: center;
-    width: min(280px, 70%);
-    padding: 14px 16px 12px;
-    border: 1px solid color-mix(in oklab, var(--hd-accent) 40%, var(--hd-rule));
-    border-radius: 5px;
-    background: var(--hd-card);
-    text-align: center;
-    box-shadow: 0 6px 18px -14px color-mix(in oklab, var(--hd-accent) 50%, transparent);
-    position: relative;
-    z-index: 1;
-  }
-  .hd-actuary__tag {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+  .hd-tag--workbench {
+    top: -11px;
+    right: 22px;
     color: var(--hd-accent);
-    padding: 2px 8px;
-    border: 1px solid color-mix(in oklab, var(--hd-accent) 28%, transparent);
+    background: var(--hd-card);
+    border: 1px solid color-mix(in oklab, var(--hd-accent) 38%, transparent);
+  }
+  .hd-tag--harness {
+    top: -10px;
+    left: 22px;
+    color: var(--hd-accent);
+    background: var(--hd-bg);
+    border: 1px solid color-mix(in oklab, var(--hd-accent) 30%, transparent);
+  }
+
+  .hd-inner {
+    position: relative;
+    padding: 22px 18px 16px;
+    border: 1px dashed color-mix(in oklab, var(--hd-accent) 28%, var(--hd-rule));
     border-radius: 5px;
-    background: color-mix(in oklab, var(--hd-accent) 8%, transparent);
-    margin-bottom: 8px;
-  }
-  .hd-actuary__title {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    color: var(--hd-fg);
-  }
-  .hd-actuary__sub {
-    margin: 3px 0 0;
-    font-size: 0.8125rem;
-    line-height: 1.4;
-    color: var(--hd-muted);
+    background: var(--hd-bg);
+    display: flex;
+    flex-direction: column;
   }
 
   .hd-wires {
     display: block;
     width: 100%;
-    height: 96px;
-    margin: 6px 0 4px;
+    height: 88px;
+    margin: 4px 0 8px;
   }
   .hd-wire {
     fill: none;
@@ -322,7 +298,8 @@ const agents: Agent[] = [
     .hd-wires { display: none; }
   }
   @media (max-width: 520px) {
-    .hd { padding: 22px 16px 16px; }
+    .hd { padding: 24px 16px 16px; }
+    .hd-inner { padding: 18px 14px 14px; }
     .hd-agents { grid-template-columns: 1fr; }
   }
 </style>

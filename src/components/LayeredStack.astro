@@ -24,44 +24,31 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
       {title && <h2 class="ls-title">{title}</h2>}
       {intro && <p class="ls-intro">{intro}</p>}
       {caption && <p class="ls-caption">{caption}</p>}
-      <ol class="ls-index" role="list">
-        {layers.map((l, i) => (
-          <li class="ls-index__item" data-ls-index={i}>
-            <span class="ls-index__num">{l.num}</span>
-            <span class="ls-index__label">{l.title}</span>
-          </li>
-        ))}
-      </ol>
     </aside>
 
     <ol class="ls-track" role="list">
       {layers.map((l, i) => (
-        <li class="ls-card" style={`--i:${i}; --total:${layers.length}`} data-ls-card={i}>
-          <details class="ls-card__details" open={i === 0}>
-            <summary class="ls-card__summary">
-              <span class="ls-card__num">{l.num}</span>
+        <li class="ls-card" data-ls-card={i} style={`--i:${i}`}>
+          <button class="ls-card__head" type="button" aria-expanded={i === 0 ? "true" : "false"}>
+            <span class="ls-card__num">{l.num}</span>
+            <span class="ls-card__main">
               <span class="ls-card__title">{l.title}</span>
-              <span class="ls-card__count">{i + 1} / {layers.length}</span>
-              <span class="ls-card__chev" aria-hidden="true">
-                <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="3,5 7,9 11,5" />
-                </svg>
-              </span>
-            </summary>
-            <div class="ls-card__detail">
-              <p class="ls-card__body">{l.body}</p>
-              {l.bullets && l.bullets.length > 0 && (
-                <ul class="ls-card__bullets">
-                  {l.bullets.map((b) => (
-                    <li>
-                      <span class="ls-card__dot" aria-hidden="true"></span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <span class="ls-card__body">{l.body}</span>
+            </span>
+            <span class="ls-card__count">{i + 1} / {layers.length}</span>
+          </button>
+          {l.bullets && l.bullets.length > 0 && (
+            <div class="ls-card__bullets-wrap">
+              <ul class="ls-card__bullets">
+                {l.bullets.map((b) => (
+                  <li>
+                    <span class="ls-card__dot" aria-hidden="true"></span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </details>
+          )}
         </li>
       ))}
     </ol>
@@ -72,13 +59,10 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
   .ls {
     --ls-accent: var(--color-oxblood, #B400FE);
     --ls-rule: var(--rule, rgba(14, 14, 12, 0.10));
-    --ls-bg: var(--bg, #F5F1E6);
-    --ls-card: var(--bg-panel, #E8E3D7);
+    --ls-card: #FFFFFF;
     --ls-fg: var(--fg, #0E0E0C);
     --ls-muted: var(--fg-muted, #6B6760);
     --ls-sticky-top: 100px;
-    --ls-stack-step: 18px;
-    --ls-card-gap: 64vh;
   }
 
   .ls-grid {
@@ -90,7 +74,7 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
 
   .ls-aside {
     position: sticky;
-    top: calc(var(--ls-sticky-top) - 20px);
+    top: var(--ls-sticky-top);
     align-self: start;
     padding-top: 6px;
   }
@@ -119,51 +103,12 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     max-width: 460px;
   }
   .ls-caption {
-    margin: 14px 0 0;
+    margin: 18px 0 0;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ls-muted);
-  }
-  .ls-index {
-    list-style: none;
-    margin: 24px 0 0;
-    padding: 16px 0 0;
-    border-top: 1px solid var(--ls-rule);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .ls-index__item {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding: 5px 0;
-    font-size: 0.875rem;
-    color: var(--ls-muted);
-    border-left: 2px solid transparent;
-    padding-left: 10px;
-    margin-left: -12px;
-    transition: color 200ms ease, border-color 200ms ease;
-  }
-  .ls-index__item.is-active {
-    color: var(--ls-fg);
-    border-left-color: var(--ls-accent);
-  }
-  .ls-index__num {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--ls-muted);
-    min-width: 22px;
-  }
-  .ls-index__item.is-active .ls-index__num {
-    color: var(--ls-accent);
-  }
-  .ls-index__label {
-    line-height: 1.35;
   }
 
   .ls-track {
@@ -172,63 +117,54 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--ls-card-gap);
-    padding-bottom: 30vh;
+    gap: 8px;
   }
 
   .ls-card {
-    position: sticky;
-    top: calc(var(--ls-sticky-top) + var(--i) * var(--ls-stack-step));
-    border: 1px solid color-mix(in oklab, var(--ls-accent) 18%, var(--ls-rule));
+    position: relative;
+    border: 1px solid var(--ls-rule);
     border-radius: 5px;
-    background: #FFFFFF;
-    box-shadow:
-      0 1px 0 rgba(14, 14, 12, 0.04),
-      0 18px 32px -28px color-mix(in oklab, var(--ls-accent) 50%, transparent);
-    transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 320ms ease, border-color 220ms ease;
-    will-change: transform;
+    background: var(--ls-card);
     overflow: hidden;
+    transition: border-color 280ms ease, box-shadow 280ms ease, transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .ls-card::before {
     content: "";
     position: absolute;
-    top: -1px;
-    left: 20px;
-    right: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 2px;
     background: var(--ls-accent);
     opacity: 0;
     transition: opacity 220ms ease;
-    z-index: 1;
+  }
+  .ls-card.is-active {
+    border-color: color-mix(in oklab, var(--ls-accent) 38%, var(--ls-rule));
+    box-shadow:
+      0 1px 0 rgba(14, 14, 12, 0.04),
+      0 14px 30px -22px color-mix(in oklab, var(--ls-accent) 50%, transparent);
   }
   .ls-card.is-active::before {
     opacity: 1;
   }
-  .ls-card.is-passed {
-    box-shadow:
-      0 1px 0 rgba(14, 14, 12, 0.04),
-      0 10px 18px -22px color-mix(in oklab, var(--ls-accent) 25%, transparent);
-  }
-  .ls-card__details {
-    margin: 0;
-  }
-  .ls-card__details[open] .ls-card__chev svg {
-    transform: rotate(180deg);
-  }
-  .ls-card__summary {
-    list-style: none;
-    cursor: pointer;
+
+  .ls-card__head {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto auto;
-    align-items: center;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
     gap: 14px;
-    padding: 16px 18px;
-    user-select: none;
-  }
-  .ls-card__summary::-webkit-details-marker {
-    display: none;
+    width: 100%;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
   }
   .ls-card__num {
+    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -242,56 +178,52 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     letter-spacing: 0.08em;
     background: color-mix(in oklab, var(--ls-accent) 12%, transparent);
     color: var(--ls-accent);
-    border: 1px solid color-mix(in oklab, var(--ls-accent) 26%, transparent);
+    border: 1px solid color-mix(in oklab, var(--ls-accent) 24%, transparent);
+  }
+  .ls-card__main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
   }
   .ls-card__title {
-    margin: 0;
     font-size: 1.0625rem;
     font-weight: 600;
     line-height: 1.3;
     letter-spacing: -0.005em;
     color: var(--ls-fg);
   }
+  .ls-card__body {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--ls-muted);
+  }
   .ls-card__count {
+    flex: 0 0 auto;
     font-family: var(--font-mono);
     font-size: 0.625rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ls-muted);
+    padding-top: 5px;
   }
-  .ls-card__chev {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 999px;
-    color: var(--ls-muted);
-    transition: background 180ms ease, color 180ms ease;
+
+  .ls-card__bullets-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .ls-card__chev svg {
-    transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .ls-card__summary:hover .ls-card__chev {
-    background: color-mix(in oklab, var(--ls-accent) 10%, transparent);
-    color: var(--ls-accent);
-  }
-  .ls-card__detail {
-    padding: 0 18px 18px;
-  }
-  .ls-card__body {
-    margin: 0;
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    color: var(--ls-muted);
+  .ls-card.is-active .ls-card__bullets-wrap {
+    grid-template-rows: 1fr;
   }
   .ls-card__bullets {
+    overflow: hidden;
+    min-height: 0;
     list-style: none;
-    margin: 14px 0 0;
-    padding: 12px 0 0;
-    border-top: 1px dashed var(--ls-rule);
+    margin: 0;
+    padding: 0 16px 14px 62px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 6px 16px;
   }
   .ls-card__bullets li {
@@ -319,21 +251,15 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     .ls-aside {
       position: static;
     }
-    .ls-index {
-      display: none;
-    }
-    .ls-track {
-      gap: 14px;
-      padding-bottom: 0;
-    }
-    .ls-card {
-      position: static;
-      top: auto;
+    .ls-card__bullets {
+      padding-left: 16px;
+      grid-template-columns: 1fr;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ls-card {
+    .ls-card,
+    .ls-card__bullets-wrap {
       transition: none;
     }
   }
@@ -346,54 +272,51 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
 
     for (const section of sections) {
       const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-ls-card]"));
-      const items = Array.from(section.querySelectorAll<HTMLElement>("[data-ls-index]"));
       if (!cards.length) continue;
 
-      const stickyTop = parseFloat(getComputedStyle(section).getPropertyValue("--ls-sticky-top")) || 100;
-      const stackStep = parseFloat(getComputedStyle(section).getPropertyValue("--ls-stack-step")) || 18;
-
-      const update = () => {
-        let activeIndex = 0;
-        const scrollY = window.scrollY;
-        cards.forEach((card, i) => {
-          const triggerY = card.offsetTop - (stickyTop + i * stackStep) - 1;
-          if (scrollY >= triggerY) activeIndex = i;
-        });
-        cards.forEach((card, i) => {
-          card.classList.toggle("is-active", i === activeIndex);
-          card.classList.toggle("is-passed", i < activeIndex);
-          const details = card.querySelector<HTMLDetailsElement>("details");
-          if (details && !details.dataset.userToggled) {
-            details.open = i === activeIndex;
-          }
-        });
-        items.forEach((item, i) => {
-          item.classList.toggle("is-active", i === activeIndex);
+      const setActive = (idx: number) => {
+        cards.forEach((c, i) => {
+          c.classList.toggle("is-active", i === idx);
+          const head = c.querySelector<HTMLButtonElement>(".ls-card__head");
+          if (head) head.setAttribute("aria-expanded", i === idx ? "true" : "false");
         });
       };
+
+      cards.forEach((card, i) => {
+        const head = card.querySelector<HTMLButtonElement>(".ls-card__head");
+        head?.addEventListener("click", () => {
+          section.dataset.userPinned = String(i);
+          setActive(i);
+        });
+      });
 
       let ticking = false;
       const onScroll = () => {
         if (ticking) return;
         ticking = true;
         requestAnimationFrame(() => {
-          update();
           ticking = false;
+          if (section.dataset.userPinned !== undefined) return;
+          const viewportMid = window.innerHeight * 0.4;
+          let activeIndex = 0;
+          let bestDistance = Infinity;
+          cards.forEach((card, i) => {
+            const rect = card.getBoundingClientRect();
+            const cardMid = rect.top + rect.height / 2;
+            const distance = Math.abs(cardMid - viewportMid);
+            if (rect.top < window.innerHeight && rect.bottom > 0 && distance < bestDistance) {
+              bestDistance = distance;
+              activeIndex = i;
+            }
+          });
+          setActive(activeIndex);
         });
       };
 
-      cards.forEach((card) => {
-        const details = card.querySelector<HTMLDetailsElement>("details");
-        const summary = details?.querySelector<HTMLElement>("summary");
-        if (!details || !summary) return;
-        summary.addEventListener("click", () => {
-          details.dataset.userToggled = "1";
-        });
-      });
-
+      setActive(0);
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onScroll);
-      update();
+      onScroll();
     }
   })();
 </script>
