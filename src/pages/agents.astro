@@ -82,8 +82,8 @@ const workflows: Workflow[] = [
 ---
 
 <Layout
-  title="The Agents · Tesora"
-  description="The Tesora Actuarial Workbench and its agents. Built for chief actuaries at specialty P&C carriers and MGAs. Ingest messy data, build and deploy raters, run standard pricing analyses, audit and share."
+  title="Tesora Workbench"
+  description="The Tesora Workbench is the surface chief actuaries use. The Tesora Harness is the framework underneath that orchestrates specialized agents and enforces citations, audit logs, and separation of duties."
   canonical="/agents"
   schemaType="WebPage"
 >
@@ -91,10 +91,10 @@ const workflows: Workflow[] = [
 
   <CinematicHero
     videoSrc={u("/video/agents-loop.mp4")}
-    headline="Agents designed for actuaries"
-    deck="The Tesora Harness is a framework that lets actuarial agents run the assembly while citations, audit logs, and separation of duties stay enforced. Trained on the CAS syllabus and the Actuarial Standards of Practice."
+    headline="The Tesora Workbench"
+    deck="The surface chief actuaries actually use. Underneath sits the Tesora Harness, a framework that orchestrates specialized agents while citations, audit logs, and separation of duties stay enforced."
     primaryCta={{ label: "Request a walkthrough", href: "https://cal.com/team/tesora/quick-chat" }}
-    secondaryCta={{ label: "Why a workbench", href: "#different" }}
+    secondaryCta={{ label: "How it works", href: "#harness" }}
   />
 
   <Lifecycle />
@@ -106,12 +106,15 @@ const workflows: Workflow[] = [
         <div class="md:col-span-5">
           <p class="eyebrow mb-3">How it works</p>
           <h2 class="font-semibold text-[2.5rem] md:text-[2.875rem] leading-[1.05] tracking-[-0.018em]">
-            The Workbench, with a harness underneath
+            The Workbench, with a Harness underneath
           </h2>
         </div>
-        <div class="md:col-span-7">
-          <p class="text-[1.1875rem] leading-[1.6] text-[var(--fg-muted)]">
-            The actuary uses the Workbench. The interface is a chat window next to Excel, where the actuary can manipulate analyses, rating models, and Excel workbooks. Numerous agents help, inside a framework called the harness. Agents are trained in actuarial science, the Actuarial Standards of Practice, and the qualification standards. In the end, every decision is up to the actuary.
+        <div class="md:col-span-7 grid gap-4">
+          <p class="text-[1.1875rem] leading-[1.6] text-[var(--fg)]">
+            <span class="font-semibold">The Workbench</span> is what the actuary uses. A chat window next to Excel, where you manipulate analyses, rating models, and workbooks the way you already work.
+          </p>
+          <p class="text-[1.1875rem] leading-[1.6] text-[var(--fg)]">
+            <span class="font-semibold">The Harness</span> is the framework underneath. It orchestrates a fleet of specialized agents, enforces citations, keeps the audit log, and holds author, reviewer, and approver as separate identities. The agents are trained on the CAS syllabus and the Actuarial Standards of Practice. Every decision is yours.
           </p>
         </div>
       </div>
