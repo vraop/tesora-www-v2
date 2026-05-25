@@ -1,0 +1,344 @@
+---
+type Layer = {
+  num: string;
+  title: string;
+  body: string;
+  bullets?: string[];
+};
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  caption?: string;
+  intro?: string;
+  layers: Layer[];
+}
+
+const { eyebrow, title, caption, intro, layers } = Astro.props;
+---
+
+<section class="ls" aria-label={title ?? "Tesora layered stack"} data-ls>
+  <div class="ls-grid">
+    <aside class="ls-aside">
+      {eyebrow && <p class="ls-eyebrow">{eyebrow}</p>}
+      {title && <h2 class="ls-title">{title}</h2>}
+      {intro && <p class="ls-intro">{intro}</p>}
+      {caption && <p class="ls-caption">{caption}</p>}
+      <ol class="ls-index" role="list">
+        {layers.map((l, i) => (
+          <li class="ls-index__item" data-ls-index={i}>
+            <span class="ls-index__num">{l.num}</span>
+            <span class="ls-index__label">{l.title}</span>
+          </li>
+        ))}
+      </ol>
+    </aside>
+
+    <ol class="ls-track" role="list">
+      {layers.map((l, i) => (
+        <li class="ls-card" style={`--i:${i}; --total:${layers.length}`} data-ls-card={i}>
+          <div class="ls-card__head">
+            <span class="ls-card__num">{l.num}</span>
+            <span class="ls-card__count">Layer {i + 1} of {layers.length}</span>
+          </div>
+          <h3 class="ls-card__title">{l.title}</h3>
+          <p class="ls-card__body">{l.body}</p>
+          {l.bullets && l.bullets.length > 0 && (
+            <ul class="ls-card__bullets">
+              {l.bullets.map((b) => (
+                <li>
+                  <span class="ls-card__dot" aria-hidden="true"></span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .ls {
+    --ls-accent: var(--color-oxblood, #B400FE);
+    --ls-rule: var(--rule, rgba(14, 14, 12, 0.10));
+    --ls-bg: var(--bg, #F5F1E6);
+    --ls-card: var(--bg-panel, #E8E3D7);
+    --ls-fg: var(--fg, #0E0E0C);
+    --ls-muted: var(--fg-muted, #6B6760);
+    --ls-sticky-top: 100px;
+    --ls-stack-step: 18px;
+    --ls-card-gap: 64vh;
+  }
+
+  .ls-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 56px;
+    align-items: start;
+  }
+
+  .ls-aside {
+    position: sticky;
+    top: calc(var(--ls-sticky-top) - 20px);
+    align-self: start;
+    padding-top: 6px;
+  }
+  .ls-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ls-accent);
+    margin: 0 0 12px;
+  }
+  .ls-title {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    color: var(--ls-fg);
+  }
+  .ls-intro {
+    margin: 18px 0 0;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--ls-muted);
+    max-width: 460px;
+  }
+  .ls-caption {
+    margin: 14px 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ls-muted);
+  }
+  .ls-index {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 16px 0 0;
+    border-top: 1px solid var(--ls-rule);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ls-index__item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 0.875rem;
+    color: var(--ls-muted);
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+    margin-left: -12px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .ls-index__item.is-active {
+    color: var(--ls-fg);
+    border-left-color: var(--ls-accent);
+  }
+  .ls-index__num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--ls-muted);
+    min-width: 22px;
+  }
+  .ls-index__item.is-active .ls-index__num {
+    color: var(--ls-accent);
+  }
+  .ls-index__label {
+    line-height: 1.35;
+  }
+
+  .ls-track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ls-card-gap);
+    padding-bottom: 30vh;
+  }
+
+  .ls-card {
+    position: sticky;
+    top: calc(var(--ls-sticky-top) + var(--i) * var(--ls-stack-step));
+    padding: 22px 22px 20px;
+    border: 1px solid color-mix(in oklab, var(--ls-accent) 18%, var(--ls-rule));
+    border-radius: 5px;
+    background: #FFFFFF;
+    box-shadow:
+      0 1px 0 rgba(14, 14, 12, 0.04),
+      0 18px 32px -28px color-mix(in oklab, var(--ls-accent) 50%, transparent);
+    transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 320ms ease;
+    will-change: transform;
+  }
+  .ls-card::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 22px;
+    right: 22px;
+    height: 2px;
+    background: var(--ls-accent);
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+  .ls-card.is-active::before {
+    opacity: 1;
+  }
+  .ls-card.is-passed {
+    box-shadow:
+      0 1px 0 rgba(14, 14, 12, 0.04),
+      0 10px 18px -22px color-mix(in oklab, var(--ls-accent) 25%, transparent);
+  }
+  .ls-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .ls-card__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: color-mix(in oklab, var(--ls-accent) 12%, transparent);
+    color: var(--ls-accent);
+    border: 1px solid color-mix(in oklab, var(--ls-accent) 26%, transparent);
+  }
+  .ls-card__count {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ls-muted);
+  }
+  .ls-card__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    color: var(--ls-fg);
+  }
+  .ls-card__body {
+    margin: 8px 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ls-muted);
+  }
+  .ls-card__bullets {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 12px 0 0;
+    border-top: 1px dashed var(--ls-rule);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 6px 16px;
+  }
+  .ls-card__bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--ls-fg);
+  }
+  .ls-card__dot {
+    margin-top: 7px;
+    flex: 0 0 auto;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--ls-accent);
+  }
+
+  @media (max-width: 900px) {
+    .ls-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .ls-aside {
+      position: static;
+    }
+    .ls-index {
+      display: none;
+    }
+    .ls-track {
+      gap: 14px;
+      padding-bottom: 0;
+    }
+    .ls-card {
+      position: static;
+      top: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ls-card {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const sections = document.querySelectorAll<HTMLElement>("[data-ls]");
+    if (!sections.length) return;
+
+    for (const section of sections) {
+      const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-ls-card]"));
+      const items = Array.from(section.querySelectorAll<HTMLElement>("[data-ls-index]"));
+      if (!cards.length) continue;
+
+      const stickyTop = parseFloat(getComputedStyle(section).getPropertyValue("--ls-sticky-top")) || 100;
+      const stackStep = parseFloat(getComputedStyle(section).getPropertyValue("--ls-stack-step")) || 18;
+
+      const update = () => {
+        let activeIndex = 0;
+        const scrollY = window.scrollY;
+        cards.forEach((card, i) => {
+          const triggerY = card.offsetTop - (stickyTop + i * stackStep) - 1;
+          if (scrollY >= triggerY) activeIndex = i;
+        });
+        cards.forEach((card, i) => {
+          card.classList.toggle("is-active", i === activeIndex);
+          card.classList.toggle("is-passed", i < activeIndex);
+        });
+        items.forEach((item, i) => {
+          item.classList.toggle("is-active", i === activeIndex);
+        });
+      };
+
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      update();
+    }
+  })();
+</script>

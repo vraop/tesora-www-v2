@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CinematicHero from "../components/CinematicHero.astro";
-import HorizontalStack from "../components/HorizontalStack.astro";
+import LayeredStack from "../components/LayeredStack.astro";
 import { u } from "../lib/url";
 
 const esLayers = [
@@ -32,25 +32,14 @@ const esLayers = [
   />
 
   <section class="bg-[var(--bg)]">
-    <div class="mx-auto max-w-[1180px] grid md:grid-cols-12 gap-10 md:gap-12 px-6 md:px-10 py-20 md:py-24">
-      <div class="md:col-span-6 self-center">
-        <p class="eyebrow mb-4">Specialty · E&amp;S</p>
-        <h2 class="font-semibold text-[2.25rem] md:text-[2.75rem] leading-[1.05] tracking-[-0.018em] text-[var(--fg)]">
-          New product to quote<br/>in 1 week, not 3 months
-        </h2>
-        <p class="mt-6 text-[1.1875rem] leading-[1.55] text-[var(--fg-muted)] max-w-[520px]">
-          Tesora puts the power back in the actuary's hands to manage their models, by handling the workflow and IT compliance burden that normally slows a new product launch to a crawl.
-        </p>
-      </div>
-
-      <div class="md:col-span-6">
-        <HorizontalStack
-          eyebrow="The E&S stack"
-          title="From broker submission to bind-ready quote"
-          caption="Six layers, one audit trail. Step through each one."
-          layers={esLayers}
-        />
-      </div>
+    <div class="mx-auto max-w-[1180px] px-6 md:px-10 py-20 md:py-24">
+      <LayeredStack
+        eyebrow="The E&S stack"
+        title="From broker submission to bind-ready quote"
+        intro="Tesora puts the power back in the actuary's hands to manage their models, by handling the workflow and IT compliance burden that normally slows a new product launch to a crawl. New product to quote in 1 week, not 3 months."
+        caption="Six layers, one audit trail. Scroll to step through."
+        layers={esLayers}
+      />
     </div>
   </section>
 

@@ -29,37 +29,44 @@ const agents: Agent[] = [
 ];
 ---
 
-<figure class="hd" aria-label="Diagram of the actuary orchestrating the Tesora Harness">
-  <div class="hd-grid">
-    {/* Actuary node on top */}
-    <div class="hd-node hd-node--actuary">
-      <span class="hd-node__tag">Actuary</span>
-      <p class="hd-node__title">You</p>
-      <p class="hd-node__sub">Sets the question. Signs the memo.</p>
-    </div>
+<figure class="hd" aria-label="Diagram of the actuary orchestrating the Tesora Harness" data-hd>
+  <div class="hd-actuary">
+    <span class="hd-actuary__tag">Actuary</span>
+    <p class="hd-actuary__title">You</p>
+    <p class="hd-actuary__sub">Sets the question. Signs the memo.</p>
+  </div>
 
-    {/* Connector spokes */}
-    <svg class="hd-spokes" viewBox="0 0 600 220" aria-hidden="true" preserveAspectRatio="none">
-      <path class="hd-spoke" d="M 300 18 C 300 80, 96 80, 96 178" />
-      <path class="hd-spoke" d="M 300 18 C 300 80, 232 80, 232 178" />
-      <path class="hd-spoke" d="M 300 18 C 300 80, 368 80, 368 178" />
-      <path class="hd-spoke" d="M 300 18 C 300 80, 504 80, 504 178" />
-    </svg>
+  <svg class="hd-wires" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+    <path class="hd-wire hd-wire--trunk" d="M 300 0 L 300 100" pathLength="100" />
+    <path class="hd-wire hd-wire--bus" d="M 75 100 L 525 100" pathLength="100" />
+    <path class="hd-wire hd-wire--leg hd-wire--leg-0" d="M 75 100 L 75 200" pathLength="100" />
+    <path class="hd-wire hd-wire--leg hd-wire--leg-1" d="M 225 100 L 225 200" pathLength="100" />
+    <path class="hd-wire hd-wire--leg hd-wire--leg-2" d="M 375 100 L 375 200" pathLength="100" />
+    <path class="hd-wire hd-wire--leg hd-wire--leg-3" d="M 525 100 L 525 200" pathLength="100" />
 
-    {/* Harness frame holding the agents */}
-    <div class="hd-frame">
-      <span class="hd-frame__tag">The Harness</span>
-      <p class="hd-frame__rule">Citations, audit log, separation of duties — enforced.</p>
-      <div class="hd-agents">
-        {agents.map((a) => (
-          <a class="hd-agent" href={a.href} aria-label={`${a.name} agent`}>
-            <span class="hd-agent__name">{a.name}</span>
-            <span class="hd-agent__kind">Agent</span>
+    <circle class="hd-node-dot hd-node-dot--top" cx="300" cy="0" r="4" />
+    <circle class="hd-node-dot" cx="75" cy="200" r="3" />
+    <circle class="hd-node-dot" cx="225" cy="200" r="3" />
+    <circle class="hd-node-dot" cx="375" cy="200" r="3" />
+    <circle class="hd-node-dot" cx="525" cy="200" r="3" />
+  </svg>
+
+  <div class="hd-frame">
+    <span class="hd-frame__tag">The Harness</span>
+    <ul class="hd-agents" role="list">
+      {agents.map((a, i) => (
+        <li class="hd-agent" style={`--i: ${i}`}>
+          <a class="hd-agent__link" href={a.href} aria-label={`${a.name} agent`}>
+            <span class="hd-agent__row">
+              <span class="hd-agent__name">{a.name}</span>
+              <span class="hd-agent__kind">Agent</span>
+            </span>
             <p class="hd-agent__scope">{a.scope}</p>
           </a>
-        ))}
-      </div>
-    </div>
+        </li>
+      ))}
+    </ul>
+    <p class="hd-frame__rule">Citations, audit log, separation of duties. Enforced.</p>
   </div>
 
   <figcaption class="hd-caption">
@@ -69,172 +76,262 @@ const agents: Agent[] = [
 
 <style>
   .hd {
+    --hd-accent: var(--color-oxblood, #B400FE);
+    --hd-rule: var(--rule, rgba(14, 14, 12, 0.10));
+    --hd-bg: var(--bg-panel, #E8E3D7);
+    --hd-card: var(--bg, #FFFFFF);
+    --hd-fg: var(--fg, #0E0E0C);
+    --hd-muted: var(--fg-muted, #6B6760);
     margin: 0;
-    padding: 20px;
-    border: 1px solid var(--rule);
+    padding: 24px 24px 18px;
+    border: 1px solid var(--hd-rule);
     border-radius: 5px;
-    background: var(--bg-panel, #fbfaf6);
+    background: var(--hd-bg);
+    display: flex;
+    flex-direction: column;
   }
 
-  .hd-grid {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto auto;
-    gap: 0;
-  }
-
-  /* Actuary node */
-  .hd-node {
-    position: relative;
-    z-index: 2;
-    justify-self: center;
+  .hd-actuary {
+    align-self: center;
+    width: min(280px, 70%);
+    padding: 14px 16px 12px;
+    border: 1px solid color-mix(in oklab, var(--hd-accent) 40%, var(--hd-rule));
+    border-radius: 5px;
+    background: var(--hd-card);
     text-align: center;
-    width: min(280px, 60%);
-    padding: 12px 16px 10px;
-    border: 1px solid color-mix(in oklab, #B400FE 40%, var(--rule));
-    border-radius: 5px;
-    background: var(--bg, #ffffff);
+    box-shadow: 0 6px 18px -14px color-mix(in oklab, var(--hd-accent) 50%, transparent);
   }
-  .hd-node__tag {
+  .hd-actuary__tag {
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-oxblood, #B400FE);
-    padding: 2px 6px;
-    border: 1px solid color-mix(in oklab, #B400FE 28%, transparent);
+    color: var(--hd-accent);
+    padding: 2px 8px;
+    border: 1px solid color-mix(in oklab, var(--hd-accent) 28%, transparent);
     border-radius: 5px;
-    background: color-mix(in oklab, #B400FE 8%, transparent);
-    margin-bottom: 6px;
+    background: color-mix(in oklab, var(--hd-accent) 8%, transparent);
+    margin-bottom: 8px;
   }
-  .hd-node__title {
+  .hd-actuary__title {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.005em;
-    color: var(--fg, #1a1a1a);
+    color: var(--hd-fg);
   }
-  .hd-node__sub {
-    margin: 2px 0 0;
-    font-size: 0.78125rem;
-    color: var(--fg-muted, #6b6760);
+  .hd-actuary__sub {
+    margin: 3px 0 0;
+    font-size: 0.8125rem;
     line-height: 1.4;
+    color: var(--hd-muted);
   }
 
-  /* Spokes connecting actuary to agents */
-  .hd-spokes {
-    position: absolute;
-    top: 56px;
-    left: 0;
-    right: 0;
+  .hd-wires {
+    display: block;
     width: 100%;
-    height: 120px;
-    pointer-events: none;
-    z-index: 1;
+    height: 110px;
+    margin-top: -2px;
   }
-  .hd-spoke {
+  .hd-wire {
     fill: none;
-    stroke: color-mix(in oklab, #B400FE 38%, transparent);
+    stroke: color-mix(in oklab, var(--hd-accent) 45%, transparent);
     stroke-width: 1.4;
     stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+  }
+  .hd.is-ready .hd-wire--trunk {
+    animation: hd-draw 340ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 120ms;
+  }
+  .hd.is-ready .hd-wire--bus {
+    animation: hd-draw 520ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 440ms;
+  }
+  .hd.is-ready .hd-wire--leg-0 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 920ms; }
+  .hd.is-ready .hd-wire--leg-1 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 1000ms; }
+  .hd.is-ready .hd-wire--leg-2 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 1080ms; }
+  .hd.is-ready .hd-wire--leg-3 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 1160ms; }
+  @keyframes hd-draw {
+    to { stroke-dashoffset: 0; }
   }
 
-  /* Harness frame */
+  .hd-node-dot {
+    fill: var(--hd-accent);
+    opacity: 0;
+  }
+  .hd.is-ready .hd-node-dot--top {
+    animation: hd-pop 240ms ease-out forwards;
+    animation-delay: 80ms;
+  }
+  .hd.is-ready .hd-node-dot:not(.hd-node-dot--top) {
+    animation: hd-pop 240ms ease-out forwards;
+    animation-delay: 1380ms;
+  }
+  @keyframes hd-pop {
+    to { opacity: 0.95; }
+  }
+
   .hd-frame {
     position: relative;
-    z-index: 2;
-    margin-top: 96px;
-    padding: 16px 14px 14px;
-    border: 1.5px solid color-mix(in oklab, #B400FE 28%, var(--rule));
+    padding: 22px 18px 16px;
+    margin-top: -2px;
+    border: 1.5px solid color-mix(in oklab, var(--hd-accent) 30%, var(--hd-rule));
     border-radius: 5px;
-    background: var(--bg, #ffffff);
+    background: var(--hd-card);
+    box-shadow: 0 8px 24px -20px color-mix(in oklab, var(--hd-accent) 40%, transparent);
+    overflow: hidden;
+  }
+  .hd-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--hd-accent) 10%, transparent);
+    opacity: 0;
+  }
+  .hd.is-ready .hd-frame::before {
+    animation: hd-frame-pulse 4.6s ease-in-out 1.6s infinite;
+  }
+  @keyframes hd-frame-pulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
   }
   .hd-frame__tag {
     position: absolute;
     top: -10px;
-    left: 14px;
+    left: 18px;
     font-family: var(--font-mono);
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-oxblood, #B400FE);
-    background: var(--bg-panel, #fbfaf6);
-    padding: 1px 8px;
-    border: 1px solid color-mix(in oklab, #B400FE 28%, transparent);
+    color: var(--hd-accent);
+    background: var(--hd-bg);
+    padding: 2px 10px;
+    border: 1px solid color-mix(in oklab, var(--hd-accent) 30%, transparent);
     border-radius: 5px;
-  }
-  .hd-frame__rule {
-    margin: 0 0 10px;
-    font-size: 0.78125rem;
-    color: var(--fg-muted, #6b6760);
-    text-align: center;
-    line-height: 1.4;
   }
 
   .hd-agents {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
   }
   .hd-agent {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hd.is-ready .hd-agent {
+    animation: hd-rise 360ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: calc(980ms + var(--i, 0) * 90ms);
+  }
+  @keyframes hd-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hd-agent__link {
     display: block;
-    border: 1px solid var(--rule);
+    height: 100%;
+    padding: 11px 12px 12px;
+    border: 1px solid var(--hd-rule);
     border-radius: 5px;
-    padding: 10px 11px;
-    background: var(--bg, #ffffff);
+    background: var(--hd-card);
     color: inherit;
     text-decoration: none;
-    transition: border-color 180ms ease, transform 180ms ease;
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
   }
-  .hd-agent:hover {
-    border-color: color-mix(in oklab, #B400FE 38%, var(--rule));
+  .hd-agent__link:hover {
+    border-color: color-mix(in oklab, var(--hd-accent) 40%, var(--hd-rule));
     transform: translateY(-1px);
+    box-shadow: 0 6px 18px -14px color-mix(in oklab, var(--hd-accent) 35%, transparent);
+  }
+  .hd-agent__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
   }
   .hd-agent__name {
     font-size: 0.9375rem;
     font-weight: 600;
     letter-spacing: -0.005em;
-    color: var(--fg, #1a1a1a);
+    color: var(--hd-fg);
   }
   .hd-agent__kind {
-    margin-left: 4px;
     font-family: var(--font-mono);
     font-size: 0.5625rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--fg-muted, #888);
+    color: var(--hd-muted);
   }
   .hd-agent__scope {
     margin: 4px 0 0;
     font-size: 0.75rem;
     line-height: 1.4;
-    color: var(--fg-muted, #6b6760);
+    color: var(--hd-muted);
+  }
+  .hd-frame__rule {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--hd-rule);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--hd-muted);
+    text-align: center;
   }
 
   .hd-caption {
     margin-top: 14px;
-    font-size: 0.78125rem;
+    font-size: 0.8125rem;
     line-height: 1.45;
-    color: var(--fg-muted, #6b6760);
+    color: var(--hd-muted);
     text-align: center;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .hd-wire { stroke-dashoffset: 0; animation: none; }
+    .hd-node-dot { opacity: 0.95; animation: none; }
+    .hd-agent { opacity: 1; transform: none; animation: none; }
+    .hd-frame::before { animation: none; opacity: 0; }
+  }
   @media (max-width: 900px) {
-    .hd-agents {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .hd-spokes { display: none; }
+    .hd-agents { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hd-wires { display: none; }
     .hd-frame { margin-top: 14px; }
   }
   @media (max-width: 520px) {
-    .hd {
-      padding: 14px;
-    }
-    .hd-agents {
-      grid-template-columns: 1fr;
-    }
+    .hd { padding: 16px; }
+    .hd-agents { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  const figures = document.querySelectorAll<HTMLElement>("[data-hd]");
+  if (figures.length > 0 && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-ready");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.2 },
+    );
+    figures.forEach((f) => io.observe(f));
+  } else {
+    figures.forEach((f) => f.classList.add("is-ready"));
+  }
+</script>
