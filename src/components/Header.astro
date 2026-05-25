@@ -101,7 +101,7 @@ const panelTextClass =
           aria-expanded="false"
           data-menu-toggle
         >
-          Workbench
+          Agents
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <polyline points="2,4 5,7 8,4" />
           </svg>
@@ -118,10 +118,10 @@ const panelTextClass =
             <div class="flex items-center justify-between gap-3">
               <div>
                 <p class="font-semibold text-[1.0625rem] leading-tight text-[var(--color-oxblood)]">
-                  The Tesora Workbench
+                  Agents for actuaries
                 </p>
                 <p class="mt-1 text-[0.8125rem] leading-snug text-[var(--fg-muted)]">
-                  The surface the actuary uses. The harness underneath, audited end to end.
+                  How the agents work, audited end to end.
                 </p>
               </div>
               <span aria-hidden="true" class="text-[var(--color-oxblood)] text-base font-medium translate-x-0 group-hover:translate-x-0.5 transition-transform">→</span>
@@ -280,8 +280,8 @@ const panelTextClass =
     class="md:hidden hidden mt-2 mx-4 sm:mx-6 rounded-[5px] border border-[var(--rule)] bg-[var(--bg)]/95 backdrop-blur-xl shadow-lg shadow-black/10"
   >
     <nav class="px-5 py-4 flex flex-col gap-1 text-base">
-      <p class="text-xs uppercase tracking-[0.18em] text-[var(--fg-muted)]">Workbench</p>
-      <a href={agentsHref} class="block py-2 text-[var(--color-oxblood)] font-semibold">The Tesora Workbench →</a>
+      <p class="text-xs uppercase tracking-[0.18em] text-[var(--fg-muted)]">Agents</p>
+      <a href={agentsHref} class="block py-2 text-[var(--color-oxblood)] font-semibold">Agents for actuaries →</a>
       {agentsMenu.map((item) => (
         <a
           href={item.href}

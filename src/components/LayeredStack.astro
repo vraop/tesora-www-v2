@@ -37,22 +37,31 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     <ol class="ls-track" role="list">
       {layers.map((l, i) => (
         <li class="ls-card" style={`--i:${i}; --total:${layers.length}`} data-ls-card={i}>
-          <div class="ls-card__head">
-            <span class="ls-card__num">{l.num}</span>
-            <span class="ls-card__count">Layer {i + 1} of {layers.length}</span>
-          </div>
-          <h3 class="ls-card__title">{l.title}</h3>
-          <p class="ls-card__body">{l.body}</p>
-          {l.bullets && l.bullets.length > 0 && (
-            <ul class="ls-card__bullets">
-              {l.bullets.map((b) => (
-                <li>
-                  <span class="ls-card__dot" aria-hidden="true"></span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <details class="ls-card__details" open={i === 0}>
+            <summary class="ls-card__summary">
+              <span class="ls-card__num">{l.num}</span>
+              <span class="ls-card__title">{l.title}</span>
+              <span class="ls-card__count">{i + 1} / {layers.length}</span>
+              <span class="ls-card__chev" aria-hidden="true">
+                <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3,5 7,9 11,5" />
+                </svg>
+              </span>
+            </summary>
+            <div class="ls-card__detail">
+              <p class="ls-card__body">{l.body}</p>
+              {l.bullets && l.bullets.length > 0 && (
+                <ul class="ls-card__bullets">
+                  {l.bullets.map((b) => (
+                    <li>
+                      <span class="ls-card__dot" aria-hidden="true"></span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </details>
         </li>
       ))}
     </ol>
@@ -170,26 +179,27 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
   .ls-card {
     position: sticky;
     top: calc(var(--ls-sticky-top) + var(--i) * var(--ls-stack-step));
-    padding: 22px 22px 20px;
     border: 1px solid color-mix(in oklab, var(--ls-accent) 18%, var(--ls-rule));
     border-radius: 5px;
     background: #FFFFFF;
     box-shadow:
       0 1px 0 rgba(14, 14, 12, 0.04),
       0 18px 32px -28px color-mix(in oklab, var(--ls-accent) 50%, transparent);
-    transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 320ms ease;
+    transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 320ms ease, border-color 220ms ease;
     will-change: transform;
+    overflow: hidden;
   }
   .ls-card::before {
     content: "";
     position: absolute;
     top: -1px;
-    left: 22px;
-    right: 22px;
+    left: 20px;
+    right: 20px;
     height: 2px;
     background: var(--ls-accent);
     opacity: 0;
     transition: opacity 220ms ease;
+    z-index: 1;
   }
   .ls-card.is-active::before {
     opacity: 1;
@@ -199,12 +209,24 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
       0 1px 0 rgba(14, 14, 12, 0.04),
       0 10px 18px -22px color-mix(in oklab, var(--ls-accent) 25%, transparent);
   }
-  .ls-card__head {
-    display: flex;
+  .ls-card__details {
+    margin: 0;
+  }
+  .ls-card__details[open] .ls-card__chev svg {
+    transform: rotate(180deg);
+  }
+  .ls-card__summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 14px;
+    padding: 16px 18px;
+    user-select: none;
+  }
+  .ls-card__summary::-webkit-details-marker {
+    display: none;
   }
   .ls-card__num {
     display: inline-flex;
@@ -222,6 +244,14 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     color: var(--ls-accent);
     border: 1px solid color-mix(in oklab, var(--ls-accent) 26%, transparent);
   }
+  .ls-card__title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--ls-fg);
+  }
   .ls-card__count {
     font-family: var(--font-mono);
     font-size: 0.625rem;
@@ -229,16 +259,28 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     text-transform: uppercase;
     color: var(--ls-muted);
   }
-  .ls-card__title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: -0.005em;
-    color: var(--ls-fg);
+  .ls-card__chev {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    color: var(--ls-muted);
+    transition: background 180ms ease, color 180ms ease;
+  }
+  .ls-card__chev svg {
+    transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .ls-card__summary:hover .ls-card__chev {
+    background: color-mix(in oklab, var(--ls-accent) 10%, transparent);
+    color: var(--ls-accent);
+  }
+  .ls-card__detail {
+    padding: 0 18px 18px;
   }
   .ls-card__body {
-    margin: 8px 0 0;
+    margin: 0;
     font-size: 0.9375rem;
     line-height: 1.55;
     color: var(--ls-muted);
@@ -320,6 +362,10 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
         cards.forEach((card, i) => {
           card.classList.toggle("is-active", i === activeIndex);
           card.classList.toggle("is-passed", i < activeIndex);
+          const details = card.querySelector<HTMLDetailsElement>("details");
+          if (details && !details.dataset.userToggled) {
+            details.open = i === activeIndex;
+          }
         });
         items.forEach((item, i) => {
           item.classList.toggle("is-active", i === activeIndex);
@@ -335,6 +381,15 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
           ticking = false;
         });
       };
+
+      cards.forEach((card) => {
+        const details = card.querySelector<HTMLDetailsElement>("details");
+        const summary = details?.querySelector<HTMLElement>("summary");
+        if (!details || !summary) return;
+        summary.addEventListener("click", () => {
+          details.dataset.userToggled = "1";
+        });
+      });
 
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onScroll);

@@ -18,7 +18,7 @@ const agents: Agent[] = [
   },
   {
     name: "Audit",
-    scope: "Regrades every analysis before the actuary sees it.",
+    scope: "Regrades every analysis before it ships.",
     href: "#audit",
   },
   {
@@ -30,44 +30,95 @@ const agents: Agent[] = [
 ---
 
 <figure class="hd" aria-label="Diagram of the actuary orchestrating the Tesora Harness" data-hd>
+  <span class="hd-tag" aria-hidden="true">The Harness</span>
+
   <div class="hd-actuary">
     <span class="hd-actuary__tag">Actuary</span>
     <p class="hd-actuary__title">You</p>
     <p class="hd-actuary__sub">Sets the question. Signs the memo.</p>
   </div>
 
-  <svg class="hd-wires" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
-    <path class="hd-wire hd-wire--trunk" d="M 300 0 L 300 100" pathLength="100" />
-    <path class="hd-wire hd-wire--bus" d="M 75 100 L 525 100" pathLength="100" />
-    <path class="hd-wire hd-wire--leg hd-wire--leg-0" d="M 75 100 L 75 200" pathLength="100" />
-    <path class="hd-wire hd-wire--leg hd-wire--leg-1" d="M 225 100 L 225 200" pathLength="100" />
-    <path class="hd-wire hd-wire--leg hd-wire--leg-2" d="M 375 100 L 375 200" pathLength="100" />
-    <path class="hd-wire hd-wire--leg hd-wire--leg-3" d="M 525 100 L 525 200" pathLength="100" />
+  <svg class="hd-wires" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <path id="hd-path-leg-0" d="M 300 0 L 300 35 L 75 35 L 75 140" />
+      <path id="hd-path-leg-1" d="M 300 0 L 300 35 L 225 35 L 225 140" />
+      <path id="hd-path-leg-2" d="M 300 0 L 300 35 L 375 35 L 375 140" />
+      <path id="hd-path-leg-3" d="M 300 0 L 300 35 L 525 35 L 525 140" />
+    </defs>
 
-    <circle class="hd-node-dot hd-node-dot--top" cx="300" cy="0" r="4" />
-    <circle class="hd-node-dot" cx="75" cy="200" r="3" />
-    <circle class="hd-node-dot" cx="225" cy="200" r="3" />
-    <circle class="hd-node-dot" cx="375" cy="200" r="3" />
-    <circle class="hd-node-dot" cx="525" cy="200" r="3" />
+    <use class="hd-wire" href="#hd-path-leg-0" />
+    <use class="hd-wire" href="#hd-path-leg-1" />
+    <use class="hd-wire" href="#hd-path-leg-2" />
+    <use class="hd-wire" href="#hd-path-leg-3" />
+
+    <circle class="hd-node hd-node--top" cx="300" cy="0" r="4" />
+    <circle class="hd-node" cx="75" cy="140" r="3.5" />
+    <circle class="hd-node" cx="225" cy="140" r="3.5" />
+    <circle class="hd-node" cx="375" cy="140" r="3.5" />
+    <circle class="hd-node" cx="525" cy="140" r="3.5" />
+
+    <g class="hd-pulses">
+      <circle class="hd-pulse" r="3.2">
+        <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#hd-path-leg-0" />
+        </animateMotion>
+      </circle>
+      <circle class="hd-pulse hd-pulse--return" r="2.4">
+        <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+          <mpath href="#hd-path-leg-0" />
+        </animateMotion>
+      </circle>
+
+      <circle class="hd-pulse" r="3.2">
+        <animateMotion dur="3.6s" begin="0.9s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#hd-path-leg-1" />
+        </animateMotion>
+      </circle>
+      <circle class="hd-pulse hd-pulse--return" r="2.4">
+        <animateMotion dur="3.6s" begin="2.7s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+          <mpath href="#hd-path-leg-1" />
+        </animateMotion>
+      </circle>
+
+      <circle class="hd-pulse" r="3.2">
+        <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#hd-path-leg-2" />
+        </animateMotion>
+      </circle>
+      <circle class="hd-pulse hd-pulse--return" r="2.4">
+        <animateMotion dur="3.6s" begin="3.6s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+          <mpath href="#hd-path-leg-2" />
+        </animateMotion>
+      </circle>
+
+      <circle class="hd-pulse" r="3.2">
+        <animateMotion dur="3.6s" begin="2.7s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#hd-path-leg-3" />
+        </animateMotion>
+      </circle>
+      <circle class="hd-pulse hd-pulse--return" r="2.4">
+        <animateMotion dur="3.6s" begin="4.5s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+          <mpath href="#hd-path-leg-3" />
+        </animateMotion>
+      </circle>
+    </g>
   </svg>
 
-  <div class="hd-frame">
-    <span class="hd-frame__tag">The Harness</span>
-    <ul class="hd-agents" role="list">
-      {agents.map((a, i) => (
-        <li class="hd-agent" style={`--i: ${i}`}>
-          <a class="hd-agent__link" href={a.href} aria-label={`${a.name} agent`}>
-            <span class="hd-agent__row">
-              <span class="hd-agent__name">{a.name}</span>
-              <span class="hd-agent__kind">Agent</span>
-            </span>
-            <p class="hd-agent__scope">{a.scope}</p>
-          </a>
-        </li>
-      ))}
-    </ul>
-    <p class="hd-frame__rule">Citations, audit log, separation of duties. Enforced.</p>
-  </div>
+  <ul class="hd-agents" role="list">
+    {agents.map((a, i) => (
+      <li class="hd-agent" style={`--i: ${i}`}>
+        <a class="hd-agent__link" href={a.href} aria-label={`${a.name} agent`}>
+          <span class="hd-agent__row">
+            <span class="hd-agent__name">{a.name}</span>
+            <span class="hd-agent__kind">Agent</span>
+          </span>
+          <p class="hd-agent__scope">{a.scope}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="hd-rule">Citations. Audit log. Separation of duties. Enforced.</p>
 
   <figcaption class="hd-caption">
     You orchestrate. The Harness keeps every agent on the same standards, the same data, the same audit log.
@@ -82,13 +133,33 @@ const agents: Agent[] = [
     --hd-card: var(--bg, #FFFFFF);
     --hd-fg: var(--fg, #0E0E0C);
     --hd-muted: var(--fg-muted, #6B6760);
+    position: relative;
     margin: 0;
-    padding: 24px 24px 18px;
-    border: 1px solid var(--hd-rule);
+    padding: 28px 22px 18px;
+    border: 1.5px solid color-mix(in oklab, var(--hd-accent) 30%, var(--hd-rule));
     border-radius: 5px;
     background: var(--hd-bg);
+    box-shadow: 0 12px 36px -28px color-mix(in oklab, var(--hd-accent) 50%, transparent);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+  }
+
+  .hd-tag {
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--hd-accent);
+    background: var(--hd-bg);
+    padding: 2px 10px;
+    border: 1px solid color-mix(in oklab, var(--hd-accent) 30%, transparent);
+    border-radius: 5px;
+    z-index: 2;
   }
 
   .hd-actuary {
@@ -100,6 +171,8 @@ const agents: Agent[] = [
     background: var(--hd-card);
     text-align: center;
     box-shadow: 0 6px 18px -14px color-mix(in oklab, var(--hd-accent) 50%, transparent);
+    position: relative;
+    z-index: 1;
   }
   .hd-actuary__tag {
     display: inline-block;
@@ -132,91 +205,29 @@ const agents: Agent[] = [
   .hd-wires {
     display: block;
     width: 100%;
-    height: 110px;
-    margin-top: -2px;
+    height: 96px;
+    margin: 6px 0 4px;
   }
   .hd-wire {
     fill: none;
-    stroke: color-mix(in oklab, var(--hd-accent) 45%, transparent);
+    stroke: color-mix(in oklab, var(--hd-accent) 32%, transparent);
     stroke-width: 1.4;
     stroke-linecap: round;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
   }
-  .hd.is-ready .hd-wire--trunk {
-    animation: hd-draw 340ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: 120ms;
-  }
-  .hd.is-ready .hd-wire--bus {
-    animation: hd-draw 520ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: 440ms;
-  }
-  .hd.is-ready .hd-wire--leg-0 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 920ms; }
-  .hd.is-ready .hd-wire--leg-1 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 1000ms; }
-  .hd.is-ready .hd-wire--leg-2 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 1080ms; }
-  .hd.is-ready .hd-wire--leg-3 { animation: hd-draw 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 1160ms; }
-  @keyframes hd-draw {
-    to { stroke-dashoffset: 0; }
-  }
-
-  .hd-node-dot {
+  .hd-node {
     fill: var(--hd-accent);
-    opacity: 0;
+    opacity: 0.85;
   }
-  .hd.is-ready .hd-node-dot--top {
-    animation: hd-pop 240ms ease-out forwards;
-    animation-delay: 80ms;
+  .hd-pulse {
+    fill: var(--hd-accent);
+    filter: drop-shadow(0 0 4px color-mix(in oklab, var(--hd-accent) 70%, transparent));
+    opacity: 0.95;
   }
-  .hd.is-ready .hd-node-dot:not(.hd-node-dot--top) {
-    animation: hd-pop 240ms ease-out forwards;
-    animation-delay: 1380ms;
-  }
-  @keyframes hd-pop {
-    to { opacity: 0.95; }
-  }
-
-  .hd-frame {
-    position: relative;
-    padding: 22px 18px 16px;
-    margin-top: -2px;
-    border: 1.5px solid color-mix(in oklab, var(--hd-accent) 30%, var(--hd-rule));
-    border-radius: 5px;
-    background: var(--hd-card);
-    box-shadow: 0 8px 24px -20px color-mix(in oklab, var(--hd-accent) 40%, transparent);
-    overflow: hidden;
-  }
-  .hd-frame::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--hd-accent) 10%, transparent);
-    opacity: 0;
-  }
-  .hd.is-ready .hd-frame::before {
-    animation: hd-frame-pulse 4.6s ease-in-out 1.6s infinite;
-  }
-  @keyframes hd-frame-pulse {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-  }
-  .hd-frame__tag {
-    position: absolute;
-    top: -10px;
-    left: 18px;
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--hd-accent);
-    background: var(--hd-bg);
-    padding: 2px 10px;
-    border: 1px solid color-mix(in oklab, var(--hd-accent) 30%, transparent);
-    border-radius: 5px;
+  .hd-pulse--return {
+    fill: color-mix(in oklab, var(--hd-accent) 55%, white);
+    opacity: 0.7;
   }
 
   .hd-agents {
@@ -226,14 +237,16 @@ const agents: Agent[] = [
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
+    position: relative;
+    z-index: 1;
   }
   .hd-agent {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   .hd.is-ready .hd-agent {
     animation: hd-rise 360ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: calc(980ms + var(--i, 0) * 90ms);
+    animation-delay: calc(160ms + var(--i, 0) * 80ms);
   }
   @keyframes hd-rise {
     to { opacity: 1; transform: translateY(0); }
@@ -279,8 +292,9 @@ const agents: Agent[] = [
     line-height: 1.4;
     color: var(--hd-muted);
   }
-  .hd-frame__rule {
-    margin: 14px 0 0;
+
+  .hd-rule {
+    margin: 16px 0 0;
     padding-top: 12px;
     border-top: 1px dashed var(--hd-rule);
     font-family: var(--font-mono);
@@ -300,18 +314,15 @@ const agents: Agent[] = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hd-wire { stroke-dashoffset: 0; animation: none; }
-    .hd-node-dot { opacity: 0.95; animation: none; }
     .hd-agent { opacity: 1; transform: none; animation: none; }
-    .hd-frame::before { animation: none; opacity: 0; }
+    .hd-pulse { display: none; }
   }
   @media (max-width: 900px) {
     .hd-agents { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .hd-wires { display: none; }
-    .hd-frame { margin-top: 14px; }
   }
   @media (max-width: 520px) {
-    .hd { padding: 16px; }
+    .hd { padding: 22px 16px 16px; }
     .hd-agents { grid-template-columns: 1fr; }
   }
 </style>

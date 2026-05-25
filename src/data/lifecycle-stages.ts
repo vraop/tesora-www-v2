@@ -185,7 +185,7 @@ export const lifecycleStages: LifecycleStage[] = [
     id: "rating-deployment",
     label: "Rating Deployment",
     agent: "Rating",
-    title: "From Excel rater to live API, with a full audit log",
+    title: "From Excel rater to live API, fully audited",
     body: "Source raters from internal Excel files or external SERFF filings. The Rating Agent rebuilds the model and deploys it however you want: a callable pricing API, a GUI for underwriters, or a versioned Excel file. Author, reviewer, and approver are separate people. Every promotion is recorded.",
     seo: {
       title: "Rating Engine Deployment and Versioning · Tesora",
