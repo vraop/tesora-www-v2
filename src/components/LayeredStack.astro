@@ -28,28 +28,31 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
 
     <ol class="ls-track" role="list">
       {layers.map((l, i) => (
-        <li class="ls-card" data-ls-card={i} style={`--i:${i}`}>
-          <button class="ls-card__head" type="button" aria-expanded={i === 0 ? "true" : "false"}>
-            <span class="ls-card__num">{l.num}</span>
-            <span class="ls-card__main">
-              <span class="ls-card__title">{l.title}</span>
-              <span class="ls-card__body">{l.body}</span>
-            </span>
-            <span class="ls-card__count">{i + 1} / {layers.length}</span>
-          </button>
-          {l.bullets && l.bullets.length > 0 && (
-            <div class="ls-card__bullets-wrap">
-              <ul class="ls-card__bullets">
-                {l.bullets.map((b) => (
-                  <li>
-                    <span class="ls-card__dot" aria-hidden="true"></span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </li>
+        <Fragment>
+          {i > 0 && <li class="ls-connector" aria-hidden="true"></li>}
+          <li class="ls-card" data-ls-card={i} style={`--i:${i}`}>
+            <button class="ls-card__head" type="button" aria-expanded={i === 0 ? "true" : "false"}>
+              <span class="ls-card__num">{l.num}</span>
+              <span class="ls-card__main">
+                <span class="ls-card__title">{l.title}</span>
+                <span class="ls-card__body">{l.body}</span>
+              </span>
+              <span class="ls-card__count">{i + 1} / {layers.length}</span>
+            </button>
+            {l.bullets && l.bullets.length > 0 && (
+              <div class="ls-card__bullets-wrap">
+                <ul class="ls-card__bullets">
+                  {l.bullets.map((b) => (
+                    <li>
+                      <span class="ls-card__dot" aria-hidden="true"></span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        </Fragment>
       ))}
     </ol>
   </div>
@@ -117,7 +120,34 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0;
+  }
+
+  .ls-connector {
+    list-style: none;
+    position: relative;
+    height: 28px;
+    pointer-events: none;
+  }
+  .ls-connector::before {
+    content: "";
+    position: absolute;
+    left: 33px;
+    top: 0;
+    bottom: 7px;
+    width: 2px;
+    background: color-mix(in oklab, var(--ls-accent) 32%, transparent);
+  }
+  .ls-connector::after {
+    content: "";
+    position: absolute;
+    left: 33px;
+    bottom: 2px;
+    width: 8px;
+    height: 8px;
+    transform: translateX(-50%) rotate(45deg);
+    border-right: 2px solid var(--ls-accent);
+    border-bottom: 2px solid var(--ls-accent);
   }
 
   .ls-card {
@@ -255,6 +285,13 @@ const { eyebrow, title, caption, intro, layers } = Astro.props;
     .ls-card__bullets {
       padding-left: 16px;
       grid-template-columns: 1fr;
+    }
+    .ls-connector {
+      height: 20px;
+    }
+    .ls-connector::before,
+    .ls-connector::after {
+      left: 30px;
     }
   }
 
