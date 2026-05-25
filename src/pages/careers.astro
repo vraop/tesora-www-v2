@@ -10,14 +10,14 @@ const roles = [
     slug: "forward-deployed-actuarial-engineer",
     title: "Forward-Deployed Actuarial Engineer",
     team: "Engineering",
-    location: "Remote-US",
+    location: "New York or San Francisco",
     body: "Sit alongside customer actuaries during pilots. Reconstruct raters in days. Build the customer-specific glue between the carrier's data and Tesora's substrate. Credentialed actuary preferred but not required if the depth is real.",
   },
   {
     slug: "gtm-account-executive-insurance",
     title: "GTM Account Executive · Insurance",
     team: "GTM",
-    location: "Remote-US",
+    location: "New York",
     body: "Sell to chief actuaries at specialty P&C carriers and MGAs. You should have closed into the rating, pricing, or actuarial function before, or come from a carrier seat with the relationships to open doors. Carrier procurement is hard; this role is for someone who has walked through it before.",
   },
 ];
@@ -52,18 +52,18 @@ const roles = [
           <div class="careers-role__body">
             <p class="careers-role__copy">{r.body}</p>
             <p class="careers-role__cta">
-              <button type="button" class="link careers-role__apply" data-apply data-role-title={r.title}>
+              <a href="#apply" class="link careers-role__apply">
                 Apply →
-              </button>
+              </a>
             </p>
           </div>
         </article>
       ))}
     </div>
 
-    <div class="careers-board" data-careers-board hidden>
+    <div id="apply" class="careers-board">
       <p class="eyebrow careers-board__eyebrow">Apply on Y Combinator Work at a Startup</p>
-      <p class="careers-board__hint" data-careers-board-target>Open the role you want to apply to below.</p>
+      <p class="careers-board__hint">Open the role you want to apply to below and click through to apply on Y Combinator Work at a Startup.</p>
       <div class="waas-wrap">
         <waas-job-board company="tesora"></waas-job-board>
       </div>
@@ -174,26 +174,3 @@ const roles = [
 </style>
 
 <script src="https://www.workatastartup.com/embed/script.js" is:inline defer></script>
-
-<script>
-  (() => {
-    const board = document.querySelector<HTMLElement>("[data-careers-board]");
-    const hint = document.querySelector<HTMLElement>("[data-careers-board-target]");
-    if (!board) return;
-
-    const reveal = (title: string) => {
-      board.hidden = false;
-      if (hint) {
-        hint.textContent = `Find "${title}" in the board below and click through to apply on Y Combinator Work at a Startup.`;
-      }
-      board.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-
-    document.querySelectorAll<HTMLButtonElement>("[data-apply]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const title = btn.getAttribute("data-role-title") ?? "your role";
-        reveal(title);
-      });
-    });
-  })();
-</script>
