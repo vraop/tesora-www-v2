@@ -44,7 +44,7 @@
 :root {
   /* Mode-aware aliases. Components reference these, not the raw tokens. */
   --bg: var(--color-bone);
-  --bg-panel: var(--color-stone);
+  --bg-panel: #FFFFFF;
   --fg: var(--color-ink);
   --fg-muted: var(--color-smoke);
   --rule: rgba(14, 14, 12, 0.10);

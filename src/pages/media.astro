@@ -3,28 +3,34 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CinematicHero from "../components/CinematicHero.astro";
+import { fetchSubstackPosts } from "../lib/substack";
 import { u } from "../lib/url";
 
-const blog = [
+const posts = await fetchSubstackPosts(12);
+
+const fallback = [
   {
-    date: "2026 · MAY",
-    kind: "post",
+    title: "Can AI ever be useful for actuaries?",
+    link: "https://tesoraai.substack.com/p/can-ai-ever-be-useful-for-actuaries",
+    pubDate: "",
+    iso: "",
+    description: "On why generic chat tools fall short for regulated pricing work, and what an actuarial-native agent stack does instead.",
+    excerpt: "On why generic chat tools fall short for regulated pricing work, and what an actuarial-native agent stack does instead.",
+  },
+  {
     title: "Actuaries' Logical Aversion to AI",
-    authors: "Philo Bishay, Vivek Rao",
-    body: "Fear of agentic AI is well-founded, but can be mitigated.",
-    href: "https://tesoraai.substack.com/p/actuaries-logical-aversion-to-ai",
+    link: "https://tesoraai.substack.com/p/actuaries-logical-aversion-to-ai",
+    pubDate: "",
+    iso: "",
+    description: "Fear of agentic AI is well-founded, but can be mitigated.",
+    excerpt: "Fear of agentic AI is well-founded, but can be mitigated.",
   },
-  {
-    date: "2026 · MAY",
-    kind: "post",
-    title: "Can AI ever be useful for actuaries? My first 'Wow Factor'",
-    authors: "Philo Bishay",
-    body: "An actuary's frustration with software that never seemed to work.",
-    href: "https://tesoraai.substack.com/",
-  },
+];
+const notes = posts.length > 0 ? posts : fallback;
+
+const milestones = [
   {
     date: "2025 · SEP",
-    kind: "news",
     title: "Tesora completes Y Combinator S25",
     body: "Tesora completed the Y Combinator Summer 2025 cohort focused on AI-native applications for regulated industries.",
     logo: { slug: "y-combinator", alt: "Y Combinator S25" },
@@ -104,50 +110,74 @@ const priorResearch = [
     </div>
   </section>
 
-  {/* Blog — news + writing in one feed */}
+  {/* Notes & announcements — auto-fed by Substack RSS */}
   <section class="mx-auto max-w-[1180px] px-6 md:px-10 py-24" id="blog">
-    <div class="grid md:grid-cols-12 gap-10 mb-12">
-      <div class="md:col-span-4">
-        <p class="eyebrow mb-3">Blog</p>
+    <div class="flex items-end justify-between gap-6 mb-10">
+      <div>
+        <p class="eyebrow mb-3">Notes and announcements</p>
         <h2 class="font-semibold text-[2.5rem] leading-[1.1] tracking-[-0.015em]">
-          Notes and announcements.
+          From the Tesora Substack.
         </h2>
+        <p class="mt-4 text-[1.1875rem] leading-[1.6] text-[var(--fg-muted)] max-w-[640px]">
+          Short pieces from the people building Tesora. Newest first. Updates land here automatically when we publish.
+        </p>
       </div>
-      <p class="md:col-span-8 text-[1.1875rem] leading-[1.6] text-[var(--fg-muted)] mt-2">
-        Short pieces from the people building Tesora, mixed in with company news. Newest first.
-      </p>
+      <a
+        href="https://tesoraai.substack.com"
+        target="_blank"
+        rel="noopener"
+        class="link text-sm whitespace-nowrap hidden md:inline"
+      >
+        All posts →
+      </a>
     </div>
 
-    <div>
-      {blog.map((p) => (
-        <article class="grid md:grid-cols-12 gap-6 md:gap-10 py-8 border-t border-[var(--rule)] first:border-t-0">
-          <div class="md:col-span-3">
-            <p class="font-mono text-xs tracking-[0.18em] text-[var(--fg-muted)] uppercase">{p.date}</p>
-            <p class="mt-2 text-[0.8125rem] text-[var(--fg-muted)]">
-              {p.kind === "news" ? "Tesora" : p.authors}
-            </p>
-            {p.logo && (
-              <img
-                src={u(`/logos/${p.logo.slug}.svg`)}
-                alt={p.logo.alt}
-                class="mt-3 h-4 w-auto opacity-60"
-                style="filter: var(--logo-filter);"
-                loading="lazy"
-              />
-            )}
-          </div>
-          <div class="md:col-span-9">
-            <h3 class="font-semibold text-[1.4375rem] leading-[1.25] tracking-[-0.005em]">{p.title}</h3>
-            <p class="mt-2 text-[0.9375rem] leading-[1.6] text-[var(--fg-muted)]">{p.body}</p>
-            {p.href && (
-              <p class="mt-3">
-                <a href={p.href} class="link text-sm" target="_blank" rel="noopener">Read on Substack →</a>
-              </p>
-            )}
-          </div>
-        </article>
+    <div class="notes-rail" role="list">
+      {notes.map((p) => (
+        <a
+          role="listitem"
+          href={p.link}
+          target="_blank"
+          rel="noopener"
+          class="notes-card"
+        >
+          {p.pubDate && <p class="notes-card__date tabular">{p.pubDate}</p>}
+          <h3 class="notes-card__title">{p.title}</h3>
+          <p class="notes-card__excerpt">{p.excerpt}</p>
+          <span class="notes-card__cta">Read on Substack →</span>
+        </a>
       ))}
     </div>
+
+    <p class="mt-6 text-sm text-[var(--fg-muted)] md:hidden">
+      <a href="https://tesoraai.substack.com" target="_blank" rel="noopener" class="link">All posts on Substack →</a>
+    </p>
+
+    {milestones.length > 0 && (
+      <div class="mt-20">
+        <p class="eyebrow mb-6">Milestones</p>
+        {milestones.map((m) => (
+          <article class="grid md:grid-cols-12 gap-6 md:gap-10 py-8 border-t border-[var(--rule)] first:border-t-0">
+            <div class="md:col-span-3">
+              <p class="font-mono text-xs tracking-[0.18em] text-[var(--fg-muted)] uppercase">{m.date}</p>
+              {m.logo && (
+                <img
+                  src={u(`/logos/${m.logo.slug}.svg`)}
+                  alt={m.logo.alt}
+                  class="mt-3 h-4 w-auto opacity-60"
+                  style="filter: var(--logo-filter);"
+                  loading="lazy"
+                />
+              )}
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="font-semibold text-[1.4375rem] leading-[1.25] tracking-[-0.005em]">{m.title}</h3>
+              <p class="mt-2 text-[0.9375rem] leading-[1.6] text-[var(--fg-muted)]">{m.body}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
   </section>
 
   {/* Prior research */}
@@ -198,3 +228,75 @@ const priorResearch = [
 
   <Footer />
 </Layout>
+
+<style>
+  .notes-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(320px, 360px);
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 4px 18px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--color-oxblood) 40%, transparent) transparent;
+  }
+  .notes-rail::-webkit-scrollbar {
+    height: 8px;
+  }
+  .notes-rail::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-oxblood) 32%, transparent);
+    border-radius: 999px;
+  }
+  .notes-card {
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 24px 24px;
+    background: #ffffff;
+    color: var(--fg);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+  [data-theme="dark"] .notes-card {
+    background: rgba(250, 247, 240, 0.04);
+  }
+  .notes-card:hover {
+    border-color: color-mix(in oklab, var(--color-oxblood) 40%, var(--rule));
+    box-shadow: 0 14px 30px -22px color-mix(in oklab, var(--color-oxblood) 50%, transparent);
+    transform: translateY(-2px);
+  }
+  .notes-card__date {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-oxblood);
+    margin: 0;
+  }
+  .notes-card__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+  .notes-card__excerpt {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--fg-muted);
+    margin: 0;
+    flex: 1;
+  }
+  .notes-card__cta {
+    font-size: 0.8125rem;
+    color: var(--color-oxblood);
+    font-weight: 500;
+    margin-top: 4px;
+  }
+</style>

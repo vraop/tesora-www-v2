@@ -24,20 +24,28 @@ import { u } from "../lib/url";
 
   <section id="roles" class="mx-auto max-w-[1180px] px-6 md:px-10 pt-24 pb-24">
     <p class="eyebrow mb-6">Open roles</p>
-    <div class="waas-wrap">
-      <waas-job-board company="tesora"></waas-job-board>
+    <div class="careers-gate" data-careers-gate>
+      <button type="button" class="careers-gate__btn" data-careers-trigger>
+        <span class="careers-gate__label">View open roles</span>
+        <span class="careers-gate__hint">Double-click to load the Y Combinator job board</span>
+      </button>
+      <div class="careers-gate__panel" data-careers-panel hidden>
+        <div class="waas-wrap">
+          <waas-job-board company="tesora"></waas-job-board>
+        </div>
+        <p class="mt-8 text-sm text-[var(--fg-muted)]">
+          Apply directly above, or write to <a href="mailto:founders@tesora.ai" class="link">founders@tesora.ai</a>. Also live at <a href="https://www.ycombinator.com/companies/tesora/jobs" class="link" target="_blank" rel="noopener">ycombinator.com/companies/tesora/jobs</a>.
+        </p>
+      </div>
     </div>
-    <p class="mt-8 text-sm text-[var(--fg-muted)]">
-      Apply directly above, or write to <a href="mailto:founders@tesora.ai" class="link">founders@tesora.ai</a>. Also live at <a href="https://www.ycombinator.com/companies/tesora/jobs" class="link" target="_blank" rel="noopener">ycombinator.com/companies/tesora/jobs</a>.
-    </p>
   </section>
 
   <section class="mx-auto max-w-[1180px] px-6 md:px-10 py-24 text-center border-t border-[var(--rule)]">
     <h2 class="font-semibold text-[2.125rem] leading-[1.1] tracking-[-0.013em] max-w-[680px] mx-auto">
       Don't see your role?
     </h2>
-    <p class="text-[1.1875rem] leading-[1.6] text-[var(--fg-muted)] mt-5 max-w-[520px] mx-auto">
-      If you've priced specialty lines, run an actuarial team, or built infrastructure for regulated AI, write to us. We hire ahead of the role.
+    <p class="text-[1.1875rem] leading-[1.6] text-[var(--fg-muted)] mt-5 max-w-[640px] mx-auto" style="text-wrap: balance;">
+      Priced specialty lines, run an actuarial team, or built infrastructure for regulated AI? Write to us. We hire ahead of the role.
     </p>
     <div class="mt-8">
       <a href="mailto:founders@tesora.ai" class="btn">founders@tesora.ai</a>
@@ -53,6 +61,67 @@ import { u } from "../lib/url";
     font-family: inherit;
     color: var(--fg);
   }
+  .careers-gate__btn {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    width: 100%;
+    padding: 28px 24px;
+    background: #ffffff;
+    color: var(--fg);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+    user-select: none;
+  }
+  [data-theme="dark"] .careers-gate__btn {
+    background: rgba(250, 247, 240, 0.04);
+  }
+  .careers-gate__btn:hover {
+    border-color: color-mix(in oklab, var(--color-oxblood) 40%, var(--rule));
+    box-shadow: 0 14px 30px -22px color-mix(in oklab, var(--color-oxblood) 50%, transparent);
+  }
+  .careers-gate__label {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .careers-gate__hint {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .careers-gate.is-open .careers-gate__btn {
+    display: none;
+  }
 </style>
 
 <script src="https://www.workatastartup.com/embed/script.js" is:inline defer></script>
+
+<script>
+  (() => {
+    const gates = document.querySelectorAll<HTMLElement>("[data-careers-gate]");
+    gates.forEach((gate) => {
+      const trigger = gate.querySelector<HTMLButtonElement>("[data-careers-trigger]");
+      const panel = gate.querySelector<HTMLElement>("[data-careers-panel]");
+      if (!trigger || !panel) return;
+      const reveal = () => {
+        gate.classList.add("is-open");
+        panel.hidden = false;
+      };
+      trigger.addEventListener("dblclick", reveal);
+      trigger.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          reveal();
+        }
+      });
+    });
+  })();
+</script>

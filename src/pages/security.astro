@@ -94,6 +94,24 @@ const dataPosture = [
     </dl>
   </section>
 
+  <section class="mx-auto max-w-[1180px] px-6 md:px-10 py-12">
+    <a
+      href="https://app.secureframe.com/ext/trust-center/tesora-ai-inc/"
+      target="_blank"
+      rel="noopener"
+      class="trust-center-card"
+    >
+      <div class="trust-center-card__main">
+        <p class="eyebrow mb-2">Trust center</p>
+        <h3 class="trust-center-card__title">Live security posture, controls, and audit reports.</h3>
+        <p class="trust-center-card__body">
+          Our Secureframe Trust Center hosts the SOC 2 report, subprocessor list, and current control status. Procurement teams can request access in one click.
+        </p>
+      </div>
+      <span class="trust-center-card__cta">Open trust center →</span>
+    </a>
+  </section>
+
   <section class="mx-auto max-w-[1180px] px-6 md:px-10 py-16">
     <p class="eyebrow mb-8">Data posture</p>
     <dl class="grid md:grid-cols-2 gap-x-16 gap-y-10">
@@ -122,3 +140,56 @@ const dataPosture = [
 
   <Footer />
 </Layout>
+
+<style>
+  .trust-center-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px 28px 26px;
+    background: #ffffff;
+    color: var(--fg);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+  [data-theme="dark"] .trust-center-card {
+    background: rgba(250, 247, 240, 0.04);
+  }
+  .trust-center-card:hover {
+    border-color: color-mix(in oklab, var(--color-oxblood) 40%, var(--rule));
+    box-shadow: 0 20px 40px -28px color-mix(in oklab, var(--color-oxblood) 50%, transparent);
+    transform: translateY(-2px);
+  }
+  .trust-center-card__title {
+    font-size: 1.4375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+  .trust-center-card__body {
+    margin-top: 8px;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--fg-muted);
+    max-width: 720px;
+  }
+  .trust-center-card__cta {
+    font-size: 0.9375rem;
+    color: var(--color-oxblood);
+    font-weight: 500;
+  }
+  @media (min-width: 768px) {
+    .trust-center-card {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .trust-center-card__cta {
+      white-space: nowrap;
+    }
+  }
+</style>
