@@ -170,6 +170,20 @@ const roles = [
     display: block;
     font-family: inherit;
     color: var(--fg);
+    --waas-font: var(--font-body);
+    --waas-primary: var(--color-oxblood);
+    --waas-border-focus: var(--color-oxblood);
+    --waas-text: var(--fg);
+    --waas-text-color: var(--fg);
+    --waas-bg: var(--bg);
+    --waas-border: var(--rule);
+    --waas-radius: 5px;
+  }
+  [data-theme="dark"] .waas-wrap waas-job-board {
+    --waas-text: var(--color-bone);
+    --waas-text-color: var(--color-bone);
+    --waas-bg: transparent;
+    --waas-border: rgba(250, 247, 240, 0.18);
   }
 </style>
 

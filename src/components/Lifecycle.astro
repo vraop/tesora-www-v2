@@ -162,7 +162,7 @@ const stages = lifecycleStages;
       0 1px 0 rgba(14, 14, 12, 0.02),
       0 10px 28px -24px color-mix(in oklab, var(--lc-accent) 36%, rgba(14, 14, 12, 0.18));
   }
-  [data-theme="dark"] .lifecycle-followup {
+  :global([data-theme="dark"]) .lifecycle-followup {
     background: rgba(250, 247, 240, 0.03);
     border-color: color-mix(in oklab, var(--lc-accent) 24%, rgba(250, 247, 240, 0.12));
     color: var(--color-bone);
@@ -174,7 +174,7 @@ const stages = lifecycleStages;
     letter-spacing: -0.005em;
     color: var(--color-ink, #0e0e0c);
   }
-  [data-theme="dark"] .lifecycle-followup__title {
+  :global([data-theme="dark"]) .lifecycle-followup__title {
     color: var(--color-bone);
   }
   .lifecycle-followup__body {
@@ -183,7 +183,7 @@ const stages = lifecycleStages;
     line-height: 1.45;
     color: var(--color-smoke, #6b6760);
   }
-  [data-theme="dark"] .lifecycle-followup__body {
+  :global([data-theme="dark"]) .lifecycle-followup__body {
     color: rgba(250, 247, 240, 0.72);
   }
 </style>
