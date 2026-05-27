@@ -29,21 +29,23 @@ const { eyebrow, title, intro, layers } = Astro.props;
         <li class="ls-card" data-ls-card={i} style={`--i:${i}; --total:${layers.length}`}>
           <header class="ls-card__head">
             <span class="ls-card__num" aria-hidden="true">{l.num}</span>
-            <div class="ls-card__main">
-              <h3 class="ls-card__title">{l.title}</h3>
-              <p class="ls-card__body">{l.body}</p>
-            </div>
+            <h3 class="ls-card__title">{l.title}</h3>
           </header>
-          {l.bullets && l.bullets.length > 0 && (
-            <ul class="ls-card__bullets">
-              {l.bullets.map((b) => (
-                <li>
-                  <span class="ls-card__dot" aria-hidden="true"></span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div class="ls-card__fold">
+            <div class="ls-card__fold-inner">
+              <p class="ls-card__body">{l.body}</p>
+              {l.bullets && l.bullets.length > 0 && (
+                <ul class="ls-card__bullets">
+                  {l.bullets.map((b) => (
+                    <li>
+                      <span class="ls-card__dot" aria-hidden="true"></span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
         </li>
       ))}
     </ol>
@@ -58,8 +60,10 @@ const { eyebrow, title, intro, layers } = Astro.props;
     --ls-fg: var(--fg, #0E0E0C);
     --ls-muted: var(--fg-muted, #6B6760);
     --ls-sticky-top: 96px;
-    --ls-stagger: 14px;
+    --ls-stagger: 72px;
     --ls-buffer: 56vh;
+    --ls-collapsed: 72px;
+    --ls-expanded: 80vh;
   }
 
   .ls-grid {
@@ -108,8 +112,8 @@ const { eyebrow, title, intro, layers } = Astro.props;
     display: block;
   }
 
-  /* Each card is sticky at a progressively lower top, so later cards
-     overlay earlier cards with a 14px sliver of the previous one showing. */
+  /* Each card is sticky at a progressively lower top so the stack of
+     collapsed prior cards sits as a deck of headers above the active one. */
   .ls-card {
     list-style: none;
     position: sticky;
@@ -124,7 +128,7 @@ const { eyebrow, title, intro, layers } = Astro.props;
       0 1px 0 rgba(14, 14, 12, 0.04),
       0 18px 36px -28px rgba(14, 14, 12, 0.22);
     overflow: hidden;
-    transition: border-color 280ms ease, box-shadow 280ms ease, transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: border-color 280ms ease, box-shadow 280ms ease;
   }
   .ls-card:last-child {
     margin-bottom: 0;
@@ -147,13 +151,28 @@ const { eyebrow, title, intro, layers } = Astro.props;
   .ls-card.is-active::before {
     opacity: 1;
   }
+  /* Collapsed: header stays, fold collapses to 0.
+     Snap, don't animate — the scroll itself is the motion. */
+  .ls-card__fold {
+    overflow: hidden;
+  }
+  .ls-card__fold-inner {
+    padding-bottom: 22px;
+  }
+  .ls-card.is-collapsed .ls-card__fold {
+    display: none;
+  }
+  .ls-card .ls-card__body,
+  .ls-card .ls-card__bullets {
+    transition: opacity 280ms ease 80ms;
+  }
 
   .ls-card__head {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    align-items: start;
+    align-items: center;
     gap: 16px;
-    padding: 22px 26px 18px;
+    padding: 22px 26px 14px;
   }
   .ls-card__num {
     display: inline-flex;
@@ -171,12 +190,6 @@ const { eyebrow, title, intro, layers } = Astro.props;
     color: var(--ls-accent);
     border: 1px solid color-mix(in oklab, var(--ls-accent) 24%, transparent);
   }
-  .ls-card__main {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-  }
   .ls-card__title {
     margin: 0;
     font-size: 1.25rem;
@@ -187,6 +200,7 @@ const { eyebrow, title, intro, layers } = Astro.props;
   }
   .ls-card__body {
     margin: 0;
+    padding: 0 26px 0 80px;
     font-size: 0.9375rem;
     line-height: 1.55;
     color: var(--ls-muted);
@@ -195,7 +209,7 @@ const { eyebrow, title, intro, layers } = Astro.props;
   .ls-card__bullets {
     list-style: none;
     margin: 0;
-    padding: 4px 26px 22px 80px;
+    padding: 10px 26px 0 80px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 10px 22px;
@@ -260,9 +274,10 @@ const { eyebrow, title, intro, layers } = Astro.props;
       const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-ls-card]"));
       if (!cards.length) continue;
 
-      const setActive = (idx: number) => {
+      const setState = (idx: number) => {
         cards.forEach((c, i) => {
           c.classList.toggle("is-active", i === idx);
+          c.classList.toggle("is-collapsed", i < idx);
         });
       };
 
@@ -273,10 +288,10 @@ const { eyebrow, title, intro, layers } = Astro.props;
           const stickyTop = parseFloat(getComputedStyle(card).top) || 96;
           if (rect.top <= stickyTop + 2) activeIndex = i;
         });
-        setActive(activeIndex);
+        setState(activeIndex);
       };
 
-      setActive(0);
+      setState(0);
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onScroll);
       onScroll();
