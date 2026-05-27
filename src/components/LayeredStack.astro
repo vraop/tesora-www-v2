@@ -52,6 +52,14 @@ const { eyebrow, title, intro, layers } = Astro.props;
   </div>
 </section>
 
+<style is:global>
+  /* Enable page-level snap only when a LayeredStack is on the page.
+     `proximity` lets users scroll freely; the page only "catches" near snap points. */
+  html:has([data-ls]) {
+    scroll-snap-type: y proximity;
+  }
+</style>
+
 <style>
   .ls {
     --ls-accent: var(--color-oxblood, #B400FE);
@@ -113,13 +121,16 @@ const { eyebrow, title, intro, layers } = Astro.props;
   }
 
   /* Each card is sticky at a progressively lower top so the stack of
-     collapsed prior cards sits as a deck of headers above the active one. */
+     collapsed prior cards sits as a deck of headers above the active one.
+     scroll-snap-align makes the page pause at each card as it locks in. */
   .ls-card {
     list-style: none;
     position: sticky;
     top: calc(var(--ls-sticky-top) + var(--i) * var(--ls-stagger));
     margin-bottom: var(--ls-buffer);
     z-index: calc(var(--i) + 1);
+    scroll-snap-align: start;
+    scroll-margin-top: calc(var(--ls-sticky-top) + var(--i) * var(--ls-stagger));
 
     background: var(--ls-card-bg);
     border: 1px solid var(--ls-rule);
