@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440, user-scalable=yes" />
+<title>Tesora · TAM Analysis · Specialty P&C Actuarial</title>
+<style>
+  :root {
+    --ink: #051C2C;
+    --paper: #ffffff;
+    --canvas: #e7e8ea;
+    --muted: #6b6f76;
+    --soft: #9aa0a6;
+    --rule: #d9dce0;
+    --rule-2: #eceef0;
+    --accent: #2251FF;
+    --accent-soft: #e8edff;
+    --accent-deep: #1638b3;
+    --gold: #2251FF;
+    --gold-soft: #e8edff;
+    --gold-deep: #1638b3;
+    --purple: #2251FF;
+    --purple-soft: #e8edff;
+    --green: #1b6e44;
+    --red: #a33b2a;
+    --bar-1: #051C2C;
+    --bar-2: #2251FF;
+    --bar-3: #7a8ca8;
+    --bar-4: #c8cdd5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--canvas); color: var(--ink); }
+  body {
+    font-family: "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    font-feature-settings: "tnum", "lnum";
+    -webkit-font-smoothing: antialiased;
+    padding: 28px 0 60px;
+  }
+
+  /* PAGE -16:9 widescreen, larger on-screen rendering */
+  .page {
+    width: 1440px;
+    height: 810px;
+    background: var(--paper);
+    margin: 0 auto 28px;
+    padding: 52px 72px 46px;
+    position: relative;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 10px 30px rgba(5,28,44,0.12);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    font-size: 15px;
+    border-top: 4px solid var(--accent);
+  }
+  @media print {
+    .page { width: 13.33in; height: 7.5in; padding: 0.45in 0.6in 0.4in; font-size: 11px; }
+  }
+
+  /* TOP STRIP */
+  .strip {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ink);
+    flex-shrink: 0;
+  }
+  .strip .left { display: flex; align-items: center; gap: 18px; }
+  .strip .logo {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--ink); font-weight: 700; letter-spacing: 0; text-transform: none; font-size: 18px;
+  }
+  .strip .logo .mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px;
+    background: var(--ink); color: #fff;
+    font-size: 13px; font-weight: 700; line-height: 1;
+    border-radius: 2px;
+    -webkit-print-color-adjust: exact;
+  }
+  .strip .slug { color: var(--muted); }
+  .strip .right { color: var(--muted); }
+
+  /* HEADLINE -action title (the McKinsey thing) */
+  .ah {
+    padding: 16px 0 10px;
+    flex-shrink: 0;
+  }
+  .ah .eyebrow {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--purple); font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .ah h1 {
+    margin: 0;
+    font-size: 28px; line-height: 1.2;
+    font-weight: 700; letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 1280px;
+  }
+  .ah h1 em { font-style: normal; color: var(--accent); }
+  .ah h1.lg { font-size: 34px; line-height: 1.14; }
+  .ah .sub {
+    margin-top: 10px;
+    font-size: 17px; color: var(--muted); line-height: 1.45;
+    max-width: 1200px;
+  }
+
+  /* EXHIBIT label row */
+  .exhibit-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: 18px 0 12px;
+  }
+  .exhibit-row .exb {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .exhibit-row .exb b { color: var(--ink); }
+  .exhibit-row .unit { font-size: 12px; color: var(--muted); font-style: italic; }
+
+  /* BODY */
+  .body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+  /* Footer */
+  .foot {
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+    margin-top: auto;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 12px; color: var(--muted);
+    flex-shrink: 0;
+  }
+  .foot .src { max-width: 1100px; line-height: 1.45; }
+  .foot .pg { font-weight: 700; color: var(--ink); letter-spacing: 0.12em; font-size: 13px; }
+
+  .comp-strip {
+    margin-top: 10px;
+    border: 1px solid var(--rule);
+    background: var(--rule-2);
+    padding: 8px 12px;
+    display: flex; align-items: center; gap: 14px;
+    font-size: 10.5px; line-height: 1.3;
+    flex-shrink: 0;
+  }
+  .comp-strip .k {
+    font-weight: 700; color: var(--purple);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .comp-strip .items { display: flex; gap: 10px; flex-wrap: wrap; color: var(--ink); }
+  .comp-strip .items b { color: var(--ink); font-weight: 700; }
+  .comp-strip .items span { color: var(--muted); }
+
+  .voc-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px;
+    flex: 1; min-height: 0;
+  }
+  .voc-card {
+    background: var(--rule-2);
+    border-left: 4px solid var(--purple);
+    padding: 14px 16px 12px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .voc-card.accent { border-left-color: var(--accent); }
+  .voc-card.gold { border-left-color: var(--gold); }
+  .voc-card .tag {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--purple); font-weight: 700;
+  }
+  .voc-card.accent .tag { color: var(--accent); }
+  .voc-card.gold .tag { color: var(--gold); }
+  .voc-card .quote {
+    font-size: 14px; line-height: 1.42; color: var(--ink);
+    font-style: italic;
+  }
+  .voc-card .quote b { font-style: normal; color: var(--ink); }
+  .voc-card .attribution {
+    font-size: 11px; color: var(--muted); line-height: 1.35;
+    border-top: 1px solid var(--rule);
+    padding-top: 6px;
+    margin-top: auto;
+  }
+  .voc-card .attribution b { color: var(--ink); font-weight: 700; }
+  .voc-summary {
+    grid-column: 1 / -1;
+    background: var(--ink); color: #fff;
+    padding: 12px 16px;
+    display: flex; gap: 18px; align-items: center;
+    -webkit-print-color-adjust: exact;
+  }
+  .voc-summary .k {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; white-space: nowrap;
+  }
+  .voc-summary .v { font-size: 13px; line-height: 1.45; color: #fff; }
+  .voc-summary .v b { color: var(--gold); font-weight: 700; }
+
+  /* ============= COVER ============= */
+  .cover { background: var(--ink); color: #fff; }
+  .cover .strip { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.7); }
+  .cover .strip .logo { color: #fff; }
+  .cover .strip .logo .mark { background: #fff; color: var(--ink); }
+  .cover .cv-inner {
+    flex: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 20px 0;
+    min-height: 0;
+  }
+  .cover .cv-title {
+    font-size: 84px; line-height: 1; font-weight: 700;
+    letter-spacing: -0.04em; color: #fff;
+    margin-bottom: 28px;
+    background: linear-gradient(90deg, #fff 0%, #fff 40%, var(--purple) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cover .cv-eyebrow {
+    font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .cover h1 {
+    font-size: 64px; line-height: 1.04;
+    margin: 0 0 22px;
+    font-weight: 700; letter-spacing: -0.025em;
+    max-width: 1280px;
+  }
+  .cover h1 .accent { color: var(--gold); }
+  .cover .cv-sub {
+    font-size: 20px; line-height: 1.4;
+    color: rgba(255,255,255,0.78);
+    max-width: 1050px;
+    margin-bottom: 32px;
+  }
+  .cover .cv-meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+    padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.2);
+    max-width: 1280px;
+  }
+  .cover .cv-meta .item .k {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 6px;
+  }
+  .cover .cv-meta .item .v { font-size: 18px; color: #fff; font-weight: 500; }
+  .cover .foot { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
+  .cover .foot .pg { color: #fff; }
+
+  /* ============= EXEC SUMMARY ============= */
+  .es-grid {
+    display: grid; grid-template-columns: 1.55fr 1fr; gap: 32px;
+    flex: 1; min-height: 0;
+  }
+  .es-bullets { display: flex; flex-direction: column; gap: 8px; }
+  .es-bullet {
+    display: grid; grid-template-columns: 38px 1fr; gap: 14px;
+    padding: 10px 16px;
+    background: var(--rule-2);
+    border-left: 4px solid var(--accent);
+  }
+  .es-bullet .n {
+    font-size: 26px; font-weight: 700; color: var(--accent);
+    line-height: 1;
+  }
+  .es-bullet .t { font-size: 14px; color: var(--ink); line-height: 1.42; }
+  .es-bullet .t b { color: var(--ink); }
+
+  .es-kpi {
+    background: var(--ink); color: #fff;
+    padding: 20px 22px;
+    display: flex; flex-direction: column; gap: 10px;
+    -webkit-print-color-adjust: exact;
+  }
+  .es-kpi .kpi-head {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700;
+  }
+  .es-kpi .kpi-row {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 7px 0;
+    border-top: 1px solid rgba(255,255,255,0.18);
+  }
+  .es-kpi .kpi-row:first-of-type { border-top: 0; padding-top: 0; }
+  .es-kpi .kpi-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); font-weight: 600; }
+  .es-kpi .kpi-v { font-size: 34px; font-weight: 700; letter-spacing: -0.015em; line-height: 1; }
+  .es-kpi .kpi-v .sm { font-size: 15px; color: rgba(255,255,255,0.7); font-weight: 500; margin-left: 6px; }
+  .es-kpi .kpi-sub { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.4; }
+
+  /* ============= GENERIC TWO-COL ============= */
+  .two-col { display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px; flex: 1; min-height: 0; }
+  .two-col.left-wide { grid-template-columns: 1.5fr 1fr; }
+  .col h3 {
+    margin: 0 0 12px;
+    font-size: 18px; font-weight: 700; letter-spacing: -0.005em;
+    color: var(--ink);
+  }
+  .col p { font-size: 15px; line-height: 1.5; color: var(--ink); margin: 0 0 10px; }
+  .col p.muted { color: var(--muted); }
+
+  /* TABLES */
+  table.mc {
+    width: 100%; border-collapse: collapse;
+    font-size: 15px; color: var(--ink);
+  }
+  table.mc th, table.mc td {
+    padding: 11px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+  }
+  table.mc thead th {
+    background: var(--ink); color: #fff;
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 600;
+    -webkit-print-color-adjust: exact;
+  }
+  table.mc td.num, table.mc th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.mc tr.total td {
+    background: var(--rule-2); font-weight: 700;
+    border-bottom: 2px solid var(--ink);
+  }
+  table.mc tr.sub td { background: #fafbfc; }
+  table.mc td.note { font-size: 13px; color: var(--muted); }
+
+  /* FUNNEL */
+  .funnel { display: flex; flex-direction: column; gap: 9px; }
+  .funnel .step {
+    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: stretch;
+  }
+  .funnel .bar {
+    background: var(--bar-1); color: #fff;
+    padding: 16px 20px;
+    display: flex; flex-direction: column; gap: 4px;
+    -webkit-print-color-adjust: exact;
+  }
+  .funnel .bar .b-k { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.75); font-weight: 600; }
+  .funnel .bar .b-v { font-size: 22px; font-weight: 700; }
+  .funnel .bar .b-v .sm { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.7); margin-left: 10px; }
+  .funnel .step.s2 .bar { background: #11304a; }
+  .funnel .step.s3 .bar { background: #1d4a6f; }
+  .funnel .step.s4 .bar { background: var(--accent); }
+  .funnel .step.s5 .bar { background: var(--gold); color: var(--ink); }
+  .funnel .step.s5 .bar .b-k { color: rgba(5,28,44,0.6); }
+  .funnel .step.s5 .bar .b-v .sm { color: rgba(5,28,44,0.6); }
+  .funnel .cut {
+    display: flex; flex-direction: column; justify-content: center;
+    font-size: 13px; color: var(--muted); padding-left: 10px;
+    min-width: 290px; line-height: 1.45;
+  }
+  .funnel .cut b { color: var(--ink); font-weight: 600; }
+
+  /* DOLLAR BARS */
+  .bar-chart { display: flex; flex-direction: column; gap: 22px; }
+  .bar-row { display: grid; grid-template-columns: 220px 1fr 130px; gap: 18px; align-items: center; }
+  .bar-row .lbl { font-size: 15px; font-weight: 600; }
+  .bar-row .lbl .lbl-sub { display: block; font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 3px; }
+  .bar-row .track { background: var(--rule-2); height: 36px; position: relative; }
+  .bar-row .fill {
+    height: 100%; background: var(--ink);
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 12px;
+    color: #fff; font-size: 14px; font-weight: 700;
+    -webkit-print-color-adjust: exact;
+  }
+  .bar-row.b1 .fill { background: var(--bar-1); width: 48%; }
+  .bar-row.b2 .fill { background: var(--accent); width: 72%; }
+  .bar-row.b3 .fill { background: var(--gold); color: var(--ink); width: 100%; }
+  .bar-row .val { font-size: 20px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* PYRAMID */
+  .pyramid { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0; }
+  .pyramid .lvl {
+    color: #fff;
+    padding: 18px 24px;
+    text-align: center;
+    -webkit-print-color-adjust: exact;
+  }
+  .pyramid .lvl .k { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; opacity: 0.75; }
+  .pyramid .lvl .v { font-size: 28px; font-weight: 700; margin-top: 4px; letter-spacing: -0.01em; }
+  .pyramid .lvl .s { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .pyramid .l1 { width: 92%; background: var(--bar-3); }
+  .pyramid .l2 { width: 70%; background: var(--accent); }
+  .pyramid .l3 { width: 42%; background: var(--gold); color: var(--ink); }
+  .pyramid .l3 .k { opacity: 0.65; }
+  .pyramid .l3 .s { opacity: 0.7; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    font-size: 14px; line-height: 1.5;
+  }
+  .callout .k {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .callout.gold { background: var(--gold-soft); border-color: var(--gold); }
+  .callout.gold .k { color: var(--gold-deep); }
+
+  /* WHAT'S EXCLUDED / EXPANSION -card grid */
+  .excl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .excl-card {
+    border: 1px solid var(--rule);
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .excl-card .k { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .excl-card h4 { margin: 0; font-size: 14px; font-weight: 700; }
+  .excl-card .v { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.01em; }
+  .excl-card .d { font-size: 11px; color: var(--muted); line-height: 1.38; }
+
+  /* CLOSE PAGE */
+  .close-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; flex: 1; min-height: 0; }
+  .close-grid blockquote {
+    margin: 0;
+    font-size: 22px; line-height: 1.34;
+    font-weight: 500; letter-spacing: -0.01em;
+    color: var(--ink);
+    border-left: 4px solid var(--gold);
+    padding: 6px 0 6px 20px;
+  }
+  .close-grid blockquote .accent { color: var(--accent); font-weight: 700; }
+  .close-grid .who {
+    font-size: 13px; color: var(--muted); margin-top: 16px;
+  }
+  .close-stack { display: flex; flex-direction: column; gap: 4px; }
+  .close-stack .row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    font-size: 13px;
+  }
+  .close-stack .row .k { color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-size: 11px; font-weight: 700; }
+  .close-stack .row .v { font-weight: 700; font-size: 17px; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  /* LOGO GRIDS -addressable universes made tangible */
+  .logo-section { margin-bottom: 0; }
+  .logo-section .ls-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 7px; margin-bottom: 10px;
+  }
+  .logo-section .ls-head .name {
+    font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em;
+  }
+  .logo-section .ls-head .name b { color: var(--accent); }
+  .logo-section .ls-head .count {
+    font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .logo-section .ls-head .count b { color: var(--ink); }
+
+  .logo-grid {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
+  }
+  .logo-grid.cols-7 { grid-template-columns: repeat(7, 1fr); }
+  .logo-grid.cols-6 { grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .logo-tile {
+    background: #fff;
+    border: 1px solid var(--rule);
+    height: 46px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2px 4px 1px;
+    position: relative;
+    overflow: hidden;
+    gap: 1px;
+  }
+  .excl-card .logo-tile { height: 32px; padding: 2px 4px 1px; gap: 1px; }
+  .excl-card .logo-tile img { max-height: 13px; }
+  .excl-card .logo-tile .fb { font-size: 6.5px; }
+  .logo-tile img {
+    max-width: 100%; max-height: 18px;
+    object-fit: contain;
+  }
+  .logo-tile .fb {
+    display: block;
+    font-size: 8.5px; font-weight: 600; color: var(--ink-2); text-align: center;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    max-width: 100%;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .logo-tile.error img { display: none; }
+  .logo-tile.error .fb { font-size: 11px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em; white-space: normal; line-height: 1.15; }
+  .logo-tile.more {
+    background: var(--ink); color: #fff;
+    flex-direction: column;
+    -webkit-print-color-adjust: exact;
+    gap: 2px;
+  }
+  .logo-tile.more .n { font-size: 18px; line-height: 1; font-weight: 700; letter-spacing: -0.01em; }
+  .logo-tile.more .s { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.7); font-weight: 700; }
+  /* Called = Tesora has a prospect call on file */
+  .logo-tile.called { border-color: var(--purple); box-shadow: inset 0 0 0 1px var(--purple); }
+  .logo-tile.called::after {
+    content: ""; position: absolute; top: 3px; right: 3px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--purple);
+    -webkit-print-color-adjust: exact;
+  }
+  .called-legend {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .called-legend::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--purple);
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* SHARE OF WALLET visual */
+  .sow-bar {
+    position: relative; height: 44px;
+    background: var(--rule-2);
+    margin: 8px 0 6px;
+    -webkit-print-color-adjust: exact;
+  }
+  .sow-bar .sow-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: flex-start;
+    padding-left: 12px;
+    color: #fff; font-size: 14px; font-weight: 700;
+    -webkit-print-color-adjust: exact;
+  }
+  .sow-bar .sow-rest {
+    position: absolute; right: 12px; top: 0; bottom: 0;
+    display: flex; align-items: center;
+    color: var(--muted); font-size: 13px; font-weight: 600;
+  }
+  .sow-row .lbl { font-size: 13px; font-weight: 600; }
+  .sow-row .lbl-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; margin: 0; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. COVER
+============================================================ -->
+<section class="page cover">
+  <div class="strip">
+    <div class="left">
+      <span class="logo"><span class="mark">T</span> Tesora</span>
+      <span>·</span>
+      <span class="slug">Market Analysis · Independent View</span>
+    </div>
+    <div class="right">US Specialty P&amp;C Actuarial · 2026</div>
+  </div>
+
+  <div class="cv-inner">
+    <div class="cv-title">Tesora</div>
+    <div class="cv-eyebrow">MARKET SIZING · WORKFLOW SPEND TAM · US FOCUS</div>
+    <h1>US specialty P&amp;C actuarial workflow spend totals <span class="accent">~$750M annually</span> across the qualified carrier universe, expanding to <span class="accent">$9B+</span> across adjacent US insurance and global specialty.</h1>
+    <div class="cv-sub">
+      A defensible, bottom-up sizing of the labor, consulting, and tooling spend currently consumed by the specialty P&amp;C actuarial function: the workflow a specialty-actuarial software vendor such as Tesora addresses, with named carriers in every sub-segment.
+    </div>
+
+    <div class="cv-meta">
+      <div class="item"><div class="k">Coverage</div><div class="v">US Specialty P&amp;C</div></div>
+      <div class="item"><div class="k">Date</div><div class="v">May 2026</div></div>
+      <div class="item"><div class="k">Methodology</div><div class="v">Bottom-up, carrier-by-carrier</div></div>
+      <div class="item"><div class="k">Posture</div><div class="v">Conservative floor, not ceiling</div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="src">Sources: NAIC, WSIA, AM Best, RAA, SOA/CAS salary survey; Tesora POC pricing anchors; carrier 10-Ks and annual reports</div>
+    <div class="pg">01 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     2. EXECUTIVE SUMMARY
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Specialty P&amp;C Actuarial</span></div>
+    <div class="right">Executive Summary</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">EXECUTIVE SUMMARY · MARKET SPEND</div>
+    <h1 class="lg">The US specialty P&amp;C actuarial workflow market is <em>~$750M / year</em>, labor + consulting + tooling spend at 157 qualified carriers, with <em>$9B+</em> of adjacent expansion behind it.</h1>
+  </div>
+
+  <div class="body">
+    <div class="es-grid">
+      <div class="es-bullets">
+        <div class="es-bullet">
+          <div class="n">1</div>
+          <div class="t"><b>This is a spend-replacement market, not a SaaS-line TAM.</b> The category addresses the labor, consulting, and tooling carriers already spend to do pricing and reserving. The number to size is that incumbent spend, not the SaaS line items vendors currently invoice.</div>
+        </div>
+        <div class="es-bullet">
+          <div class="n">2</div>
+          <div class="t"><b>US specialty P&amp;C universe = 295 carriers, ~157 qualified.</b> E&amp;S (150) + specialty admitted (120) + reinsurers (25). After filters for in-house credentialed actuarial, GWP scale, and contractability: <b>157 buyable carriers</b>.</div>
+        </div>
+        <div class="es-bullet">
+          <div class="n">3</div>
+          <div class="t"><b>Per-carrier spend is $4.5M / year.</b> Avg 10 credentialed actuaries × $325K fully loaded = $3.25M labor, plus ~$800K consulting and ~$450K tooling. Across 157 carriers that totals <b>~$750M of annual workflow spend addressable to a specialty-actuarial software vendor</b>.</div>
+        </div>
+        <div class="es-bullet">
+          <div class="n">4</div>
+          <div class="t"><b>Adjacent expansion brings the category to $9B+.</b> US standard P&amp;C, US life &amp; health actuarial, big-4 consulting channel, global specialty, and adjacent modules each open with a discrete motion change.</div>
+        </div>
+      </div>
+
+      <aside class="es-kpi">
+        <div class="kpi-head">HEADLINE NUMBERS · US FOCUS</div>
+        <div class="kpi-row">
+          <div class="kpi-k">TAM · US Specialty P&amp;C Workflow Spend</div>
+          <div class="kpi-v">$750M<span class="sm">/ yr</span></div>
+          <div class="kpi-sub">157 qualified carriers × $4.5M avg actuarial spend</div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-k">Full Universe · US Specialty P&amp;C</div>
+          <div class="kpi-v">$1.1B<span class="sm">/ yr</span></div>
+          <div class="kpi-sub">295 carriers before qualification filters</div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-k">Adjacent Expansion · US + Global</div>
+          <div class="kpi-v">$9B+<span class="sm">/ yr</span></div>
+          <div class="kpi-sub">US standard, L&amp;H, EU/UK, APAC, consulting channel</div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-k">Year-1 SOM · Share of Wallet</div>
+          <div class="kpi-v">$1.3M<span class="sm">ARR</span></div>
+          <div class="kpi-sub">~10 logos × $120K = ~2.6% of customer actuarial spend</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="src">Labor cost anchor: SOA/CAS 2024 salary survey + fully-loaded multiplier from Tesora POC deck ($325K / credentialed actuary). Consulting/tooling spend: estimated from carrier 10-K disclosures + Milliman/WTW/Verisk pricing benchmarks.</div>
+    <div class="pg">02 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     3. WHAT WE SELL -unit of analysis
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Unit of Analysis</span></div>
+    <div class="right">Product &amp; Unit of Analysis</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">FRAMING · UNIT OF ANALYSIS</div>
+    <h1>Tesora prices on two axes: per-seat licenses for credentialed actuaries plus a usage fee on gross written premium (GWP) flowing through Tesora-built raters. The <em>specialty P&amp;C carrier with in-house pricing &amp; reserving</em> is the atomic unit of this TAM build.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 1</b> · Product, pricing, and buyer</div>
+    <div class="unit">All figures from Tesora POC deck and Workbench one-pager</div>
+  </div>
+
+  <div class="body">
+    <div class="two-col">
+      <div class="col">
+        <table class="mc">
+          <thead>
+            <tr><th>Dimension</th><th>Current offering</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Product</b></td><td>Tesora Workbench, single-tenant VPC for production</td></tr>
+            <tr><td><b>POC</b></td><td>$20K, 2 weeks, refundable 1:1 against year-one production</td></tr>
+            <tr><td><b>Production ACV</b></td><td>"Low six figures annually", sized at $120K conservative</td></tr>
+            <tr><td><b>Lever 1: Seats</b></td><td>Named credentialed actuaries, banded by team size</td></tr>
+            <tr><td><b>Lever 2: GWP fee</b></td><td>% of annual GWP quoted, bound, or filed through Tesora-built raters; scales with carrier size</td></tr>
+            <tr><td><b>Primary buyer</b></td><td>Chief Actuary, Head of Pricing, Appointed Actuary, CRO</td></tr>
+            <tr><td><b>Power user</b></td><td>1–3 credentialed actuaries per carrier</td></tr>
+            <tr class="total"><td>Unit of TAM</td><td>1 specialty P&amp;C carrier with in-house pricing &amp; reserving = 1 count; TAM = sum across all qualified carriers</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col">
+        <h3>Why "specialty carrier with in-house actuarial" is the right unit</h3>
+        <p>Carriers that outsource pricing to consultants buy through that consultant, not directly. MGAs without credentialed actuaries buy through their fronting carrier. Captive insurers under $25M GWP can't justify six-figure tooling. Each of these is real volume, none of them is the unit being sized here.</p>
+
+        <div class="callout" style="margin-top: 12px;">
+          <div class="k">PRICING ANCHOR · COMPETITIVE BAND</div>
+          Generic AI assistants run ~$25K / yr for a 70-person team. Coding agents run ~$125K / yr for the same team. Tesora's "low six figures" sits in the middle of that band for a specialized actuarial workflow tool. We size at the floor of that band.
+        </div>
+
+        <div class="callout gold" style="margin-top: 10px;">
+          <div class="k">SEAT DENSITY · CALIBRATION</div>
+          Mid-sized specialty carriers run 6–10 credentialed actuaries when capital, cat, and reserving are included. The pricing-and-reserving wedge addresses 3–8 of them; this analysis conservatively sizes at 4 seats per carrier.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="src">Source: docs/sales/poc-proposal-deck.html; docs/sales/workbench-one-pager.html; Tesora newsletter-contacts research</div>
+    <div class="pg">03 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     4. UNIVERSE -US, 295 carriers, with logos
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Universe · US Specialty P&amp;C</span></div>
+    <div class="right">295 Carriers, 3 Sub-Segments</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">UNIVERSE · US SPECIALTY P&amp;C · 295 CARRIERS</div>
+    <h1>The US specialty P&amp;C universe is <em>295 named carriers</em> across three sub-segments, and every one of them is a real, identifiable buyer with credentialed actuaries on staff.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 2</b> · US specialty P&amp;C universe · representative carriers shown by sub-segment</div>
+    <div class="unit"><span class="called-legend">Tesora prospect call on file</span></div>
+  </div>
+
+  <div class="body" style="gap: 8px;">
+
+    <!-- E&S -->
+    <div class="logo-section">
+      <div class="ls-head">
+        <div class="name">US Excess &amp; Surplus (E&amp;S) Carriers · <b>150</b></div>
+        <div class="count">Source: <b>AM Best / WSIA active E&amp;S writers</b></div>
+      </div>
+      <div class="logo-grid">
+        <div class="logo-tile"><img src="https://img.logo.dev/markel.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Markel" onerror="this.style.display='none'"><span class="fb">Markel</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/bhspecialty.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="BHSI" onerror="this.style.display='none'"><span class="fb">BHSI</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/aig.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="AIG" onerror="this.style.display='none'"><span class="fb">AIG</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/wrberkley.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="W.R. Berkley" onerror="this.style.display='none'"><span class="fb">W.R. Berkley</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/archgroup.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Arch Capital" onerror="this.style.display='none'"><span class="fb">Arch Capital</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/zurichna.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Zurich NA" onerror="this.style.display='none'"><span class="fb">Zurich NA</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/libertymutual.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Liberty Mutual" onerror="this.style.display='none'"><span class="fb">Liberty Specialty</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/nationwide.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Nationwide E&S" onerror="this.style.display='none'"><span class="fb">Nationwide E&amp;S</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/hiscoxgroup.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Hiscox USA" onerror="this.style.display='none'"><span class="fb">Hiscox USA</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/beazley.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Beazley" onerror="this.style.display='none'"><span class="fb">Beazley</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/rsui.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="RSUI" onerror="this.style.display='none'"><span class="fb">RSUI</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/argogroup.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Argo" onerror="this.style.display='none'"><span class="fb">Argo</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/ascotgroup.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Ascot" onerror="this.style.display='none'"><span class="fb">Ascot</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/hiig.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="HIIG" onerror="this.style.display='none'"><span class="fb">HIIG</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/hudsoninsgroup.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Hudson" onerror="this.style.display='none'"><span class="fb">Hudson</span></div>
+        <div class="logo-tile more"><div class="n">+135</div><div class="s">more E&amp;S</div></div>
+      </div>
+    </div>
+
+    <!-- Specialty Admitted -->
+    <div class="logo-section">
+      <div class="ls-head">
+        <div class="name">US Specialty Admitted · <b>120</b></div>
+        <div class="count">Workers comp · cyber · marine · aviation · energy · professional · environmental</div>
+      </div>
+      <div class="logo-grid">
+        <div class="logo-tile"><img src="https://img.logo.dev/chubb.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Chubb" onerror="this.style.display='none'"><span class="fb">Chubb</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/travelers.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Travelers" onerror="this.style.display='none'"><span class="fb">Travelers</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/thehartford.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="The Hartford" onerror="this.style.display='none'"><span class="fb">The Hartford</span></div>
+        <div class="logo-tile called"><img src="https://img.logo.dev/tokiomarinehd.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Tokio Marine" onerror="this.style.display='none'"><span class="fb">Tokio Marine</span></div>
+        <div class="logo-tile called"><img src="https://img.logo.dev/skywardinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Skyward Specialty" onerror="this.style.display='none'"><span class="fb">Skyward Specialty</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/westfieldinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Westfield Specialty" onerror="this.style.display='none'"><span class="fb">Westfield Specialty</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/selective.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Selective" onerror="this.style.display='none'"><span class="fb">Selective</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/employers.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Employers" onerror="this.style.display='none'"><span class="fb">Employers</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/coalitioninc.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Coalition" onerror="this.style.display='none'"><span class="fb">Coalition</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/at-bay.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="At-Bay" onerror="this.style.display='none'"><span class="fb">At-Bay</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/pieinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Pie" onerror="this.style.display='none'"><span class="fb">Pie Insurance</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/vouch.us?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Vouch" onerror="this.style.display='none'"><span class="fb">Vouch</span></div>
+        <div class="logo-tile called"><img src="https://img.logo.dev/accelins.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Accelerant" onerror="this.style.display='none'"><span class="fb">Accelerant</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/bowheadspecialty.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Bowhead Specialty" onerror="this.style.display='none'"><span class="fb">Bowhead</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/vantageins.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Vantage" onerror="this.style.display='none'"><span class="fb">Vantage</span></div>
+        <div class="logo-tile more"><div class="n">+105</div><div class="s">more specialty</div></div>
+      </div>
+    </div>
+
+    <!-- Reinsurers -->
+    <div class="logo-section">
+      <div class="ls-head">
+        <div class="name">US Reinsurers · <b>25</b></div>
+        <div class="count">Source: <b>Reinsurance Association of America + Bermuda US-licensed</b></div>
+      </div>
+      <div class="logo-grid">
+        <div class="logo-tile"><img src="https://img.logo.dev/munichre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Munich Re" onerror="this.style.display='none'"><span class="fb">Munich Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/swissre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Swiss Re" onerror="this.style.display='none'"><span class="fb">Swiss Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/genre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Gen Re" onerror="this.style.display='none'"><span class="fb">Gen Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/transre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="TransRe" onerror="this.style.display='none'"><span class="fb">TransRe</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/everestre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Everest Re" onerror="this.style.display='none'"><span class="fb">Everest Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/renaissancere.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="RenaissanceRe" onerror="this.style.display='none'"><span class="fb">RenaissanceRe</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/odysseyre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Odyssey Re" onerror="this.style.display='none'"><span class="fb">Odyssey Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/partnerre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="PartnerRe" onerror="this.style.display='none'"><span class="fb">PartnerRe</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/hannover-re.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Hannover Re" onerror="this.style.display='none'"><span class="fb">Hannover Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/scor.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="SCOR" onerror="this.style.display='none'"><span class="fb">SCOR US</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/aspen.co?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Aspen Re" onerror="this.style.display='none'"><span class="fb">Aspen Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/axisre.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="AXIS Re" onerror="this.style.display='none'"><span class="fb">AXIS Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/canopius.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Canopius" onerror="this.style.display='none'"><span class="fb">Canopius</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/qbe.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="QBE Re" onerror="this.style.display='none'"><span class="fb">QBE Re</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/sirius-group.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="SiriusPoint" onerror="this.style.display='none'"><span class="fb">SiriusPoint</span></div>
+        <div class="logo-tile more"><div class="n">+10</div><div class="s">more reinsurers</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="comp-strip">
+    <span class="k">Known vendor landscape</span>
+    <span class="items">
+      <span><b>Effective AI Labs</b> (Seed · competitor research)</span><span>·</span>
+      <span><b>Akur8</b> (Series C · loss modeling)</span><span>·</span>
+      <span><b>Hyperexponential</b> (Series B · rater deployment)</span><span>·</span>
+      <span><b>Kalepa</b> (Series A · underwriting)</span><span>·</span>
+      <span><b>Further AI</b> (Series A · underwriting)</span>
+    </span>
+  </div>
+
+  <div class="foot">
+    <div class="src">Sources: NAIC 2025 P&amp;C registrants; WSIA active member list; AM Best Specialty P&amp;C report 2025; Reinsurance Association of America 2025 member list. Logos shown are representative; total of 295 named carriers identified across the three sub-segments.</div>
+    <div class="pg">04 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5. FORWARD-LEANING SUB-UNIVERSE · NEXT-GEN MGAS & FRONTING
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Forward-leaning slice</span></div>
+    <div class="right">~25 next-gen MGAs &amp; fronting carriers</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">FORWARD-LEANING SUB-UNIVERSE · NEXT-GEN MGAs &amp; FRONTING CARRIERS</div>
+    <h1>A forward-leaning slice of <em>~25 next-gen MGAs and fronting carriers</em> sits at the front of the AI-adoption curve; conservatively this represents ~$30M of incremental workflow spend behind the headline $750M, partially overlapping the 295 main universe, and is where Effective AI Labs competes most directly today.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 3</b> · Forward-leaning sub-universe · MGAs and fronting carriers with in-house pricing</div>
+    <div class="unit"><span class="called-legend">Tesora prospect call on file</span></div>
+  </div>
+
+  <div class="body" style="gap: 8px;">
+
+    <!-- Next-gen MGAs -->
+    <div class="logo-section">
+      <div class="ls-head">
+        <div class="name">Next-gen specialty MGAs &amp; carriers · <b>~15 firms</b></div>
+        <div class="count">Cyber · construction · hospitality · workers comp · management liability · parametric</div>
+      </div>
+      <div class="logo-grid">
+        <div class="logo-tile"><img src="https://img.logo.dev/withrainbow.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Rainbow" onerror="this.style.display='none'"><span class="fb">Rainbow</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/withshepherd.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Shepherd" onerror="this.style.display='none'"><span class="fb">Shepherd</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/dellwoodinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Dellwood" onerror="this.style.display='none'"><span class="fb">Dellwood</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/vouch.us?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Vouch" onerror="this.style.display='none'"><span class="fb">Vouch</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/coterieinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Coterie" onerror="this.style.display='none'"><span class="fb">Coterie</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/at-bay.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="At-Bay" onerror="this.style.display='none'"><span class="fb">At-Bay</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/cowbell.insure?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Cowbell" onerror="this.style.display='none'"><span class="fb">Cowbell</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/yourcounterpart.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Counterpart" onerror="this.style.display='none'"><span class="fb">Counterpart</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/pieinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Pie" onerror="this.style.display='none'"><span class="fb">Pie</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/embroker.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Embroker" onerror="this.style.display='none'"><span class="fb">Embroker</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/boostinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Boost" onerror="this.style.display='none'"><span class="fb">Boost</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/joyninsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Joyn" onerror="this.style.display='none'"><span class="fb">Joyn</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/kettleinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Kettle" onerror="this.style.display='none'"><span class="fb">Kettle</span></div>
+        <div class="logo-tile called"><img src="https://img.logo.dev/breachinsured.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Breach Insured" onerror="this.style.display='none'"><span class="fb">Breach Insured</span></div>
+        <div class="logo-tile called"><img src="https://img.logo.dev/ollive.ai?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Ollive" onerror="this.style.display='none'"><span class="fb">Ollive</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/foresightlabs.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Foresight" onerror="this.style.display='none'"><span class="fb">Foresight</span></div>
+        <div class="logo-tile more"><div class="n">+9</div><div class="s">more next-gen MGAs</div></div>
+      </div>
+    </div>
+
+    <!-- Fronting / Platform Carriers -->
+    <div class="logo-section">
+      <div class="ls-head">
+        <div class="name">Fronting carriers &amp; MGA platforms · <b>~8 firms</b></div>
+        <div class="count">Hybrid fronting/program carriers running dozens of in-house actuaries across syndicated programs</div>
+      </div>
+      <div class="logo-grid">
+        <div class="logo-tile called"><img src="https://img.logo.dev/accelins.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Accelerant" onerror="this.style.display='none'"><span class="fb">Accelerant</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/trean.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Trean" onerror="this.style.display='none'"><span class="fb">Trean</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/statenational.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="State National" onerror="this.style.display='none'"><span class="fb">State National</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/clearblueins.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Clear Blue" onerror="this.style.display='none'"><span class="fb">Clear Blue</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/spinnakerins.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Spinnaker" onerror="this.style.display='none'"><span class="fb">Spinnaker</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/obsidianinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Obsidian" onerror="this.style.display='none'"><span class="fb">Obsidian</span></div>
+        <div class="logo-tile"><img src="https://img.logo.dev/k2is.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="K2" onerror="this.style.display='none'"><span class="fb">K2 Insurance</span></div>
+        <div class="logo-tile called"><img src="https://img.logo.dev/skywardinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Skyward Specialty" onerror="this.style.display='none'"><span class="fb">Skyward Specialty</span></div>
+        <div class="logo-tile more"><div class="n">+5</div><div class="s">more fronting/platform</div></div>
+      </div>
+    </div>
+
+    <!-- Conservative pursuit framing -->
+    <div class="two-col" style="gap: 12px; margin-top: 2px;">
+      <div class="col">
+        <div class="callout accent" style="padding: 10px 12px;">
+          <div class="tag" style="font-weight: 700; letter-spacing: 0.16em; font-size: 9px; color: var(--cobalt); text-transform: uppercase; margin-bottom: 4px;">Conservative sub-TAM math</div>
+          <div style="font-size: 10.5px; line-height: 1.45;">
+            ~25 firms × ~$1.2M avg workflow spend (smaller in-house teams than the 295) = <b>~$30M incremental sub-TAM</b>. ~$10M already counted inside the 295 (At-Bay, Pie, Skyward, etc.); ~$20M genuinely additive. <b>Sub-SOM at current motion: ~$0.4M Year-1 ARR</b>, 2–3 logos.
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="callout gold" style="padding: 10px 12px;">
+          <div class="tag" style="font-weight: 700; letter-spacing: 0.16em; font-size: 9px; color: var(--gold-deep, #8C6A00); text-transform: uppercase; margin-bottom: 4px;">Is it worth our time? · Neutral read</div>
+          <div style="font-size: 10.5px; line-height: 1.45;">
+            <b>Pursue selectively.</b> PROs: modern-stack DNA, fast adoption velocity, AI-friendly buyers, conference visibility, marketing halo. CONs: lower seat counts per logo, head-on competition with Effective AI Labs, longer time-to-rate-filing-revenue. <b>Heuristic:</b> chase only when access is asymmetric (warm intro, conference touchpoint, or in-house actuary already on Tesora's radar). Treat this slice as competitive-pressure-testing, not primary motion.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="comp-strip">
+    <span class="k">Known vendor landscape · this slice</span>
+    <span class="items">
+      <span><b>Effective AI Labs</b> · primary competitor in this slice</span><span>·</span>
+      <span><b>Akur8</b>, <b>Hyperexponential</b> · less penetration in MGA segment</span><span>·</span>
+      <span><b>Kalepa</b>, <b>Further AI</b> · underwriting-side overlap, not pricing</span>
+    </span>
+  </div>
+
+  <div class="foot">
+    <div class="src">Sources: company websites; AM Best 2025; CB Insights InsurTech tracker; public InsurTech raises 2021-2025; Tesora Attio prospect research. Logos illustrative; many firms appear in both this slice and the 295 main universe.</div>
+    <div class="pg">05 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6. FORWARD-LEANING VOC · VERBATIM
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Forward-leaning · Voice of Customer</span></div>
+    <div class="right">Field validation · 4 carriers</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">VOICE OF CUSTOMER · FORWARD-LEANING SLICE · VERBATIM</div>
+    <h1>Forward-leaning operators describe the same pattern: intake and rate-filing work absorbs actuary hours, the named comp set is well-known but rigid, and AI-native pricing is framed as <em>existential</em>, not a productivity tweak.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 4</b> · Verbatim prospect quotes from next-gen MGAs &amp; fronting carriers (Feb–May 2026)</div>
+    <div class="unit">All quotes pulled directly from recorded Tesora discovery calls</div>
+  </div>
+
+  <div class="body">
+    <div class="voc-grid">
+
+      <div class="voc-card">
+        <div class="tag">INTAKE BOTTLENECK · ACCELERANT</div>
+        <div class="quote">"The underwriting intake portion is more client facing, and our experience right now is like less than ideal. ... we're kind of like figuring out what our process is, and like sometimes we don't know like what we don't know, and so it could be like a bottleneck or cause like relational sales issues because we don't know when to ask for questions, we don't know what information to ask for, we don't have like a standardized format in some cases."</div>
+        <div class="attribution"><b>Joshua Kalmikoff</b> · Head of Captive Practice, Accelerant · Feb 25, 2026</div>
+      </div>
+
+      <div class="voc-card accent">
+        <div class="tag">VENDOR RIGIDITY · BREACH INSURED</div>
+        <div class="quote">"I thought Akur8 was just too rigid. Like if you didn't want to build a GLM or a GBM, that was the only pony they had in the race. You couldn't create your own. If you wanted ... something that goes out and gets, let's say, energy commodity prices and adjusts your exposure base from some API, ... the rater would fall flat. They literally couldn't build it. HX can, but now you need your actuaries to be Python programmers."</div>
+        <div class="attribution"><b>Kenneth Hsu</b> · Actuary, Breach Insured (crypto / digital-asset MGA) · May 12, 2026</div>
+      </div>
+
+      <div class="voc-card gold">
+        <div class="tag">NEW-MGA STANDUP · OLLIVE</div>
+        <div class="quote">"We are connecting with a couple of reinsurers ... we are in the final stages of those conversations where they provide us with the capacity. And then at the same time we are working our way towards becoming an MGA, that means setting up our underwriting team. ... when it comes to the actuarial part ... we are working our way towards generating those loss curves and pricing curves on how it will look ... It's a process or function of evolution."</div>
+        <div class="attribution"><b>Mohit Goyal</b> · Co-founder, Ollive (AI-agents insurance MGA) · May 25, 2026</div>
+      </div>
+
+      <div class="voc-card accent">
+        <div class="tag">COMPETITIVE INTEL · SKYWARD SPECIALTY</div>
+        <div class="quote">"Smart companies actually do the work ahead of time to figure out when the moons align, and even though it makes no actuarial sense, they'll file when the trend is 50, even though it's not really 50, but that's what the template shows so that they can actually get a rate indication that they need. At CNA we were building that by hand when I left. ... we've doubled down on Effective AI ... it is definitely a tool that they've pushed out to the whole company."</div>
+        <div class="attribution"><b>Lee Kraemer</b> · VP Pricing, Skyward Specialty (ex-CNA) · May 13, 2026</div>
+      </div>
+
+      <div class="voc-summary">
+        <div class="k">Field pattern</div>
+        <div class="v">Forward-leaning operators (1) describe intake and rate-filing as the actuary-hour drain, (2) flag the named comp set (Akur8, HX, Effective AI) as known but rigid or already deployed, (3) frame AI-native pricing as the differentiator against legacy carriers, not a marginal productivity gain. <b>Implication for pursuit:</b> head-on against Effective AI in this slice; wedge against rigidity for next-gen MGAs.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="src">All quotes verbatim from recorded Tesora discovery calls retrieved via Attio call-recording semantic search. Speakers consented to recording; attributions and exact transcript spans confirmed against recording metadata. Excerpts trimmed for slide length using "..." to mark omitted continuous transcript spans.</div>
+    <div class="pg">06 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. FUNNEL -US 295 → 157
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Qualification Funnel</span></div>
+    <div class="right">US 295 → 157 Qualified Carriers</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">QUALIFICATION FUNNEL · US</div>
+    <h1>Three sequential filters reduce the US specialty P&amp;C universe of 295 carriers to <em>157 qualified buyers</em>: the carriers that own the workflow spend the category addresses.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 5</b> · US carrier qualification funnel</div>
+    <div class="unit">Carriers · cumulative after each filter</div>
+  </div>
+
+  <div class="body">
+    <div class="funnel">
+      <div class="step s1">
+        <div class="bar">
+          <div class="b-k">Universe: US Specialty P&amp;C (E&amp;S + Specialty Admitted + Reinsurers)</div>
+          <div class="b-v">295 carriers<span class="sm">starting point</span></div>
+        </div>
+        <div class="cut"><b>Starting universe.</b> US specialty only. Excludes standard lines, life, health, sub-scale captives, and non-US.</div>
+      </div>
+
+      <div class="step s2">
+        <div class="bar">
+          <div class="b-k">Filter 1: In-house Credentialed Actuarial Team ≥ 2 FCAS</div>
+          <div class="b-v">207 carriers<span class="sm">~70% pass</span></div>
+        </div>
+        <div class="cut"><b>Cut 30%.</b> Removes carriers that fully outsource pricing and reserving to Milliman, WTW, or Oliver Wyman. They buy through the consultant.</div>
+      </div>
+
+      <div class="step s3">
+        <div class="bar">
+          <div class="b-k">Filter 2: Specialty GWP ≥ $50M</div>
+          <div class="b-v">165 carriers<span class="sm">~80% pass</span></div>
+        </div>
+        <div class="cut"><b>Cut 20%.</b> Below $50M specialty GWP, a six-figure tool is hard to justify. Removes the sub-scale long tail.</div>
+      </div>
+
+      <div class="step s4">
+        <div class="bar">
+          <div class="b-k">Filter 3: Buyable Today (no carve-out blocking external SaaS)</div>
+          <div class="b-v">157 carriers<span class="sm">~95% pass</span></div>
+        </div>
+        <div class="cut"><b>Cut 5%.</b> A handful of carriers have IT-security or parent-company carve-outs that block external SaaS. Addressable later, not today.</div>
+      </div>
+
+      <div class="step s5">
+        <div class="bar">
+          <div class="b-k">Qualified TAM · US Specialty P&amp;C</div>
+          <div class="b-v">157 carriers<span class="sm">controls ~$750M workflow spend</span></div>
+        </div>
+        <div class="cut"><b>The unit of TAM.</b> US carriers with the actuaries, the scale, and the contracting posture to buy Workbench today.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-strip">
+    <span class="k">Known vendor landscape</span>
+    <span class="items">
+      <span><b>Effective AI Labs</b> (Seed · competitor research)</span><span>·</span>
+      <span><b>Akur8</b> (Series C · loss modeling)</span><span>·</span>
+      <span><b>Hyperexponential</b> (Series B · rater deployment)</span><span>·</span>
+      <span><b>Kalepa</b> (Series A · underwriting)</span><span>·</span>
+      <span><b>Further AI</b> (Series A · underwriting)</span>
+    </span>
+  </div>
+
+  <div class="foot">
+    <div class="src">Filters applied sequentially. All percentages conservative. No double-counting across sub-segments; group parents counted once even where multiple subsidiaries write specialty business.</div>
+    <div class="pg">07 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6. TAM DOLLARS -workflow spend build
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Workflow Spend Build</span></div>
+    <div class="right">$750M Annual Spend</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">DOLLAR SIZING · WORKFLOW SPEND TAM</div>
+    <h1>The 157 qualified US carriers spend <em>~$750M / year</em> on actuarial labor, consulting, and tooling; Tesora's current pricing captures just <em>~2.7% share of wallet</em>.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 6</b> · Workflow spend build · per-carrier and category-level</div>
+    <div class="unit">USD, annualized</div>
+  </div>
+
+  <div class="body">
+    <div class="two-col">
+      <div class="col">
+        <h3 style="margin-bottom: 12px;">Bottom-up build · annual spend at 157 carriers</h3>
+        <div class="bar-chart">
+          <div class="bar-row b1">
+            <div class="lbl">Internal Labor<span class="lbl-sub">157 carriers · 10 credentialed actuaries · $325K fully loaded</span></div>
+            <div class="track"><div class="fill" style="width: 68%;">$510M</div></div>
+            <div class="val">$510M</div>
+          </div>
+          <div class="bar-row b2">
+            <div class="lbl">External Consulting<span class="lbl-sub">Milliman, WTW, Oliver Wyman, Deloitte · ~28% of labor</span></div>
+            <div class="track"><div class="fill" style="width: 19%;">$140M</div></div>
+            <div class="val">$140M</div>
+          </div>
+          <div class="bar-row b3">
+            <div class="lbl">Software &amp; Tooling<span class="lbl-sub">Arius, Axis, Verisk SpecialtyPro, data infra · ~20% of labor</span></div>
+            <div class="track"><div class="fill" style="width: 13%;">$100M</div></div>
+            <div class="val">$100M</div>
+          </div>
+        </div>
+
+        <div class="callout gold" style="margin-top: 16px;">
+          <div class="k">TOTAL · US SPECIALTY P&amp;C WORKFLOW TAM</div>
+          $510M labor + $140M consulting + $100M tooling = <b>$750M of annual spend</b> directly addressable by a specialty-actuarial product wedge (pricing + reserving + submission triage + data reconciliation).
+        </div>
+      </div>
+
+      <div class="col">
+        <h3 style="margin-bottom: 12px;">Per-carrier view · $4.5M actuarial spend</h3>
+
+        <div class="sow-row"><div class="lbl">Tesora at conservative ACV · $120K</div></div>
+        <div class="sow-bar">
+          <div class="sow-fill" style="width: 12%;">2.7%</div>
+          <div class="sow-rest">$4.38M of wallet remaining</div>
+        </div>
+
+        <div class="sow-row" style="margin-top: 14px;"><div class="lbl">Tesora at mature ACV · $300K</div></div>
+        <div class="sow-bar">
+          <div class="sow-fill" style="width: 22%;">6.7%</div>
+          <div class="sow-rest">$4.2M remaining</div>
+        </div>
+
+        <div class="sow-row" style="margin-top: 14px;"><div class="lbl">Comparable · GitHub Copilot SOW at engineering teams</div></div>
+        <div class="sow-bar">
+          <div class="sow-fill" style="background: var(--gold); color: var(--ink); width: 14%;">3–5%</div>
+          <div class="sow-rest">Established AI tooling benchmark</div>
+        </div>
+
+        <div class="callout" style="margin-top: 16px;">
+          <div class="k">WHY THIS MATTERS</div>
+          Tesora's pricing captures only ~3% of workflow spend per carrier. Even at mature ACV ($300K), share of wallet is ~7%, leaving substantial room for module expansion, GWP lever, and seat density growth without competitive repricing.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-strip">
+    <span class="k">Known vendor landscape</span>
+    <span class="items">
+      <span><b>Effective AI Labs</b> (Seed · competitor research)</span><span>·</span>
+      <span><b>Akur8</b> (Series C · loss modeling)</span><span>·</span>
+      <span><b>Hyperexponential</b> (Series B · rater deployment)</span><span>·</span>
+      <span><b>Kalepa</b> (Series A · underwriting)</span><span>·</span>
+      <span><b>Further AI</b> (Series A · underwriting)</span>
+    </span>
+  </div>
+
+  <div class="foot">
+    <div class="src">Labor: SOA/CAS 2024 salary survey ($165–$210K base for credentialed pricing actuaries) × 1.6 fully-loaded multiplier = $325K (anchored to Tesora POC deck). Team size 10 = midpoint of observed range (3–20) at qualified specialty carriers. Consulting/tooling ratios estimated from carrier 10-Ks and vendor pricing benchmarks.</div>
+    <div class="pg">08 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. VOICE OF CUSTOMER -verbatim quotes from Attio calls
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Voice of Customer</span></div>
+    <div class="right">Field Validation</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">VOICE OF CUSTOMER · VERBATIM FIELD QUOTES</div>
+    <h1>The $750M workflow spend is not a slide-ware estimate; specialty actuaries describe the labor, the urgency, and the whitespace in their own words.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 7</b> · Verbatim prospect quotes · sourced from recorded Tesora discovery calls (Feb–May 2026)</div>
+    <div class="unit">Names used with consent; full transcripts on file</div>
+  </div>
+
+  <div class="body">
+    <div class="voc-grid">
+
+      <div class="voc-card">
+        <div class="tag">PAIN · "NOT EVEN ACTUARIAL"</div>
+        <div class="quote">"This is what you have to use, this is the template you have to put it through... at CNA, we were building that by hand when I left. It's a repeatable thing. And it's not even really actuarial, frankly, it's a fricking grind."</div>
+        <div class="attribution"><b>Lee Kraemer</b> · VP Pricing, Skyward Specialty (ex-CNA) · May 13, 2026</div>
+      </div>
+
+      <div class="voc-card accent">
+        <div class="tag">CREDIBILITY · "MASSIVE UNLOCK"</div>
+        <div class="quote">"All the stuff you just described plus actuarial, underwriting... if we could set that up to be data-driven, automated, to use AI, that would be a massive unlock for us as the capacity provider. Like, massive."</div>
+        <div class="attribution"><b>Ian O'Connor</b> · Building three businesses at Accelerant · Feb 11, 2026</div>
+      </div>
+
+      <div class="voc-card gold">
+        <div class="tag">WHITESPACE · "NOBODY ELSE DOING THAT"</div>
+        <div class="quote">"The person I think you should show this to is my chief actuary, honestly... I don't know of anybody else doing that, which is funny because there's plenty of consultants out there subsidizing software teams... but they're not doing stuff like this."</div>
+        <div class="attribution"><b>Mario DiCaro</b> · Head of Predictive Analytics &amp; AI, Tokio Marine · May 7, 2026</div>
+      </div>
+
+      <div class="voc-card">
+        <div class="tag">URGENCY · "GETTING BEHIND"</div>
+        <div class="quote">"We think that we are getting behind, that somebody else is doing it faster. And we want to get ahead of our competitors."</div>
+        <div class="attribution"><b>Sandra Vilchis Bernal</b> · Actuarial Director, Allianz Mexico (26 yrs) · May 25, 2026</div>
+      </div>
+
+      <div class="voc-summary">
+        <div class="k">FIELD PATTERN</div>
+        <div class="v">Across 30+ recorded discovery calls in 2026 H1, three themes recur: <b>(1)</b> credentialed actuaries describe rate-filing and competitive research as non-actuarial grunt work; <b>(2)</b> the named comp set (Akur8, Hyperexponential, Kalepa) is well-known to buyers but addresses different parts of the lifecycle; <b>(3)</b> AI receptivity is high and "fear of falling behind" is the dominant emotional driver.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="comp-strip">
+    <span class="k">Known vendor landscape</span>
+    <span class="items">
+      <span><b>Effective AI Labs</b> (Seed · competitor research)</span><span>·</span>
+      <span><b>Akur8</b> (Series C · loss modeling)</span><span>·</span>
+      <span><b>Hyperexponential</b> (Series B · rater deployment)</span><span>·</span>
+      <span><b>Kalepa</b> (Series A · underwriting)</span><span>·</span>
+      <span><b>Further AI</b> (Series A · underwriting)</span>
+    </span>
+  </div>
+
+  <div class="foot">
+    <div class="src">Quotes are verbatim transcripts retrieved via Attio call-recording semantic search across Tesora's 2026 discovery calendar. Speakers consented to recording; attributions confirmed against meeting metadata. Sandra Vilchis Bernal (Allianz Mexico) included for voice consistency though geography sits outside the US TAM cut.</div>
+    <div class="pg">09 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     8. EXPANSION -adjacent universes with logos
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Adjacent Expansion</span></div>
+    <div class="right">$9B+ Behind The Headline</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">EXPANSION · ADJACENT WORKFLOW SPEND</div>
+    <h1>Beyond US specialty P&amp;C, six adjacent universes carry <em>~$9B</em> of additional actuarial workflow spend; each opens with a discrete motion change, none baked into the headline.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 8</b> · Adjacent universes · representative carriers and annual workflow spend</div>
+    <div class="unit">Workflow spend · USD / year</div>
+  </div>
+
+  <div class="body" style="gap: 8px;">
+    <div class="excl-grid" style="grid-template-columns: repeat(2, 1fr); gap: 8px;">
+
+      <!-- US Standard P&C -->
+      <div class="excl-card">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div><div class="k">EXPANSION · ICP</div><h4>US Standard P&amp;C</h4></div>
+          <div class="v">+$2.5B</div>
+        </div>
+        <div class="logo-grid cols-6" style="margin: 4px 0 6px;">
+          <div class="logo-tile"><img src="https://img.logo.dev/statefarm.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="State Farm" onerror="this.style.display='none'"><span class="fb">State Farm</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/allstate.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Allstate" onerror="this.style.display='none'"><span class="fb">Allstate</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/progressive.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Progressive" onerror="this.style.display='none'"><span class="fb">Progressive</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/geico.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="GEICO" onerror="this.style.display='none'"><span class="fb">GEICO</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/usaa.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="USAA" onerror="this.style.display='none'"><span class="fb">USAA</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/erieinsurance.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Erie" onerror="this.style.display='none'"><span class="fb">Erie</span></div>
+        </div>
+        <div class="d">~2,200 carriers. Different buyer cadence, longer cycle. Unlocks with mid-market AE motion.</div>
+      </div>
+
+      <!-- US Life & Health -->
+      <div class="excl-card">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div><div class="k">EXPANSION · LINE</div><h4>US Life &amp; Health Actuarial</h4></div>
+          <div class="v">+$2.0B</div>
+        </div>
+        <div class="logo-grid cols-6" style="margin: 4px 0 6px;">
+          <div class="logo-tile"><img src="https://img.logo.dev/metlife.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="MetLife" onerror="this.style.display='none'"><span class="fb">MetLife</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/prudential.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Prudential" onerror="this.style.display='none'"><span class="fb">Prudential</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/newyorklife.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="NY Life" onerror="this.style.display='none'"><span class="fb">NY Life</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/northwesternmutual.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Northwestern Mutual" onerror="this.style.display='none'"><span class="fb">Northwestern</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/massmutual.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="MassMutual" onerror="this.style.display='none'"><span class="fb">MassMutual</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/principal.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Principal" onerror="this.style.display='none'"><span class="fb">Principal</span></div>
+        </div>
+        <div class="d">~700 carriers. Same product wedge, different regulatory frame (ASOP 41/52 vs 56). Needs L&amp;H actuarial co-design.</div>
+      </div>
+
+      <!-- UK / EU Specialty -->
+      <div class="excl-card">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div><div class="k">EXPANSION · GEO</div><h4>UK &amp; EU Specialty</h4></div>
+          <div class="v">+$1.5B</div>
+        </div>
+        <div class="logo-grid cols-6" style="margin: 4px 0 6px;">
+          <div class="logo-tile"><img src="https://img.logo.dev/lloyds.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Lloyd's" onerror="this.style.display='none'"><span class="fb">Lloyd's</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/hiscoxgroup.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Hiscox" onerror="this.style.display='none'"><span class="fb">Hiscox</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/beazley.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Beazley" onerror="this.style.display='none'"><span class="fb">Beazley</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/aviva.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Aviva" onerror="this.style.display='none'"><span class="fb">Aviva</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/allianz.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Allianz" onerror="this.style.display='none'"><span class="fb">Allianz</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/axaxl.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="AXA XL" onerror="this.style.display='none'"><span class="fb">AXA XL</span></div>
+        </div>
+        <div class="d">~135 carriers. English contracting, similar regulatory posture (PRA/EIOPA). Needs in-region SE and Solvency II coverage.</div>
+      </div>
+
+      <!-- APAC Specialty -->
+      <div class="excl-card">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div><div class="k">EXPANSION · GEO</div><h4>APAC Specialty</h4></div>
+          <div class="v">+$1.0B</div>
+        </div>
+        <div class="logo-grid cols-6" style="margin: 4px 0 6px;">
+          <div class="logo-tile"><img src="https://img.logo.dev/tokiomarinehd.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Tokio Marine" onerror="this.style.display='none'"><span class="fb">Tokio Marine</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/aia.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="AIA" onerror="this.style.display='none'"><span class="fb">AIA</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/sompo-intl.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Sompo" onerror="this.style.display='none'"><span class="fb">Sompo</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/ms-ad.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="MS&amp;AD" onerror="this.style.display='none'"><span class="fb">MS&amp;AD</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/qbe.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="QBE" onerror="this.style.display='none'"><span class="fb">QBE</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/iag.com.au?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="IAG" onerror="this.style.display='none'"><span class="fb">IAG</span></div>
+        </div>
+        <div class="d">~80 carriers across Singapore, Sydney, Tokyo, Hong Kong. English contracting feasible. Partner or in-region SE motion.</div>
+      </div>
+
+      <!-- Consulting Channel -->
+      <div class="excl-card">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div><div class="k">EXPANSION · CHANNEL</div><h4>Consulting Partner Channel</h4></div>
+          <div class="v">+$0.8B</div>
+        </div>
+        <div class="logo-grid cols-6" style="margin: 4px 0 6px;">
+          <div class="logo-tile"><img src="https://img.logo.dev/milliman.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Milliman" onerror="this.style.display='none'"><span class="fb">Milliman</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/wtwco.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="WTW" onerror="this.style.display='none'"><span class="fb">WTW</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/oliverwyman.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Oliver Wyman" onerror="this.style.display='none'"><span class="fb">Oliver Wyman</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/deloitte.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Deloitte" onerror="this.style.display='none'"><span class="fb">Deloitte</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/ey.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="EY" onerror="this.style.display='none'"><span class="fb">EY</span></div>
+          <div class="logo-tile"><img src="https://img.logo.dev/aon.com?token=pk_X-1ZO13GSgeOoUrIuJ6GMQ&size=120&format=png" alt="Aon" onerror="this.style.display='none'"><span class="fb">Aon</span></div>
+        </div>
+        <div class="d">~10 firms with US insurance practices. Deploys across hundreds of client engagements; partner motion required.</div>
+      </div>
+
+      <!-- Adjacent Modules -->
+      <div class="excl-card">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <div><div class="k">EXPANSION · MODULE</div><h4>Adjacent Actuarial Functions</h4></div>
+          <div class="v">+$1.2B</div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 4px 0 6px;">
+          <div class="logo-tile" style="background: var(--accent-soft); border-color: var(--accent); height: 34px;"><span class="fb" style="background: transparent; color: var(--accent); display: flex; font-size: 10px;">Capital Modeling</span></div>
+          <div class="logo-tile" style="background: var(--accent-soft); border-color: var(--accent); height: 34px;"><span class="fb" style="background: transparent; color: var(--accent); display: flex; font-size: 10px;">Cat Modeling</span></div>
+          <div class="logo-tile" style="background: var(--accent-soft); border-color: var(--accent); height: 34px;"><span class="fb" style="background: transparent; color: var(--accent); display: flex; font-size: 10px;">ALM</span></div>
+          <div class="logo-tile" style="background: var(--accent-soft); border-color: var(--accent); height: 34px;"><span class="fb" style="background: transparent; color: var(--accent); display: flex; font-size: 10px;">ORSA</span></div>
+        </div>
+        <div class="d">Same buyer, additional modules on existing seats. Highest-leverage expansion path.</div>
+      </div>
+
+    </div>
+
+    <div class="callout gold" style="padding: 10px 14px; font-size: 12px;">
+      <div class="k">TOTAL ADJACENT EXPANSION · $9B WORKFLOW SPEND</div>
+      $2.5B standard P&amp;C + $2.0B L&amp;H + $1.5B UK/EU + $1.0B APAC + $0.8B consulting + $1.2B adjacent modules = <b>~$9.0B</b>. Each is a discrete motion change. The $750M US specialty TAM stands on its own without any of these.
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="src">Workflow spend estimates use the same labor + consulting + tooling build as the headline TAM, scaled by carrier count and team size per segment. Logos representative; full lists in appendix.</div>
+    <div class="pg">10 / 11</div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     8. CLOSE
+============================================================ -->
+<section class="page">
+  <div class="strip">
+    <div class="left"><span class="logo"><span class="mark">T</span> Tesora</span><span>·</span><span class="slug">TAM · Close</span></div>
+    <div class="right">Bottom Line</div>
+  </div>
+
+  <div class="ah">
+    <div class="eyebrow">BOTTOM LINE</div>
+    <h1 class="lg">US specialty P&amp;C is a $750M workflow market nameable carrier-by-carrier, with $9B of adjacent expansion and a Year-1 motion that is capacity-bound, not market-bound.</h1>
+  </div>
+
+  <div class="exhibit-row">
+    <div class="exb"><b>EXHIBIT 9</b> · One-line summary</div>
+    <div class="unit">For outside use</div>
+  </div>
+
+  <div class="body">
+    <div class="close-grid">
+      <div>
+        <blockquote>
+          The 157 qualified US specialty P&amp;C carriers spend <span class="accent">~$750M annually</span> on actuarial labor, consulting, and tooling, and a specialty-actuarial software wedge such as Tesora's addresses all three. Adjacent expansion across standard P&amp;C, life and health, UK/EU, APAC, consulting, and adjacent modules adds another <span class="accent">~$9B</span>. Year-1 SOM is $1.3M ARR, capacity-bound by founder-led POC throughput, not by market demand.
+        </blockquote>
+        <div class="who">Independent market analysis · May 2026</div>
+
+        <div class="callout" style="margin-top: 20px;">
+          <div class="k">WHAT WOULD CHANGE THE NUMBER</div>
+          (1) Hire one AE → POC throughput 2x, SOM doubles to ~$2.5M Year 2. (2) Sign first consulting partner → +$800M TAM unlocks. (3) Launch L&amp;H module with design partner → +$2B TAM with same product spine. (4) Mature ACV from $120K to $300K → share of wallet rises from 2.7% to 6.7%, no new logos required.
+        </div>
+      </div>
+
+      <div class="close-stack">
+        <div class="row">
+          <div class="k">TAM · US Specialty Workflow Spend</div>
+          <div class="v">$750M</div>
+        </div>
+        <div class="row">
+          <div class="k">Full US Specialty Universe</div>
+          <div class="v">$1.1B</div>
+        </div>
+        <div class="row">
+          <div class="k">Adjacent Expansion · US + Global</div>
+          <div class="v">$9.0B</div>
+        </div>
+        <div class="row">
+          <div class="k">Per-carrier Avg Spend</div>
+          <div class="v">$4.5M</div>
+        </div>
+        <div class="row">
+          <div class="k">Tesora Share of Wallet (conservative)</div>
+          <div class="v">2.7%</div>
+        </div>
+        <div class="row">
+          <div class="k">Tesora Share of Wallet (mature)</div>
+          <div class="v">6.7%</div>
+        </div>
+        <div class="row">
+          <div class="k">Qualified US Carriers</div>
+          <div class="v">157</div>
+        </div>
+        <div class="row">
+          <div class="k">SOM · Year 1 ARR</div>
+          <div class="v">$1.3M</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="src">All figures bottom-up, US-focused, named-carrier-defensible. See Exhibits 1–5.</div>
+    <div class="pg">11 / 11</div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.logo-tile img').forEach(img => {
+  const tile = img.closest('.logo-tile');
+  if (!tile) return;
+  const fail = () => tile.classList.add('error');
+  if (img.complete) {
+    if (img.naturalWidth === 0) fail();
+  } else {
+    img.addEventListener('error', fail);
+    img.addEventListener('load', () => { if (img.naturalWidth === 0) fail(); });
+  }
+});
+</script>
+
+</body>
+</html>
