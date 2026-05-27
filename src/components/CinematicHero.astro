@@ -57,12 +57,12 @@ const hasVideo = Boolean(videoSrc);
   <div class="relative mx-auto max-w-[1180px] px-6 md:px-10 flex flex-col items-center justify-center text-center hero-stack">
     {eyebrow && <p class="eyebrow mb-6 text-[var(--color-bone)]/80">{eyebrow}</p>}
 
-    <h1 class="font-semibold text-[2.625rem] md:text-[3.1875rem] leading-[1.02] tracking-[-0.025em] text-[var(--color-bone)] max-w-[920px]">
+    <h1 class="font-semibold text-[2.625rem] md:text-[3.1875rem] leading-[1.02] tracking-[-0.025em] text-[var(--color-bone)] max-w-[920px]" style="text-wrap: balance;">
       {headline}
     </h1>
 
     {deck && (
-      <p class="mt-7 text-[1.25rem] leading-[1.45] text-[var(--color-bone)]/85 max-w-[680px]">
+      <p class="mt-7 text-[1.25rem] leading-[1.45] text-[var(--color-bone)]/85 max-w-[680px]" style="text-wrap: pretty;">
         {deck}
       </p>
     )}
