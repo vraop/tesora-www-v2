@@ -19,7 +19,7 @@ export interface Props {
 const { sectionLabel, sectionHref, links } = Astro.props;
 ---
 
-<div class="subnav border-b border-[var(--rule)] bg-[var(--bg)]">
+<div class="subnav border-b border-[var(--rule)]">
   <div class="mx-auto max-w-[1180px] px-6 md:px-10 flex items-center justify-between gap-6 h-12 md:h-14">
     {sectionHref ? (
       <a
@@ -59,7 +59,17 @@ const { sectionLabel, sectionHref, links } = Astro.props;
 
 <style>
   .subnav {
-    /* Sit clear of the floating capsule header. */
+    position: sticky;
+    top: 64px;
+    z-index: 40;
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
     padding-top: env(safe-area-inset-top, 0);
+  }
+  @media (min-width: 768px) {
+    .subnav {
+      top: 72px;
+    }
   }
 </style>
