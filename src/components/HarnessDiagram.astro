@@ -1,4 +1,6 @@
 ---
+import { u } from "../lib/url";
+
 type Agent = {
   name: string;
   scope: string;
@@ -9,12 +11,12 @@ const agents: Agent[] = [
   {
     name: "Insight",
     scope: "Trending, on-leveling, GLMs, severity fits, reserving.",
-    href: "/agents/insight",
+    href: u("/agents/insight"),
   },
   {
     name: "Rating",
     scope: "Raters, factor tables, callable pricing API.",
-    href: "/agents/rating",
+    href: u("/agents/rating"),
   },
 ];
 
